@@ -88,8 +88,6 @@ I also use the keyword ``reverse=True`` to have the guard with the *largest* val
 
 ## Day 5: Alchemical Reduction
 
-**Not yet optimized: ~10sec of execution for Part II!**
-
 In this puzzle, we are working with strings of characters and in particular lower- or uppercase letters. In particular, we are interested in pairs of letters that contain the lowercase and the uppercase version of a letter, either way, but not both with the same case. In other words, we want to spot pairs such as "aA", "Aa", "cC"... but not "aa" or "CC".
 
 To do this, a simple idea can be to use the [ASCII codes](https://en.wikipedia.org/wiki/ASCII) of those letters. In the ASCII table, the letters of our alphabets are organized in two ranges, first all the uppercase characters, then a bit further down the list all the lowercase characters. However, the difference between a lowercase and an uppercase version of the same letter will always be the same. There is therefore a basic test to check if we are dealing with the type of pairs we are searching for:
@@ -105,6 +103,8 @@ We now have an easily applicable test for any pair of characters.
 
 Still, the other big question is: how can we efficiently generate all the possible pairs, so that we can then apply the test and filter out the pairs we are truly interested in? The answer is to use the built-in Python ``itertools`` package. This lib contains lots of utilities to create cartesian products, permutations, combinations... Here, we use the ``product`` function and the ``chr()`` built-in method to get a character from an ASCII code (this is the reverse of ``ord()``). By combining those together, we can generate a list of all possible lower- and uppercase letter pairs, and then we just filter out the ones where the letters aren't the same.
 
+I had a problem optimizing the execution time for Part II. After searching for a while, I admit I went to [Advent of Code's dedicated Reddit thread](https://www.reddit.com/r/adventofcode) and browsed through the others' suggestions. Many people seem to be stuck like I was; I could not find a less brutal way of treating the problem than simply looping through the alphabet, removing the corresponding letter from the input polymer and running the algorithm from Part I. The trick was to actually use the reduced polymer already computed in Part I! This dropped my execution time from ~10 sec to about half a second. Thanks to [asger_blahimmel](https://www.reddit.com/user/asger_blahimmel/) for the tip! :)
+
 ## Day 6: Chronal Coordinates
 
-Nothing to special to say, except that this problem talks about the Manhattan distance (or [Taxicab geometry](https://en.wikipedia.org/wiki/Taxicab_geometry)), a common math measurement whenever you have points on a grid.
+Nothing special to say, except that this problem talks about the Manhattan distance (or [Taxicab geometry](https://en.wikipedia.org/wiki/Taxicab_geometry)), a common math measurement whenever you have points on a grid.

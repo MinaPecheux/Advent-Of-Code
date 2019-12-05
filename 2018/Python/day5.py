@@ -4,6 +4,7 @@
 ### ---------------------------------------------
 ### Day 5: Alchemical Reduction
 ### =============================================
+import re
 from itertools import chain, product
 from random import choice
 
@@ -57,8 +58,9 @@ def find_shortest_polymer(polymer):
     polymer_lengths = []
     for c in range(65, 91):
         test_polymer = polymer
-        test_polymer = test_polymer.replace(chr(c), '')
-        test_polymer = test_polymer.replace(chr(c).lower(), '')
+        repl = lambda m: ''
+        test_polymer = re.sub(r'{}'.format(chr(c)), repl, test_polymer,
+            flags=re.IGNORECASE)
         pairs = [ p for p in annihilating_pairs if not chr(c) in p ]
         while True:
             original = test_polymer
@@ -87,9 +89,10 @@ if __name__ == '__main__':
     input = open(data_path, 'r').read().strip()
 
     ### PART I
-    solution = len(apply_reactions(input))
+    reduced_polymer = apply_reactions(input)
+    solution = len(reduced_polymer)
     print('PART I: solution = {}'.format(solution))
     
     ### PART II
-    solution = find_shortest_polymer(input)
+    solution = find_shortest_polymer(reduced_polymer)
     print('PART II: solution = {}'.format(solution))
