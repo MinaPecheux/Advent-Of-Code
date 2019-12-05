@@ -88,7 +88,7 @@ I also use the keyword ``reverse=True`` to have the guard with the *largest* val
 
 ## Day 5: Alchemical Reduction
 
-<span style="color: red">Not yet optimized: ~10sec of execution for Part II!</span>
+**Not yet optimized: ~10sec of execution for Part II!**
 
 In this puzzle, we are working with strings of characters and in particular lower- or uppercase letters. In particular, we are interested in pairs of letters that contain the lowercase and the uppercase version of a letter, either way, but not both with the same case. In other words, we want to spot pairs such as "aA", "Aa", "cC"... but not "aa" or "CC".
 
