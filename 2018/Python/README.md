@@ -92,7 +92,7 @@ I also use the keyword ``reverse=True`` to have the guard with the *largest* val
 
 In this puzzle, we are working with strings of characters and in particular lower- or uppercase letters. In particular, we are interested in pairs of letters that contain the lowercase and the uppercase version of a letter, either way, but not both with the same case. In other words, we want to spot pairs such as "aA", "Aa", "cC"... but not "aa" or "CC".
 
-To do this, a simple idea can be to use the ASCII codes of those letters. In the ASCII table, the letters of our alphabets are organized in two ranges, first all the uppercase characters, then a bit further down the list all the lowercase characters. However, the difference between a lowercase and an uppercase version of the same letter will always be the same. There is therefore a basic test to check if we are dealing with the type of pairs we are searching for:
+To do this, a simple idea can be to use the [ASCII codes](https://en.wikipedia.org/wiki/ASCII) of those letters. In the ASCII table, the letters of our alphabets are organized in two ranges, first all the uppercase characters, then a bit further down the list all the lowercase characters. However, the difference between a lowercase and an uppercase version of the same letter will always be the same. There is therefore a basic test to check if we are dealing with the type of pairs we are searching for:
 
 ```
 return abs(ord(chr1) - ord(chr2)) == LOW_UP_DIFF
