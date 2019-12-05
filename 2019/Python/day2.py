@@ -1,3 +1,10 @@
+### =============================================
+### [ ADVENT OF CODE ] (https://adventofcode.com)
+### 2019 - Mina Pêcheux: Python version
+### ---------------------------------------------
+### Day 2: Intcode programming
+### =============================================
+
 # [ Input parsing functions ]
 # ---------------------------
 def parse_input(data):
@@ -83,19 +90,25 @@ def find_pair(inputs, wanted_output):
 
 # [ Base tests ]
 # --------------
-### PART I
-assert process_inputs([ 1,9,10,3,2,3,11,0,99,30,40,50 ]) == 3500
-assert process_inputs([ 1,0,0,0,99 ]) == 2
-assert process_inputs([ 2,3,0,3,99 ]) == 2
-assert process_inputs([ 2,4,4,5,99,0 ]) == 2
-assert process_inputs([ 1,1,1,4,99,5,6,0,99 ]) == 30
+def make_tests():
+    '''Performs tests on the provided examples to check the result of the
+    computation functions is ok.'''
+    ### PART I
+    assert process_inputs([ 1,9,10,3,2,3,11,0,99,30,40,50 ]) == 3500
+    assert process_inputs([ 1,0,0,0,99 ]) == 2
+    assert process_inputs([ 2,3,0,3,99 ]) == 2
+    assert process_inputs([ 2,4,4,5,99,0 ]) == 2
+    assert process_inputs([ 1,1,1,4,99,5,6,0,99 ]) == 30
 
-### PART II
-# .
+    ### PART II
+    # .
 
 if __name__ == '__main__':
+    # check function results on example cases
+    make_tests()
+    
+    # get input data
     data_path = '../data/day2.txt'
-    inputs = parse_input(open(data_path, 'r').read())
     
     ### PART I
     inputs = parse_input(open(data_path, 'r').read())

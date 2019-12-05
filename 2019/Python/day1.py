@@ -1,3 +1,10 @@
+### =============================================
+### [ ADVENT OF CODE ] (https://adventofcode.com)
+### 2019 - Mina Pêcheux: Python version
+### ---------------------------------------------
+### Day 1: Fuel computation
+### =============================================
+
 # [ Input parsing functions ]
 # ---------------------------
 def parse_input(data):
@@ -36,18 +43,24 @@ def compute_total_fuel(mass):
     
 # [ Base tests ]
 # --------------
-### PART I
-assert compute_fuel(12) == 2
-assert compute_fuel(14) == 2
-assert compute_fuel(1969) == 654
-assert compute_fuel(100756) == 33583
-
-### PART II
-assert compute_total_fuel(14) == 2
-assert compute_total_fuel(1969) == 966
-assert compute_total_fuel(100756) == 50346
+def make_tests():
+    '''Performs tests on the provided examples to check the result of the
+    computation functions is ok.'''
+    ### PART I
+    assert compute_fuel(12) == 2
+    assert compute_fuel(14) == 2
+    assert compute_fuel(1969) == 654
+    assert compute_fuel(100756) == 33583
+    ### PART II
+    assert compute_total_fuel(14) == 2
+    assert compute_total_fuel(1969) == 966
+    assert compute_total_fuel(100756) == 50346
 
 if __name__ == '__main__':
+    # check function results on example cases
+    make_tests()
+    
+    # get input data
     data_path = '../data/day1.txt'
     inputs = parse_input(open(data_path, 'r').read())
     
