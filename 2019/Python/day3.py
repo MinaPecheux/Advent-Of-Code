@@ -2,7 +2,7 @@
 ### [ ADVENT OF CODE ] (https://adventofcode.com)
 ### 2019 - Mina Pêcheux: Python version
 ### ---------------------------------------------
-### Day 3: Wires intersection
+### Day 3: Crossed Wires
 ### =============================================
 
 # [ Input parsing functions ]

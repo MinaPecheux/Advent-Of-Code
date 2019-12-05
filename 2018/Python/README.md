@@ -18,7 +18,7 @@ In these files, I try to always organize the code in the same way:
 
 5. finally, the main part that solves the problem by running the computation functions on the actual inputs I was given (that depend on the user)
 
-## Day 1: Frequency changes
+## Day 1: Chronal Calibration
 
 Even though the challenge is quite basic, I have used two small Python tricks in my solution:
 - some simple syntax stuff: in the ``compute_first_cycle()`` function, there is this line:

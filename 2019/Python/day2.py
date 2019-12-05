@@ -2,7 +2,7 @@
 ### [ ADVENT OF CODE ] (https://adventofcode.com)
 ### 2019 - Mina Pêcheux: Python version
 ### ---------------------------------------------
-### Day 2: Intcode programming
+### Day 2: 1202 Program Alarm
 ### =============================================
 
 # [ Input parsing functions ]

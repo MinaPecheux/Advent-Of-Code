@@ -2,7 +2,7 @@
 ### [ ADVENT OF CODE ] (https://adventofcode.com)
 ### 2019 - Mina Pêcheux: Python version
 ### ---------------------------------------------
-### Day 4: Venusian Password
+### Day 4: Secure Container
 ### =============================================
 from collections import Counter
 

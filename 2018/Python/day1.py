@@ -2,7 +2,7 @@
 ### [ ADVENT OF CODE ] (https://adventofcode.com)
 ### 2018 - Mina Pêcheux: Python version
 ### ---------------------------------------------
-### Day 1: Frequency changes
+### Day 1: Chronal Calibration
 ### =============================================
 
 # [ Input parsing functions ]

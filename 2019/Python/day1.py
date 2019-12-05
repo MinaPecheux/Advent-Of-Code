@@ -2,7 +2,7 @@
 ### [ ADVENT OF CODE ] (https://adventofcode.com)
 ### 2019 - Mina Pêcheux: Python version
 ### ---------------------------------------------
-### Day 1: Fuel computation
+### Day 1: The Tyranny of the Rocket Equation
 ### =============================================
 
 # [ Input parsing functions ]

@@ -18,13 +18,13 @@ In these files, I try to always organize the code in the same way:
 
 5. finally, the main part that solves the problem by running the computation functions on the actual inputs I was given (that depend on the user)
 
-## Day 1: Fuel Computation
+## Day 1: The Tyranny of the Rocket Equation
 
 This first challenge is pretty straight-forward. The only notable thing is that Part II strongly indicates you should [recursion](https://en.wikipedia.org/wiki/Recursion_(computer_science)) to solve the problem. Given that you have a question of the form "compute a value for something, then compute the value for this new thing, and so on..." you want to create recursive function, i.e. a process where your top solution depends on the solution you computed for smaller instances of the problem.
 
 You therefore call the function from within itself (here ``compute_total_fuel()`` is called inside of ``compute_total_fuel()``).
 
-## Day 2: Intcode programming
+## Day 2: 1202 Program Alarm
 
 This problem is an opportunity to talk about **mutability** in Python: in this solution, I extensively use the fact that ``list``s are mutable in Python. This means that even if they are passed as parameters to functions, the variables still point to the same address in memory and can therefore be modified directly.
 
@@ -36,7 +36,7 @@ Hence the need to "restore" the inputs before running the code for Part II!
 
 > For more info on immutability in Python, you can check out [Python's reference](https://docs.python.org/3/reference/datamodel.html?highlight=immutability) on the data model (Dec. 2019).
 
-## Day 3: Wires intersection
+## Day 3: Crossed Wires
 
 The challenge with this problem was to handle the large lists as quickly as possible. To do so, I used lists, dictionaries and sets and tried to make the best out of those worlds (depending on [the time complexity of various operations for each data type](https://wiki.python.org/moin/TimeComplexity)):
 
@@ -48,13 +48,13 @@ The challenge with this problem was to handle the large lists as quickly as poss
 
 By using the right data type at the right time, you can increase the computation time tremendously.
 
-## Day 4: Venusian Password
+## Day 4: Secure Container
 
 There is not much to say with this solution, except that I use a built-in Python lib, ``collections``. This package contains some very useful additional types that are optimized for a specific task. For example, here, I use a ``Counter`` that is very quick at creating a dict-like structure that associates each unique value in a list to the number of times it appears (see the function ``number_is_ok_p2()``).
 
 Also, I take advantage of Python's ability to quickly change from one type to another by treating my number and its digits either as integers or as characters depending on what I need.
 
-## Day 5: Thermal Environment Supervision Terminal
+## Day 5: Sunny with a Chance of Asteroids
 
 This challenge builds on Day 2. The code therefore is an extension of my solution for Day 2.
 

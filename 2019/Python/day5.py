@@ -2,7 +2,7 @@
 ### [ ADVENT OF CODE ] (https://adventofcode.com)
 ### 2019 - Mina Pêcheux: Python version
 ### ---------------------------------------------
-### Day 5: Thermal Environment Supervision Terminal
+### Day 5: Sunny with a Chance of Asteroids
 ### =============================================
 import io, sys
 
