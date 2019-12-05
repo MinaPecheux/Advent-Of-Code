@@ -4,6 +4,8 @@ This repository contains the code I wrote for the online [Advent of Code challen
 by Eric Wastl. Advent of Code is a programming project where you are given one new puzzle everyday all throughout
 December - it is "an Advent calendar of small programming puzzles". Puzzles can be solved using any programming language and they train you in various skills and algorithms.
 
+Each day, a 2-parts problem is posted. Solving each part gives you 1 gold star (so you have up to 2 for each problem).
+
 For more info on the project, take a look at [the about page](https://adventofcode.com/2019/about).
 
 Big thanks to [Eddie Li](https://github.com/xdl) for introducing me to this neat project!
