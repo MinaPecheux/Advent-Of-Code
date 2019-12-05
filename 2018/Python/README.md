@@ -55,3 +55,19 @@ In this problem, we need to compare strings. There isn't much to it in my soluti
 - for Part I, where we need to check if the IDs contain repetitions of letters, I'm using the ``Counter`` data type that is available in the Python built-in ``itertools`` lib. This package contains various useful additional containers that are optimized for a given task; for example, the ``Counter`` creates a dict-like structure that associates each unique element in a list with its number of occurrences.
 
 - for Part II, when I need to check the matching letters in two IDs, I want to iterate through both "in parallel", meaning that I want to compare the first character of the first with the first character of the second, then the second character of the first with the second character of the second and so on. To do this, I used the ``zip()`` built-in method in Python that creates tuples from two lists by going through each and grouping together the elements at the current index.
+
+## Day 3: No Matter How You Slice It
+
+In this problem, the inputs parsing was a bit more evolved for the previous ones. Instead of just splitting lines or checking for a sign, I had to extract 5 values from each line: the id of the claim, its starting ``(x,y)`` coordinate and its ``width x height`` size in square inches. To deal with this, I used a [regular expression](https://en.wikipedia.org/wiki/Regular_expression) (or Regex): the idea is to define a "pattern" to search for in a string, and then to see if the given string can be matched to this pattern. If so, we are even able to isolate the bit that match the different parts of our pattern and thus directly extract our values.
+
+Day 3 is also an interesting problem because it required me to choose the Python data type I would use carefully. Indeed depending on the data structure you pick, the performance of your program will be very different.
+
+I've already mentioned the ``Counter`` util for the previous problem but here I've also played around with ``dict``s, ``list``s and ``set``s to try and take advantage of each:
+
+- lists are very good for append and extend operations; in other words, they are efficient when you need to add new items or add two lists together to form a bigger one
+
+- dictionaries are hashable containers that work with key-value pairs; they are great for quick element access (it is in `O(1)`, i.e. in constant time); this allows me to easily check which square in the fabric band appear in more than one claim
+
+- sets are quite close to dictionaries but they are super fast at union, intersection and difference operations; this is a big plus for my final operation that isolates the remaining claim from the rest of the IDs
+
+*Note: at the end of my ``find_non_overlapping_claim()`` function, I use the ``pop()`` method on my set. In most cases, you ought to be careful with this operation because it returns a __random__ element from the set. However, here, I've been told in the problem that I should only expect a single value at this point.*
