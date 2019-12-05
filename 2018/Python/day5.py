@@ -6,7 +6,6 @@
 ### =============================================
 from itertools import chain, product
 from random import choice
-import re
 
 # [ Computation functions ]
 # -------------------------
@@ -40,6 +39,7 @@ def apply_reactions(polymer):
             polymer = polymer.replace(pair, '')
         if original == polymer: return polymer
         
+### Part II
 def find_shortest_polymer(polymer):
     '''Finds the shortest possible polymer after removing one unit from the
     possible combinations (e.g.: removing all a/A, all b/B...) in the polymer
