@@ -2,10 +2,7 @@
 
 This subfolder contains my code solutions for challenges from the 2019 series, written in Python (3.6.5).
 
-## Day 1: Fuel Computation
-
-This first challenge is pretty straight-forward. Rather than focusing on the problem itself, I will instead explain the general structure of the solution that will be copied over and over for the next solutions, too.
-
+## Preliminary note: files organization
 In these files, I try to always organize the code in the same way:
 
 1. first, some imports if need be (either Python built-in libs or external packages, **even if I will try and stay as "built-in" as possible in my answers**)
@@ -20,6 +17,12 @@ In these files, I try to always organize the code in the same way:
 4. a test of function with a set of ``assert``s to check that my computation function seem to give an ok result (using the examples provided with the problem)
 
 5. finally, the main part that solves the problem by running the computation functions on the actual inputs I was given (that depend on the user)
+
+## Day 1: Fuel Computation
+
+This first challenge is pretty straight-forward. The only notable thing is that Part II strongly indicates you should [recursion](https://en.wikipedia.org/wiki/Recursion_(computer_science)) to solve the problem. Given that you have a question of the form "compute a value for something, then compute the value for this new thing, and so on..." you want to create recursive function, i.e. a process where your top solution depends on the solution you computed for smaller instances of the problem.
+
+You therefore call the function from within itself (here ``compute_total_fuel()`` is called inside of ``compute_total_fuel()``).
 
 ## Day 2: Intcode programming
 
