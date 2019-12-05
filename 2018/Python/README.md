@@ -47,3 +47,11 @@ Even though the challenge is quite basic, I have used two small Python tricks in
               ...
       return None
   ```
+
+## Day 2: Inventory Management System
+
+In this problem, we need to compare strings. There isn't much to it in my solution, but I'll still point out two tools I've used to solve it (quite) efficiently:
+
+- for Part I, where we need to check if the IDs contain repetitions of letters, I'm using the ``Counter`` data type that is available in the Python built-in ``itertools`` lib. This package contains various useful additional containers that are optimized for a given task; for example, the ``Counter`` creates a dict-like structure that associates each unique element in a list with its number of occurrences.
+
+- for Part II, when I need to check the matching letters in two IDs, I want to iterate through both "in parallel", meaning that I want to compare the first character of the first with the first character of the second, then the second character of the first with the second character of the second and so on. To do this, I used the ``zip()`` built-in method in Python that creates tuples from two lists by going through each and grouping together the elements at the current index.
