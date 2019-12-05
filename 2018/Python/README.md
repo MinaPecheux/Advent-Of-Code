@@ -71,3 +71,17 @@ I've already mentioned the ``Counter`` util for the previous problem but here I'
 - sets are quite close to dictionaries but they are super fast at union, intersection and difference operations; this is a big plus for my final operation that isolates the remaining claim from the rest of the IDs
 
 *Note: at the end of my ``find_non_overlapping_claim()`` function, I use the ``pop()`` method on my set. In most cases, you ought to be careful with this operation because it returns a __random__ element from the set. However, here, I've been told in the problem that I should only expect a single value at this point.*
+
+## Day 4: Repose Record
+
+My solution to this problem mostly uses the same tools as the one before (regular expressions, ``dict``s and ``set``s...). It's interesting to note, though, that here data preparation really made the rest easier. This is something that is usually true in computer science - and is particularly true in data science and AI: the way your data is shaped and organized has a big impact on how efficient your algorithm can be. For this problem, I have a ``prepare_inputs()`` function that is dedicated to sorting the inputs in the right order, getting rid of the additional data I don't need anymore and extracting what I will exploit further down.
+
+During my treatment of the inputs, I also used the super useful ``sorted()`` function that is available for ``list``s in Python and allows you to sort your elements using a specific key and optionally reversing the order (from ascending to descending).
+
+Here, for example, in ``strategy1()``, when I sort my list of guards, I want to sort them by total time they spent asleep. I've stored this value as the third element of each tuple, so I can access it in my key lambda function to sort the list according to this criterion:
+
+```
+sortable_guards = sorted(sortable_guards, key=lambda x: x[2], reverse=True)
+```
+
+I also use the keyword ``reverse=True`` to have the guard with the *largest* value first, rather than at the end.
