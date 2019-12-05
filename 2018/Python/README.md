@@ -85,3 +85,22 @@ sortable_guards = sorted(sortable_guards, key=lambda x: x[2], reverse=True)
 ```
 
 I also use the keyword ``reverse=True`` to have the guard with the *largest* value first, rather than at the end.
+
+## Day 5: Alchemical Reduction
+
+<span style="color: red">Not yet optimized: ~10sec of execution for Part II!</span>
+
+In this puzzle, we are working with strings of characters and in particular lower- or uppercase letters. In particular, we are interested in pairs of letters that contain the lowercase and the uppercase version of a letter, either way, but not both with the same case. In other words, we want to spot pairs such as "aA", "Aa", "cC"... but not "aa" or "CC".
+
+To do this, a simple idea can be to use the ASCII codes of those letters. In the ASCII table, the letters of our alphabets are organized in two ranges, first all the uppercase characters, then a bit further down the list all the lowercase characters. However, the difference between a lowercase and an uppercase version of the same letter will always be the same. There is therefore a basic test to check if we are dealing with the type of pairs we are searching for:
+
+```
+return abs(ord(chr1) - ord(chr2)) == LOW_UP_DIFF
+# where LOW_UP_DIFF = ord('a') - ord('A')
+```
+
+This is what is implemented in the ``try_reaction()`` function. The ``ord`` built-in Python method transforms a character into the corresponding ASCII code. First, we get the (constant) difference between lower- and uppercase versions by using the "a" letter. Then, we just need to check if the difference between the ASCII codes of our characters is such that they are the same letter in lower- and uppercase version. If so, then the test is positive and, in the current context of the problem, a reaction occurs.
+
+We now have an easily applicable test for any pair of characters.
+
+Still, the other big question is: how can we efficiently generate all the possible pairs, so that we can then apply the test and filter out the pairs we are truly interested in? The answer is to use the built-in Python ``itertools`` package. This lib contains lots of utilities to create cartesian products, permutations, combinations... Here, we use the ``product`` function and the ``chr()`` built-in method to get a character from an ASCII code (this is the reverse of ``ord()``). By combining those together, we can generate a list of all possible lower- and uppercase letter pairs, and then we just filter out the ones where the letters aren't the same.
