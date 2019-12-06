@@ -15,8 +15,10 @@ The Github repository is subdivided per year, then by language. For now, I've on
 the current 2019 challenges. I will keep on filling the repository as I code up solutions in other languages or for
 more challenges :)
 
-Each ``year > language`` subfolder also contains its own README that contains some small notes, remarks, personal
-interrogations or tips & tricks.
+The repo is subdivided per year and further down by programming language. In each ``year > language`` subfolder, there is a README that contains all my notes, remarks, personal interrogations or tips & tricks for the provided solutions (there is one small paragraph per puzzle). Also, the ``year > data`` folder contains the input data that was given to me for each puzzle. It is generated on the spot for each user, so if you want to participate in this big adventure, you might not have the same... but it gives you an idea of the input format, and you can still see if you get the same result as me for those results - the correct answers (that have been veted by the website) are written in the README, in the section corresponding to the puzzle!
+
+**Spoiler alert!**
+*Of course, this repo is, by definition, filled with direct solutions for these puzzles. If you're interested in searching by yourself first, be careful not to be spoiled something by browsing the code!*
 
 ## Philosophy
 I had multiple goals when I started this project:
