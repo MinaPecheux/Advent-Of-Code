@@ -20,11 +20,19 @@ In these files, I try to always organize the code in the same way:
 
 ## Day 1: The Tyranny of the Rocket Equation
 
+#### Answers
+**Part I: 3345909**
+**Part II: 5015983**
+
 This first challenge is pretty straight-forward. The only notable thing is that Part II strongly indicates you should [recursion](https://en.wikipedia.org/wiki/Recursion_(computer_science)) to solve the problem. Given that you have a question of the form "compute a value for something, then compute the value for this new thing, and so on..." you want to create recursive function, i.e. a process where your top solution depends on the solution you computed for smaller instances of the problem.
 
 You therefore call the function from within itself (here ``compute_total_fuel()`` is called inside of ``compute_total_fuel()``).
 
 ## Day 2: 1202 Program Alarm
+
+#### Answers
+**Part I: 3716293**
+**Part II: 6429**
 
 This problem is an opportunity to talk about **mutability** in Python: in this solution, I extensively use the fact that ``list``s are mutable in Python. This means that even if they are passed as parameters to functions, the variables still point to the same address in memory and can therefore be modified directly.
 
@@ -38,6 +46,10 @@ Hence the need to "restore" the inputs before running the code for Part II!
 
 ## Day 3: Crossed Wires
 
+#### Answers
+**Part I: 209**
+**Part II: 43258**
+
 The challenge with this problem was to handle the large lists as quickly as possible. To do so, I used lists, dictionaries and sets and tried to make the best out of those worlds (depending on [the time complexity of various operations for each data type](https://wiki.python.org/moin/TimeComplexity)):
 
 - lists are ordered, meaning that you can access elements by index, and they allow for ``min`` or ``max`` operations; this lets me to easily refer to the "first" (at index 0) and the "second" (at index 1) wire, to take the smallest distance...
@@ -50,11 +62,19 @@ By using the right data type at the right time, you can increase the computation
 
 ## Day 4: Secure Container
 
+#### Answers
+**Part I: 1019**
+**Part II: 660**
+
 There is not much to say with this solution, except that I use a built-in Python lib, ``collections``. This package contains some very useful additional types that are optimized for a specific task. For example, here, I use a ``Counter`` that is very quick at creating a dict-like structure that associates each unique value in a list to the number of times it appears (see the function ``number_is_ok_p2()``).
 
 Also, I take advantage of Python's ability to quickly change from one type to another by treating my number and its digits either as integers or as characters depending on what I need.
 
 ## Day 5: Sunny with a Chance of Asteroids
+
+#### Answers
+**Part I: 15508323**
+**Part II: 9006327**
 
 This challenge builds on Day 2. The code therefore is an extension of my solution for Day 2.
 

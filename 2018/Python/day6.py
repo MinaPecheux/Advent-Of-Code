@@ -4,7 +4,6 @@
 ### ---------------------------------------------
 ### Day 6: Chronal Coordinates
 ### =============================================
-from itertools import groupby
 
 # [ Input parsing functions ]
 # ---------------------------
@@ -79,6 +78,7 @@ def find_largest_finite_area(markers):
     sorted_areas = sorted(finite_areas, key=lambda x: x[1], reverse=True)
     return sorted_areas[0][1]
 
+### Part II
 def find_area_below_threshold(markers, threshold):
     '''Finds the size of the area containing all the points that have a total
     Manhattan distance to all markers combined below the given threshold.

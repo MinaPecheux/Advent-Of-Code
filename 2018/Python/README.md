@@ -20,6 +20,10 @@ In these files, I try to always organize the code in the same way:
 
 ## Day 1: Chronal Calibration
 
+#### Answers
+**Part I: 576**
+**Part II: 77674**
+
 Even though the challenge is quite basic, I have used two small Python tricks in my solution:
 - some simple syntax stuff: in the ``compute_first_cycle()`` function, there is this line:
 
@@ -50,6 +54,10 @@ Even though the challenge is quite basic, I have used two small Python tricks in
 
 ## Day 2: Inventory Management System
 
+#### Answers
+**Part I: 4693**
+**Part II: pebjqsalrdnckzfihvtxysomg**
+
 In this problem, we need to compare strings. There isn't much to it in my solution, but I'll still point out two tools I've used to solve it (quite) efficiently:
 
 - for Part I, where we need to check if the IDs contain repetitions of letters, I'm using the ``Counter`` data type that is available in the Python built-in ``itertools`` lib. This package contains various useful additional containers that are optimized for a given task; for example, the ``Counter`` creates a dict-like structure that associates each unique element in a list with its number of occurrences.
@@ -57,6 +65,10 @@ In this problem, we need to compare strings. There isn't much to it in my soluti
 - for Part II, when I need to check the matching letters in two IDs, I want to iterate through both "in parallel", meaning that I want to compare the first character of the first with the first character of the second, then the second character of the first with the second character of the second and so on. To do this, I used the ``zip()`` built-in method in Python that creates tuples from two lists by going through each and grouping together the elements at the current index.
 
 ## Day 3: No Matter How You Slice It
+
+#### Answers
+**Part I: 107663**
+**Part II: 1166**
 
 In this problem, the inputs parsing was a bit more evolved for the previous ones. Instead of just splitting lines or checking for a sign, I had to extract 5 values from each line: the id of the claim, its starting ``(x,y)`` coordinate and its ``width x height`` size in square inches. To deal with this, I used a [regular expression](https://en.wikipedia.org/wiki/Regular_expression) (or Regex): the idea is to define a "pattern" to search for in a string, and then to see if the given string can be matched to this pattern. If so, we are even able to isolate the bit that match the different parts of our pattern and thus directly extract our values.
 
@@ -74,6 +86,10 @@ I've already mentioned the ``Counter`` util for the previous problem but here I'
 
 ## Day 4: Repose Record
 
+#### Answers
+**Part I: 21083**
+**Part II: 53024**
+
 My solution to this problem mostly uses the same tools as the one before (regular expressions, ``dict``s and ``set``s...). It's interesting to note, though, that here data preparation really made the rest easier. This is something that is usually true in computer science - and is particularly true in data science and AI: the way your data is shaped and organized has a big impact on how efficient your algorithm can be. For this problem, I have a ``prepare_inputs()`` function that is dedicated to sorting the inputs in the right order, getting rid of the additional data I don't need anymore and extracting what I will exploit further down.
 
 During my treatment of the inputs, I also used the super useful ``sorted()`` function that is available for ``list``s in Python and allows you to sort your elements using a specific key and optionally reversing the order (from ascending to descending).
@@ -87,6 +103,10 @@ sortable_guards = sorted(sortable_guards, key=lambda x: x[2], reverse=True)
 I also use the keyword ``reverse=True`` to have the guard with the *largest* value first, rather than at the end.
 
 ## Day 5: Alchemical Reduction
+
+#### Answers
+**Part I: 10250**
+**Part II: 6188**
 
 In this puzzle, we are working with strings of characters and in particular lower- or uppercase letters. In particular, we are interested in pairs of letters that contain the lowercase and the uppercase version of a letter, either way, but not both with the same case. In other words, we want to spot pairs such as "aA", "Aa", "cC"... but not "aa" or "CC".
 
@@ -106,5 +126,9 @@ Still, the other big question is: how can we efficiently generate all the possib
 I had a problem optimizing the execution time for Part II. After searching for a while, I admit I went to [Advent of Code's dedicated Reddit thread](https://www.reddit.com/r/adventofcode) and browsed through the others' suggestions. Many people seem to be stuck like I was; I could not find a less brutal way of treating the problem than simply looping through the alphabet, removing the corresponding letter from the input polymer and running the algorithm from Part I. The trick was to actually use the reduced polymer already computed in Part I! This dropped my execution time from ~10 sec to about half a second. Thanks to [asger_blahimmel](https://www.reddit.com/user/asger_blahimmel/) for the tip! :)
 
 ## Day 6: Chronal Coordinates
+
+#### Answers
+**Part I: 4342**
+**Part II: 42966**
 
 Nothing special to say, except that this problem talks about the Manhattan distance (or [Taxicab geometry](https://en.wikipedia.org/wiki/Taxicab_geometry)), a common math measurement whenever you have points on a grid.
