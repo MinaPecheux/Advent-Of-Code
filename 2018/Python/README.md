@@ -141,3 +141,51 @@ From an algorithmic point of view, this problem is focused on graphs. The steps 
 I won't do a full detailed presentation of the lib itself but rather I'll take this opportunity to point out once again that, to me, a huge strength of Python is the ecosystem that has gradually been built for it by the community. Today, the Python language is not just a well-designed script language but also an abundant collection of packages that have been developed by the Python team or the community and help us solve lots of problems. In Python, the phrase "don't reinvent wheel" is usually very true: before trying to rebuild a complex system from the ground up, you should first check if there isn't already a lib that takes care of that. A good Python program is more often than not a well-organized suite of cleverly chosen efficient bricks.
 
 *Note: this is particularly important in data science where you often deal with large amount of data. A common tech stack for data scientists includes the Numpy and Scipy libs - this is because these libraries have been super-optimized and partly rely on compiled and hardware-tuned code to speed up computation remarkably.*
+
+## Day 8: Memory Maneuver
+
+#### Answers
+**Part I: 37262 • Part II: 20839**
+
+Fun fact: despite the problem's description, I actually didn't to use any sort of graph or tree to solve the problem (at least, not directly...)! Instead, I've mostly worked with [recursive](https://en.wikipedia.org/wiki/Recursion_(computer_science)) functions. (In truth, there *is* a tree behind all this; however, we don't need to apply graph theory here.) Recursion is a type of algorithms where your top solution depends on the solution you computed for smaller instances of the problem. You therefore call the function from within itself (here ``parse_rec()`` is called inside of ``parse_rec()``, for example).
+
+In this solution, I've mostly reused tools I've mentioned before, or basic Python tech. A little new addition is the use of a [``try/except`` block](https://docs.python.org/3.5/tutorial/errors.html) in the ``compute_node_value()`` function. This Python statement is a way of handling exceptions and errors; here, we know that it can happen our script tries to access nodes that do not exist (if the metadata item taken as an address doesn't point to any real node). To avoid the program crashing if it does not find the required index in the list of children, we surround the item access with a ``try/except`` block and keep an eye out for any ``IndexError``. If none occurs, then the code in the ``try`` part will execute and we will indeed retrieve an element. Else, the code in the ``except`` block will execute and will continue directly to the next item in the list.
+
+On another note, if we had a really big tree, it could be interesting to reduce the number of calculations by using *memoization*. This technique is a powerful way of drastically increasing your algorithm's performance whenever it relies extensively on multiple recomputations of the same value (i.e. a call to the same function with exactly the same parameters a huge amount of times). It uses suitable data structures to maintain a cache and therefore avoid re-calculating already prepared results.
+
+For example, in our case, if we had an input with many nodes, then computing the value of the root would probably imply going down the same nodes several times (either directly, if the same child is accessed multiple times; or indirectly, if a child is needed more than once while going down all the recursions from the root). So, rather than recomputing the value of these nodes each time, we could use memoization and create a dictionary that associate a node index to its value. The first time we encounter the node, we need to compute the value; but then we will have its value stored and accessible way more quickly than if we had to redo the complete calculation.
+
+*Note: dictionaries are the ideal Python structure for this task because they are hashed data structures that have a constant element access time, i.e. an access time in `O(1)`.*
+
+To do this memoization, we can define a global variable to serve as cache. However, a more common (and, in my opinion, prettier) option is to use a [function wrapper](https://wiki.python.org/moin/FunctionWrappers). In Python, wrappers allow us to essentially "add behavior" to a function easily without having to modify the function itself. A wrapper is basically another function that can do some things before and after it calls the original function, therefore extending its behavior. By adding these "prologue" and "epilogue" tasks, we can automate various processes: resource allocation/deallocation, pre-/post-checks, caching...
+
+For our specific example of memoizing the node value computation, we could define a wrapper like this one:
+
+```
+def memoize(func):
+
+    cache = {}  # holds the already computed values
+      
+    def wrapped_func(nodes, node):
+        # if it is the first time we encounter this node index as input parameter,
+        # we compute the value and we store it in the cache
+        if node not in cache:
+            cache[node] = func(nodes, node)
+        # in any case, we can now access the (possibly newly) stored value
+        # corresponding to this node index as input parameter
+        return cache[node]
+        
+    return wrapped_func
+```
+
+And then "apply" this wrapper to our ``compute_node_value()`` function with a Python decorator:
+
+```
+@memoize
+def compute_node_value(nodes, node):
+  ...
+```
+
+Now, our function will be able to "remember" if it has already computed a result for a given node; if that's the case, then it can fetch the result directly and gain a lot of time! We still call exactly as we would normally, the decorator will take care of wrapping our ``memoize()`` function "around" it.
+
+*Note: if you do implement this, make sure that you don't "mix up" your inputs. What do I mean by that? Well, this is a pretty simple wrapper that isn't able to tell if the "node 0" you're referring to is from your first or your second graph. If it has a value for the node 0, it will consider it does not need to redo the computation. Suppose you've used ``compute_node_value()`` on another graph first, and that you use auto-incremented IDs like I do here; then your second graph will also contain nodes with ID 0, 1, 2... and so the function will just ignore the new graph structure and give you back the old value. To avoid this, you would have to improve the wrapper, add some uniqueness to your IDs that distinguishes the two graphs or reset the cache - but this would require to a class rather a wrapper approach of the memoizer (see [this Overflow thread](https://stackoverflow.com/questions/4431703/python-resettable-instance-method-memoization-decorator)).*
