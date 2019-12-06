@@ -1,11 +1,9 @@
-# Advent Of Code
+# Advent of Code
 
-<div style="display: flex;">
-<img src="resources/icon.png" width="150" height="150" style="margin-right: 1em;" />
+<img src="resources/icon.png" width="150" height="150" />
 
-<p>This repository contains the code I wrote for the online <a href="https://adventofcode.com" target="_blank">Advent of Code</a> challenge by Eric Wastl. Advent of Code is a programming project where you are given one new puzzle everyday all throughout
-December - it is "an Advent calendar of small programming puzzles". Puzzles can be solved using any programming language and they train you in various skills and algorithms.</p>
-</div>
+This repository contains the code I wrote for the online [Advent of Code](https://adventofcode.com) challenge by Eric Wastl. Advent of Code is a programming project where you are given one new puzzle everyday all throughout
+December - it is "an Advent calendar of small programming puzzles". Puzzles can be solved using any programming language and they train you in various skills and algorithms.
 
 Each day, a 2-parts problem is posted. Solving each part gives you 1 gold star (so you have up to 2 for each problem).
 
