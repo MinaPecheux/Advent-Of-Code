@@ -5,7 +5,7 @@ This subfolder contains my code solutions for challenges from the 2019 series, w
 ## Preliminary note: files organization
 In these files, I try to always organize the code in the same way:
 
-1. first, some imports if need be (either Python built-in libs or external packages, **even if I will try and stay as "built-in" as possible in my answers**)
+1. first, some imports if need be (either Python built-in libs or external packages)
 
 2. then, parsing functions to read and extract data from the provided input (that seems to always be a string of characters)
 
@@ -93,3 +93,17 @@ The ``Debugger`` class is a utility I had fun making that just allows me to have
 In my ``process_opcode()`` function, for the output instruction (with code ``4``), I make use of this stream if possible.
 
 Then, at the very end of the execution of my program, I can simply query the ``last_output()`` of the stream stored in my current ``Debugger`` instance to get my result. This significantly simplifies the test functions and the assertions. (Otherwise, I would have had to read back the printed output, somehow, and split it back to get the last line...).
+
+### Day 6: Universal Orbit Map
+
+#### Answers
+**Part I: 142915**
+**Part II: 283**
+
+From an algorithmic point of view, this problem is focused on graphs. The orbits we are given depend on each other in such a way that we cannot draw a graph of their connections. More precisely, it is a tree because one node (namely the Center Of Mass, COM) has no parent, so there is no cycle and COM is called the "root".
+
+[Graph theory](https://en.wikipedia.org/wiki/Graph_theory) is a fascinating field. Re-implementing graphs from scratch is interesting but I could never have reached optimal performance, so I decided to instead use the Python package [NetworkX](https://networkx.github.io/documentation/stable/index.html). This lib contains efficient structures to represent and manipulate graphs: you can create nodes, edges (either directed or undirected), search for adjacent/successors/predecessors nodes, apply path computation algorithms...
+
+I won't do a full detailed presentation of the lib itself but rather I'll take this opportunity to point out once again that, to me, a huge strength of Python is the ecosystem that has gradually been built for it by the community. Today, the Python language is not just a well-designed script language but also an abundant collection of packages that have been developed by the Python team or the community and help us solve lots of problems. In Python, the phrase "don't reinvent wheel" is usually very true: before trying to rebuild a complex system from the ground up, you should first check if there isn't already a lib that takes care of that. A good Python program is more often than not a well-organized suite of cleverly chosen efficient bricks.
+
+*Note: this is particularly important in data science where you often deal with large amount of data. A common tech stack for data scientists includes the Numpy and Scipy libs - this is because these libraries have been super-optimized and partly rely on compiled and hardware-tuned code to speed up computation remarkably.*

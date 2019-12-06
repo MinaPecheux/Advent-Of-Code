@@ -12,8 +12,7 @@ Big thanks to [Eddie Li](https://github.com/xdl) for introducing me to this neat
 
 ## Repo organization
 The Github repository is subdivided per year, then by language. For now, I've only worked in Python and mostly on
-the current 2019 challenges. I will keep on filling the repository as I code up solutions in other languages or for
-more challenges :)
+the 2019 and 2018 challenges. I will keep on filling the repository as I code up solutions in other languages or for more challenges :)
 
 The repo is subdivided per year and further down by programming language. In each ``year > language`` subfolder, there is a README that contains all my notes, remarks, personal interrogations or tips & tricks for the provided solutions (there is one small paragraph per puzzle). Also, the ``year > data`` folder contains the input data that was given to me for each puzzle. It is generated on the spot for each user, so if you want to participate in this big adventure, you might not have the same... but it gives you an idea of the input format, and you can still see if you get the same result as me for those results - the correct answers (that have been veted by the website) are written in the README, in the section corresponding to the puzzle!
 
