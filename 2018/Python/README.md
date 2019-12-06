@@ -126,3 +126,18 @@ I had a problem optimizing the execution time for Part II. After searching for a
 **Part I: 4342 • Part II: 42966**
 
 Nothing special to say, except that this problem talks about the Manhattan distance (or [Taxicab geometry](https://en.wikipedia.org/wiki/Taxicab_geometry)), a common math measurement whenever you have points on a grid.
+
+## Day 7: The Sum of Its Parts
+
+#### Answers
+**Part I: LAPFCRGHVZOTKWENBXIMSUDJQY • Part II: 936**
+
+*Note: the code finds the right answer and is efficient, still I have a feeling that it is not as "nice" as it could be. My guess is that we could some nice data structures (such as heaps? queues?) to make it better. If you have any ideas of improvements, feel free to send them to me, or comment somewhere! :)*
+
+From an algorithmic point of view, this problem is focused on graphs. The steps we are given depend on each other in such a way that we can draw a graph of their connections.
+
+[Graph theory](https://en.wikipedia.org/wiki/Graph_theory) is a fascinating field. Re-implementing graphs from scratch is interesting but I could never have reached optimal performance, so I decided to instead use the Python package [NetworkX](https://networkx.github.io/documentation/stable/index.html). This lib contains efficient structures to represent and manipulate graphs: you can create nodes, edges (either directed or undirected), search for adjacent/successors/predecessors nodes, apply path computation algorithms...
+
+I won't do a full detailed presentation of the lib itself but rather I'll take this opportunity to point out once again that, to me, a huge strength of Python is the ecosystem that has gradually been built for it by the community. Today, the Python language is not just a well-designed script language but also an abundant collection of packages that have been developed by the Python team or the community and help us solve lots of problems. In Python, the phrase "don't reinvent wheel" is usually very true: before trying to rebuild a complex system from the ground up, you should first check if there isn't already a lib that takes care of that. A good Python program is more often than not a well-organized suite of cleverly chosen efficient bricks.
+
+*Note: this is particularly important in data science where you often deal with large amount of data. A common tech stack for data scientists includes the Numpy and Scipy libs - this is because these libraries have been super-optimized and partly rely on compiled and hardware-tuned code to speed up computation remarkably.*

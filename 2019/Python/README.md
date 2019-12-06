@@ -94,7 +94,7 @@ Then, at the very end of the execution of my program, I can simply query the ``l
 #### Answers
 **Part I: 142915 • Part II: 283**
 
-From an algorithmic point of view, this problem is focused on graphs. The orbits we are given depend on each other in such a way that we cannot draw a graph of their connections. More precisely, it is a tree because one node (namely the Center Of Mass, COM) has no parent, so there is no cycle and COM is called the "root".
+From an algorithmic point of view, this problem is focused on graphs. The orbits we are given depend on each other in such a way that we can draw a graph of their connections. More precisely, it is a tree because one node (namely the Center Of Mass, COM) has no parent, so there is no cycle and COM is called the "root".
 
 [Graph theory](https://en.wikipedia.org/wiki/Graph_theory) is a fascinating field. Re-implementing graphs from scratch is interesting but I could never have reached optimal performance, so I decided to instead use the Python package [NetworkX](https://networkx.github.io/documentation/stable/index.html). This lib contains efficient structures to represent and manipulate graphs: you can create nodes, edges (either directed or undirected), search for adjacent/successors/predecessors nodes, apply path computation algorithms...
 
