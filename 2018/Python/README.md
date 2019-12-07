@@ -189,3 +189,18 @@ def compute_node_value(nodes, node):
 Now, our function will be able to "remember" if it has already computed a result for a given node; if that's the case, then it can fetch the result directly and gain a lot of time! We still call exactly as we would normally, the decorator will take care of wrapping our ``memoize()`` function "around" it.
 
 *Note: if you do implement this, make sure that you don't "mix up" your inputs. What do I mean by that? Well, this is a pretty simple wrapper that isn't able to tell if the "node 0" you're referring to is from your first or your second graph. If it has a value for the node 0, it will consider it does not need to redo the computation. Suppose you've used ``compute_node_value()`` on another graph first, and that you use auto-incremented IDs like I do here; then your second graph will also contain nodes with ID 0, 1, 2... and so the function will just ignore the new graph structure and give you back the old value. To avoid this, you would have to improve the wrapper, add some uniqueness to your IDs that distinguishes the two graphs or reset the cache - but this would require to a class rather a wrapper approach of the memoizer (see [this Overflow thread](https://stackoverflow.com/questions/4431703/python-resettable-instance-method-memoization-decorator)).*
+
+## Day 8: Marble Mania
+
+#### Answers
+**Part I: 375414 • Part II: 3168033673**
+
+Aside from the way the problem is formulated that I do believe is a bit tricky to understand at first, Day 9 is actually not that hard. The thing is though that a brute force approach will work for Part I but might be way too long for Part II (that is exactly the same computation just with larger inputs).
+
+My first idea was to represent the board of marbles with a list. However, this data structure is not the best for multiple insertions and removals everywhere. Here, the idea is to instead use a [*double linked list*](https://en.wikipedia.org/wiki/Doubly_linked_list). This data structure relies on a sequence of nodes that each have some data but also a direct link to whomever their predecessor and their successor is in the list. The list I've built is circular, meaning that the "last" node points to the head of the list and that you can cycle back - this represents the "circle of marbles" that can be looped through infinitely.
+
+My ``DoubleLinkedList`` class implements the methods I needed for the problem: a notion of "currently selected node" (to represent the current marble), a way of adding a node at the "end" of the list and a way of inserting or removing nodes with an offset from the currently selected node. (I've also added a ``print()`` function to make debugging easier.)
+
+By taking some time to prepare my data structure first, I've then managed to write a very short code for the actual processing function (``compute_highscore()``).
+
+Still, on the large input, it takes ~30 sec. It's not catastrophic but could probably be improved. To keep an eye on the computation process, I've used a Python lib called [tqdm](https://pypi.org/project/tqdm/). This package allows you to easily wrap an iterator (such as a ``range``) with the ``tqdm()`` method so that your shell displays the iterations with a progress bar and the total execution time.
