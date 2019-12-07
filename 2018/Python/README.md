@@ -190,7 +190,7 @@ Now, our function will be able to "remember" if it has already computed a result
 
 *Note: if you do implement this, make sure that you don't "mix up" your inputs. What do I mean by that? Well, this is a pretty simple wrapper that isn't able to tell if the "node 0" you're referring to is from your first or your second graph. If it has a value for the node 0, it will consider it does not need to redo the computation. Suppose you've used ``compute_node_value()`` on another graph first, and that you use auto-incremented IDs like I do here; then your second graph will also contain nodes with ID 0, 1, 2... and so the function will just ignore the new graph structure and give you back the old value. To avoid this, you would have to improve the wrapper, add some uniqueness to your IDs that distinguishes the two graphs or reset the cache - but this would require to a class rather a wrapper approach of the memoizer (see [this Overflow thread](https://stackoverflow.com/questions/4431703/python-resettable-instance-method-memoization-decorator)).*
 
-## Day 8: Marble Mania
+## Day 9: Marble Mania
 
 #### Answers
 **Part I: 375414 • Part II: 3168033673**
@@ -204,3 +204,26 @@ My ``DoubleLinkedList`` class implements the methods I needed for the problem: a
 By taking some time to prepare my data structure first, I've then managed to write a very short code for the actual processing function (``compute_highscore()``).
 
 Still, on the large input, it takes ~30 sec. It's not catastrophic but could probably be improved. To keep an eye on the computation process, I've used a Python lib called [tqdm](https://pypi.org/project/tqdm/). This package allows you to easily wrap an iterator (such as a ``range``) with the ``tqdm()`` method so that your shell displays the iterations with a progress bar and the total execution time.
+
+## Day 10: The Stars Align
+
+#### Answers
+**Part I: BFFZCNXE • Part II: 10391**
+
+Day 10 is a bit different from the rest of the problems because it can (easily) be solved automatically: you are asked to see how stars move in the sky until they align to form a message, and therefore need to use your own human eye to spot the correct string of characters.
+
+*Note: we __could__ use OCR (Optical Character Recognition) methods to automate the process, however I didn't want to dive into this at the moment and thus decided to rather stick with the "by-hand" method. But if you're interested, it looks like [pytesseract](https://pypi.org/project/pytesseract/) could be a nice Python wrapper around Google's ``tesseract`` OCR solution.*
+
+Nevertheless, it is quite obvious that printing the board each time step won't work: it will just take forever and most of the time we will be facing jibberish! So the idea is to try and minimize the average between points, because we know that when they actually spell out the message, they should be "organized" and therefore each pair of points should have a low distance on average. We assume that finding the iteration when we have the minimal average distance is equivalent to finding the iteration at which the message is printed in the sky.
+
+My solution was to:
+- first decide on a maximal number of iterations (I've decided 15000 was enough, the message had to be somewhere in that range... and anyway, I could have just upped the bar gradually if I didn't get any result!)
+- then compute the evolution of the sky by applying their velocity to the stars each round
+- for each iteration, compute the average distance between the stars and store it
+- finally, find the time step where the distance was minimal (i.e. the index of the minimal value in the array, or the *argmin*), recompute the board for that time step and display it
+
+By the way, this directly gave me the solution for Part II, that asked for the time step at which the message would appear in the sky.
+
+To compute the average distance, the naïve approach is to do a nested loop, going over the points in your board twice and adding all the distance, then dividing by the total number of points. This works, but it is a *very* slow process. Instead, we can use the [scipy](https://www.scipy.org/) along side with [numpy](https://numpy.org/) libs that are *the* most common Python packages for data processing. Among lots of other things, ``scipy`` has a function to compute all distances between two collections of points, ``cdist()``. With that and ``numpy``'s ``mean()`` function, I was able to compute my average distances really fast! Then, a simple ``numpy.argmin()`` gives me the time step at which the message appeared (according to the previous assumption).
+
+*Note: just for the sake of it, I invite you to go and check out [the reddit thread](https://www.reddit.com/r/adventofcode/search/?q=2018%20Day%2010&restrict_sr=1) for this problem - people have talked about OCR and even done some movies for their own input where you see stars move in the sky, form a message and then part ways again.*
