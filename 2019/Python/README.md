@@ -101,3 +101,29 @@ From an algorithmic point of view, this problem is focused on graphs. The orbits
 I won't do a full detailed presentation of the lib itself but rather I'll take this opportunity to point out once again that, to me, a huge strength of Python is the ecosystem that has gradually been built for it by the community. Today, the Python language is not just a well-designed script language but also an abundant collection of packages that have been developed by the Python team or the community and help us solve lots of problems. In Python, the phrase "don't reinvent wheel" is usually very true: before trying to rebuild a complex system from the ground up, you should first check if there isn't already a lib that takes care of that. A good Python program is more often than not a well-organized suite of cleverly chosen efficient bricks.
 
 *Note: this is particularly important in data science where you often deal with large amount of data. A common tech stack for data scientists includes the Numpy and Scipy libs - this is because these libraries have been super-optimized and partly rely on compiled and hardware-tuned code to speed up computation remarkably.*
+
+## Day 7: Amplification Circuit
+
+#### Answers
+**Part I: 116680 • Part II: 89603079**
+
+This problem continues building on the Intcode program that was first written on Day 2 and then improved on on Day 5. This time, we are going to need to run several instances of our Intcode program at the same time while making sure each has its own "environment". It is not truly parallel execution, though, since some instances will depend on the output from others and thus need to wait for them before they can proceed. Hence the need to separate data for each instance, so that they don't overwrite sensible information that the other might use later on.
+
+To better separate and manage the different program instances, I've decided to use one of the core features of Python: classes! Those fall in the object-oriented programming philosophy and are, to me, a nice way of aggregating together bits of code that have a logical link. So, I've coded up a ``ProgramInstance`` class that represents own instance of our Intcode program with its own copy of the program to execute (that will be modified in-place as it runs), its own instruction pointer, its own memory and its own running state.
+
+To create a basic class, you should inherit from the ``object`` built-in and then define a ``class`` that has at least an ``__init__()`` method:
+
+```python
+class ProgramInstance(object):
+    
+    def __init__(self):
+        pass
+```
+
+This ``__init__()`` function will be called whenever you instantiate a new variable of type ``ProgramInstance``. The neat thing with object-oriented programming, as I said just before, is that you can gather in the same place various variables or methods that are logically linked together; here, our class can contain other methods that implement the behavior we want one of program instance to have: a basic state check, memory updates, instructions execution...
+
+My final ``ProgramInstance`` class provided me with an easy-to-use interface for my actual computation functions (``process_inputs()`` and ``process_inputs_feedback()``). In those functions, I just create instances of the ``ProgramInstance`` class and play around with them, but the class abstracts away all the actual execution or memory management stuff so that these computation functions aren't too long. (This means that the true meat of the code resides in the ``ProgramInstance`` class - however, it is not that hard to understand, so I won't dive into the details here.)
+
+One thing to note is that we have modified the ``process_opcode()`` method and the "input" instruction a bit to access our ``ProgramInstance`` memory rather than the global ``INPUT`` variable we had before. The ``process_opcode()`` now also returns a boolean representing whether or not the ``ProgramInstance`` we were executed should pause and wait for other processes to complete before resuming.
+
+Finally, I've used a class variable called ``INSTANCE_ID`` to assign auto-incrementing IDs to my instances. Rather than maintaining a counter outside of the class, I can just let it take care of it and automatically generate a new integer ID whenever I create a new instance of my class. However, I need to be careful to reset the counter whenever I want to reset my pool of instances from scratch (in our example, whenever I want to try a new permutation of phase settings).

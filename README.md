@@ -18,7 +18,7 @@ the 2019 and 2018 challenges. I will keep on filling the repository as I code up
 **Current progression:**
 
 ```
-2019    [ ■■■■■■                    ] 6 / 25
+2019    [ ■■■■■■■                   ] 7 / 25
 2018    [ ■■■■■■■■                  ] 8 / 25
 2017    n/a
 2016    n/a

@@ -26,7 +26,7 @@ In these files, I try to always organize the code in the same way:
 Even though the challenge is quite basic, I have used two small Python tricks in my solution:
 - some simple syntax stuff: in the ``compute_first_cycle()`` function, there is this line:
 
-  ```
+  ```python
   i = i + 1 if i < len(changes) - 1 else 0
   ```
 
@@ -36,7 +36,7 @@ Even though the challenge is quite basic, I have used two small Python tricks in
 
   *Note: if you want to check I'm telling the truth, just replace these two lines and execute the program... the solution will take ages to be computed!*
   
-  ```
+  ```python
   def compute_first_cycle(changes):
       prev_freqs = [ 0 ] # replace by a basic list
       ...
@@ -92,7 +92,7 @@ During my treatment of the inputs, I also used the super useful ``sorted()`` fun
 
 Here, for example, in ``strategy1()``, when I sort my list of guards, I want to sort them by total time they spent asleep. I've stored this value as the third element of each tuple, so I can access it in my key lambda function to sort the list according to this criterion:
 
-```
+```python
 sortable_guards = sorted(sortable_guards, key=lambda x: x[2], reverse=True)
 ```
 
@@ -107,7 +107,7 @@ In this puzzle, we are working with strings of characters and in particular lowe
 
 To do this, a simple idea can be to use the [ASCII codes](https://en.wikipedia.org/wiki/ASCII) of those letters. In the ASCII table, the letters of our alphabets are organized in two ranges, first all the uppercase characters, then a bit further down the list all the lowercase characters. However, the difference between a lowercase and an uppercase version of the same letter will always be the same. There is therefore a basic test to check if we are dealing with the type of pairs we are searching for:
 
-```
+```python
 return abs(ord(chr1) - ord(chr2)) == LOW_UP_DIFF
 # where LOW_UP_DIFF = ord('a') - ord('A')
 ```
@@ -161,7 +161,7 @@ To do this memoization, we can define a global variable to serve as cache. Howev
 
 For our specific example of memoizing the node value computation, we could define a wrapper like this one:
 
-```
+```python
 def memoize(func):
 
     cache = {}  # holds the already computed values
@@ -180,7 +180,7 @@ def memoize(func):
 
 And then "apply" this wrapper to our ``compute_node_value()`` function with a Python decorator:
 
-```
+```python
 @memoize
 def compute_node_value(nodes, node):
   ...
