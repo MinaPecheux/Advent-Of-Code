@@ -15,8 +15,8 @@ Big thanks to [Eddie Li](https://github.com/xdl) for introducing me to this neat
 The Github repository is subdivided per year, then by language. For now, I've only worked in Python and mostly on
 the 2019 and 2018 challenges. I will keep on filling the repository as I code up solutions in other languages or for more challenges :)
 
-**Current progression:**
-
+**Current progression**
+**Python:**
 ```
 2019    [ ■■■■■■■                   ]  7 / 25
 2018    [ ■■■■■■■■■■                ] 10 / 25
