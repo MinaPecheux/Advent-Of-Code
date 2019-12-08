@@ -227,3 +227,16 @@ By the way, this directly gave me the solution for Part II, that asked for the t
 To compute the average distance, the naïve approach is to do a nested loop, going over the points in your board twice and adding all the distance, then dividing by the total number of points. This works, but it is a *very* slow process. Instead, we can use the [scipy](https://www.scipy.org/) along side with [numpy](https://numpy.org/) libs that are *the* most common Python packages for data processing. Among lots of other things, ``scipy`` has a function to compute all distances between two collections of points, ``cdist()``. With that and ``numpy``'s ``mean()`` function, I was able to compute my average distances really fast! Then, a simple ``numpy.argmin()`` gives me the time step at which the message appeared (according to the previous assumption).
 
 *Note: just for the sake of it, I invite you to go and check out [the reddit thread](https://www.reddit.com/r/adventofcode/search/?q=2018%20Day%2010&restrict_sr=1) for this problem - people have talked about OCR and even done some movies for their own input where you see stars move in the sky, form a message and then part ways again.*
+
+## Day 11: Chronal Charge
+
+#### Answers
+**Part I: 21,41 • Part II: 227,199,19**
+
+This problem is a good opportunity to mention two concepts: convolution and data preprocessing for computation speed up.
+
+Firstly, [convolution](https://en.wikipedia.org/wiki/Convolution) is a mathematical operation that uses 2 functions, say *f* and *g*, and basically "applies" one to the other. It is used in lots of domains like probability, stats, image processing, artificial intelligence... In particular, some neural networks of the CNN family have become famous for using "kernels" (or "sliding windows") that just "run over" an image and are applied on each pixel with this convolution process. If you take a "full kernel" of ones as your sliding window, then each time you will take the contribution of all the pixels beneath your window and thus perform a sum operation. Here, I used the ``scipy`` lib once again to do this computation.
+
+Secondly, we can consider the problem as a [submatrix sum queries](https://www.geeksforgeeks.org/submatrix-sum-queries/) problem: we are asked to check out the sum of cells in squares with a growing size and find both the top-left corner coordinates and the size of the square that gives the highest sum. The brute force method would be to make our squares have a size ``s`` that grows continuously from 1 to 300 and to compute the convolution of our grid with an ``s x s`` kernel. However, it is super long. And it just keeps getting longer and longer as ``s`` increases, actually.
+
+A better way to deal with this problem is to prepare an auxiliary matrix (created with ``compute_auxiliary_matrix()``) that contains cumulative sums in each of its cells and therefore gives us access in constant time (`O(1)`) to the sum of subsquares of the original grid. This allows us to get the total sum of a given rectangle very fast (see the ``get_sum_square()`` method). Now, we can loop through our possible sizes and find the optimal conditions.
