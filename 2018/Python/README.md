@@ -259,3 +259,20 @@ In other words, starting from some generation ``G`` (that depends on your input)
 So, instead of actually computing the remaining iterations, you can early stop your computation process and finish the process by applying this translation to your current state. With only a few additions, you will have inferred the state the system would have reached if you'd let it run until the final iteration - but you will have done it much, much faster!
 
 This is a good example of something that is often true when solving this kind of problems, and when solving problems in general: it might be interesting to study "by hand" (or at least on a smaller sample) how your system behaves and evolves to try and spot an underlying pattern. If there is one, you might be able to predict the evolution accurately while skipping lots of steps and therefore gaining a lot of computing time.
+
+## Day 13: Mine Cart Madness
+
+#### Answers
+**Part I: 53,133 • Part II: 111,68**
+
+This problem is quite straight-forward and only requires you to focus when you compute the carts' movements. I've used classes extensively in my solution to easily manipulate the mine map and the carts (so I have a ``Mine`` and a ``Cart`` class that each have several methods and communicate together in various ways).
+
+There is not much to say, the problem doesn't even ask for a lot of optimization since your input is quite small (a 150x150 grid).
+
+I'll point out some tools I've played around with, though:
+
+- for my ``Mine.display()`` method, when I show carts, I wanted them to stand out a bit more; so I've used [ANSI codes](https://en.wikipedia.org/wiki/ANSI_escape_code) to pump my shell output up a bit and carts are now shown in bold red. The basic idea of ANSI codes is to add special bits that the console won't interpret as strings but as commands and that can modify the format of the output it surrounds (add color, bold...).
+
+- for the cart intersection crossing algorithm, in order to have the cycling directions ("first to left, then straight, then right; then it cycles back"), I've used a modulo operation to easily "wrap around" the third state
+
+- for my test input data, I've used Python's docstrings (with triple quotes) to be able to include new lines into my strings (as if I were reading a multiline file)
