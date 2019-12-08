@@ -242,3 +242,20 @@ Secondly, we can consider the problem as a [submatrix sum queries](https://www.g
 A better way to deal with this problem is to prepare an auxiliary matrix (created with ``compute_auxiliary_matrix()``) that contains cumulative sums in each of its cells and therefore gives us access in constant time (`O(1)`) to the sum of subsquares of the original grid. This allows us to get the total sum of a given rectangle very fast (see the ``get_sum_square()`` method). Now, we can loop through our possible sizes and find the optimal conditions.
 
 *Note: some quick tests seem to indicate that for the small 3x3 kernel case, ``scipy`` is efficient enough for it to be faster to use convolutions rather than an auxiliary matrix and a submatrix sum queries approach...*
+
+## Day 12: Subterranean Sustainability
+
+#### Answers
+**Part I: 2049 • Part II: 2300000000006**
+
+Day 12 doesn't require any external libs; it's quite simple overall even though I'll admit I had some difficulties with off-by-one results... basically some indices shifting in the wrong place! :)
+
+Part I is just about implementing the given algorithm while making sure you add new spaces for additional pots every generation (using buffers that depend on the rules of your problem, computed by ``padding_buffers()``).
+
+Part II then asks you to just repeat the same process for a number of iterations that is way, way, way larger - thousand of millions larger, actually! It's obvious the same technique won't work in a reasonable time. However, you may quickly have the intuition that there must be patterns and cycles in these evolution rules... and, indeed, if you try to compute the pots evolution for a few hundreds of iterations, you might discover that at one point the state starts repeating itself, just shifted by one position on the right.
+
+In other words, starting from some generation ``G`` (that depends on your input), the pots state will be the exact same pattern of "active" and "empty" pots (same intervals of ``#`` and ``.``) but the position of the first "active" pot will increase by 1 every time. In my case, the repetition started at iteration 102. From that point on, you know that there is no use re-applying the rules anymore: you will just be "translating" the whole shelf of pots to the right until you reach this insanely high iteration you're asked for.
+
+So, instead of actually computing the remaining iterations, you can early stop your computation process and finish the process by applying this translation to your current state. With only a few additions, you will have inferred the state the system would have reached if you'd let it run until the final iteration - but you will have done it much, much faster!
+
+This is a good example of something that is often true when solving this kind of problems, and when solving problems in general: it might be interesting to study "by hand" (or at least on a smaller sample) how your system behaves and evolves to try and spot an underlying pattern. If there is one, you might be able to predict the evolution accurately while skipping lots of steps and therefore gaining a lot of computing time.
