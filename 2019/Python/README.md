@@ -14,7 +14,7 @@ In these files, I try to always organize the code in the same way:
   - functions for the Part I of the problem
   - functions for the Part II of the problem
   
-4. a test of function with a set of ``assert``s to check that my computation function seem to give an ok result (using the examples provided with the problem)
+4. a test function with a set of ``assert``s to check that my computation functions seem to give an ok result (using the examples provided with the problem)
 
 5. finally, the main part that solves the problem by running the computation functions on the actual inputs I was given (that depend on the user)
 
