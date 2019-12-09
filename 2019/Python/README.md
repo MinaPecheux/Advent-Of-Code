@@ -150,4 +150,4 @@ Part I and Part II only differ in the input you pass your processing function: `
 
 Compared to the previous Intcode interpreter, we need to add a new mode, called the "relative" mode, that allows for address references with a relative base (that can be modified) and the ``offset_relative_base`` to update this aforementioned relative base. I've also added a debug mode to show the instructions execution process step by step and I've cleaned up the code to better use the ``ProgramInstance``'s own variables.
 
-*Note: the code could probably be further optimized... it takes about 7 seconds to solve Part II. Even though this is not that bad, it would be nice to have a faster execution (I've found a JS code that gives me the answer instantaneously: fancy!).*
+*Note: the code could probably be further optimized... it takes about 7 seconds to solve Part II. Even though this is not that bad, it would be nice to have a faster execution (the JS code I talked about earlier gives me the answer instantaneously: fancy!).*
