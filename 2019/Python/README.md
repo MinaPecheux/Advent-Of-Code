@@ -136,3 +136,18 @@ Finally, I've used a class variable called ``INSTANCE_ID`` to assign auto-increm
 Day 8 is a nice easy peezy Sunday problem about image decoding. It is quite simple and does not require any external libs (some people in the threads talk about using ``numpy`` but, in truth, I feel like it's sort of overkill this time). You just need to be careful in how you represent a 2D image as a 1D string and compute your position transformations properly.
 
 In Part II, the only tricky thing is the order of the layers: you're told that the first one comes first, then the second one, and so on. They can overwrite each other (if the pixel is not transparent), so the easiest way to deal with this is to process them in the reverse order: take a "result image" that you initializing with blanks everywhere; then iterate through your layers from last to first and simply turn on or off pixels if you find the corresponding value.
+
+## Day 9: Sensor Boost
+
+#### Answers
+**Part I: 2752191671 • Part II: 87571**
+
+To be honest, while I spent *hours* trying to debug some index shifting errors, the problem is not that hard *per se*: once again, I'm asked to improve the Intcode program I worked on during Days 2 and 5. I've refactored the code in some places but the overall structure is very similar.
+
+My big issue was to properly understand what remain indices and what turn into data with the new mode... many thanks to [youaremean_YAM](https://www.reddit.com/user/youaremean_YAM/) for his/her JS solution that finally helped me get it right!
+
+Part I and Part II only differ in the input you pass your processing function: ``1`` for the first, ``2`` for the second. Other than that, you should execute the exact same code.
+
+Compared to the previous Intcode interpreter, we need to add a new mode, called the "relative" mode, that allows for address references with a relative base (that can be modified) and the ``offset_relative_base`` to update this aforementioned relative base. I've also added a debug mode to show the instructions execution process step by step and I've cleaned up the code to better use the ``ProgramInstance``'s own variables.
+
+*Note: the code could probably be further optimized... it takes about 7 seconds to solve Part II. Even though this is not that bad, it would be nice to have a faster execution (I've found a JS code that gives me the answer instantaneously: fancy!).*
