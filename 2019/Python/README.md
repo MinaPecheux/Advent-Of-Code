@@ -38,7 +38,7 @@ On the other hand, immutable classes like the basic types (``bool``, ``int``, ``
 
 For example, in the ``process_inputs()`` function, I directly touch the ``inputs`` list that is passed as a parameter as I execute the Intcode program.
 
-Hence the need to "restore" the inputs before running the code for Part II!
+Hence the need to "copy" the inputs before running them through any processing code!
 
 > For more info on immutability in Python, you can check out [Python's reference](https://docs.python.org/3/reference/datamodel.html?highlight=immutability) on the data model (Dec. 2019).
 

@@ -75,7 +75,7 @@ def find_pair(inputs, wanted_output):
     
     :param inputs: List of integers to execute as an Intcode program.
     :type inputs: list(int)
-    :param wanted_output: Desired outut of the program.
+    :param wanted_output: Desired output of the program.
     :type wanted_output: int
     '''
     for noun in range(0, 100): # range is [0, 100[ = [0, 99]
@@ -99,9 +99,6 @@ def make_tests():
     assert process_inputs([ 2,3,0,3,99 ]) == 2
     assert process_inputs([ 2,4,4,5,99,0 ]) == 2
     assert process_inputs([ 1,1,1,4,99,5,6,0,99 ]) == 30
-
-    ### PART II
-    # .
 
 if __name__ == '__main__':
     # check function results on example cases
