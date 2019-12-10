@@ -61,3 +61,20 @@ For example, in the ``processInputs()`` function, I directly touch the ``inputs`
 Hence the need to "copy" the inputs before running them through any processing code!
 
 > For more info on immutability in Javascript, you can check out [Mozilla's reference](https://developer.mozilla.org/en-US/docs/Glossary/Mutable) on the word "Mutable" (Aug. 2019).
+
+## Day 3: Crossed Wires
+
+#### Answers
+**Part I: 209 • Part II: 43258**
+
+The challenge with this problem was to handle the large lists as quickly as possible. To do so, I used arrays and objects and tried to make the best out both worlds (depending on [the time complexity of various operations for each data type](https://wiki.python.org/moin/TimeComplexity)):
+
+- arrays are ordered, meaning that you can access elements by index, and using the ``lodash`` module I have ``min`` or ``max`` operations; this lets me to easily refer to the "first" (at index 0) and the "second" (at index 1) wire, to take the smallest distance...
+
+- dictionaries are hashable containers that work with key-value pairs; they are great for quick element access (it is in `O(1)`, i.e. in constant time)
+
+By using the right data type at the right time, you can increase the computation time tremendously.
+
+*Note: because I have the ``lodash`` package, some operations become really easy to do with objects. With pure Javascript, it is sometimes easier to use collection type such as the ``Map`` or the ``Set``... (see the [Mozilla doc](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects) on variable types).*
+
+I also use [template literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) (aka template strings) to automatically build the keys of my dictionary: the `` `myVar = ${myVar}` `` syntax is a way of integrating the value of ``myVar`` directly into a string. It is very useful for debugs but also to create keys like these ones, where we want to concatenate the horizontal and vertical coordinates of the point.
