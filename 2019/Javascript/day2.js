@@ -16,7 +16,7 @@ const expect = require('chai').expect
 // ---------------------------
 /**
  * Parses the incoming data into processable inputs.
- * @param {int} mass - The mass of the module to compute the fuel consumption for.
+ * @param {string} data - The data to parse.
  * @returns {array(int)} - The parsed data.
  */
 const parseInput = (data) => {

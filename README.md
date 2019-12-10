@@ -27,6 +27,16 @@ the 2019 and 2018 challenges. I will keep on filling the repository as I code up
 2015    n/a
 ```
 
+**Javascript (Node JS):**
+
+```
+2019    [ ■■                        ]  2 / 25
+2018    n/a
+2017    n/a
+2016    n/a
+2015    n/a
+```
+
 The repo is subdivided per year and further down by programming language. In each ``year > language`` subfolder, there is a README that contains all my notes, remarks, personal interrogations or tips & tricks for the provided solutions (there is one small paragraph per puzzle). Also, the ``year > data`` folder contains the input data that was given to me for each puzzle. It is generated on the spot for each user, so if you want to participate in this big adventure, you might not have the same... but it gives you an idea of the input format, and you can still see if you get the same result as me for those results - the correct answers (that have been veted by the website) are written in the README, in the section corresponding to the puzzle!
 
 *Note: the READMEs might be quite similar from one language to another, unless the notes specifically focus on a feature of the language; when I talk about some algorithm or general programming idea, the various READMEs might have some copy/paste in them - but this allows you to look only at the folder you're interested in and disregard the others without losing too much info.*
