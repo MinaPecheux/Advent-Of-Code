@@ -77,6 +77,7 @@ def find_closest_intersection_with_dist(paths):
     path_points = [ find_path_points(path) for path in paths ]
     # extract the intersections of all the paths
     intersections = set(path_points[0]).intersection(set(path_points[1]))
+    print(intersections)
     # find the one closest to the central port (compute its Manhattan distance)
     dists = [ manhattan_distance(pos[0], pos[1], 0, 0) for pos in intersections ]
     return min(dists)
@@ -114,6 +115,7 @@ def make_tests():
         ['R98','U47','R26','D63','R33','U87','L62','D20','R33','U53','R51'],
         ['U98','R91','D20','R16','D67','R40','U7','R15','U6','R7']
     ]) == 135
+    
     ### PART II
     assert find_closest_intersection_with_steps([
         ['R8','U5','L5','D3'],
