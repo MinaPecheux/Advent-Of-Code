@@ -166,8 +166,7 @@ def process_opcode(inputs, instruction_ptr, memory):
             return instruction_ptr + n_inputs + 1, False
     elif code == 7 or code == 8: # less than or equal
         a, b, c = inputs[instruction_ptr+1:instruction_ptr+n_inputs+1]
-        if op(get_value(inputs, a, op_modes[0]),
-            get_value(inputs, b, op_modes[1])):
+        if op(get_value(inputs, a, op_modes[0]), get_value(inputs, b, op_modes[1])):
             inputs[c] = 1
         else:
             inputs[c] = 0

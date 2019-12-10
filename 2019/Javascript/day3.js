@@ -16,8 +16,8 @@ const expect = require('chai').expect
 // ---------------------------
 /**
  * Parses the incoming data into processable inputs.
- * @param {string} data - The data to parse.
- * @returns {array(string)} - The parsed data.
+ * @param {string} data - Provided problem data.
+ * @returns {array(string)} - Parsed data.
  */
 const parseInput = (data) => {
   return _.map(_.filter(_.split(data, '\n'), (l) => l.length > 0), (line) => {
@@ -43,7 +43,7 @@ const manhattanDistance = (x1, y1, x2, y2) => {
  * Computes all the points a path goes through.
  * @param {array(string)} path - Path to walk, as a list of moves to take
  *                               (with a direction and an integer pace).
- * @returns {array(object(int))} - Points on the path.
+ * @returns {object(string, int)} - Points on the path.
  */
 const findPathPoints = (path) => {
   let cx = 0, cy = 0, d = 1, dir, pace

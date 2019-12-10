@@ -52,16 +52,19 @@ def make_tests():
     '''Performs tests on the provided examples to check the result of the
     computation functions is ok.'''
     ### PART I
-    _, n_orbits = count_orbits([ ('COM', 'B'), ('C', 'D'), ('B', 'C'),
-        ('D', 'E'), ('E', 'F'), ('B', 'G'), ('G', 'H'), ('D', 'I'),
-        ('E', 'J'), ('J', 'K'), ('K', 'L') ])
+    _, n_orbits = count_orbits([
+        ('COM', 'B'), ('C', 'D'), ('B', 'C'), ('D', 'E'), ('E', 'F'),
+        ('B', 'G'), ('G', 'H'), ('D', 'I'), ('E', 'J'), ('J', 'K'), ('K', 'L')
+    ])
     assert n_orbits == 42
         
     ### PART II
     graph = nx.Graph()
-    graph.add_edges_from([ ('COM', 'B'), ('C', 'D'), ('B', 'C'),
-        ('D', 'E'), ('E', 'F'), ('B', 'G'), ('G', 'H'), ('D', 'I'),
-        ('E', 'J'), ('J', 'K'), ('K', 'L'), ('K', 'YOU'), ('I', 'SAN') ])
+    graph.add_edges_from([
+        ('COM', 'B'), ('C', 'D'), ('B', 'C'), ('D', 'E'), ('E', 'F'),
+        ('B', 'G'), ('G', 'H'), ('D', 'I'), ('E', 'J'), ('J', 'K'),
+        ('K', 'L'), ('K', 'YOU'), ('I', 'SAN')
+    ])
     assert find_min_moves(graph) == 4
 
 if __name__ == '__main__':
@@ -77,7 +80,7 @@ if __name__ == '__main__':
     print('PART I: solution = {}'.format(solution))
     
     ### PART II
-    # (transform the graph in an undirected one to allow path search in any
+    # (transform the graph into an undirected one to allow path search in any
     # direction)
     undirected_graph = nx.Graph(directed_graph)
     solution = find_min_moves(undirected_graph)

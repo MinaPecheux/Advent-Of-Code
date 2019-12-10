@@ -41,7 +41,8 @@ class Debugger(object):
         return self.stream.getvalue()
         
     def last_output(self, separator='\n'):
-        contents = [ c for c in self.full_output().split(separator) if len(c) > 0 ]
+        output = self.full_output()
+        contents = [ c for c in output.split(separator) if len(c) > 0 ]
         return contents[-1]
 
 # [ Computation functions ]
@@ -70,8 +71,7 @@ def get_value(inputs, data, mode):
         value mode").
     :type mode: int
     '''
-    if mode == 0: return inputs[data]
-    else: return data
+    return inputs[data] if mode == 0 else data
 
 def process_opcode(inputs, instruction_ptr):
     '''Process an opcode by using the provided inputs and the current operation
@@ -93,7 +93,9 @@ def process_opcode(inputs, instruction_ptr):
     
     if code == 1 or code == 2: # add or multiply
         a, b, c = inputs[instruction_ptr+1:instruction_ptr+n_inputs+1]
-        inputs[c] = op(get_value(inputs, a, op_modes[0]), get_value(inputs, b, op_modes[1]))
+        inputs[c] = op(
+            get_value(inputs, a, op_modes[0]), get_value(inputs, b, op_modes[1])
+        )
         return instruction_ptr + n_inputs + 1
     elif code == 3: # read input
         a = inputs[instruction_ptr+1]
@@ -102,8 +104,10 @@ def process_opcode(inputs, instruction_ptr):
     elif code == 4: # print output
         a = inputs[instruction_ptr+1]
         v = get_value(inputs, a, op_modes[0])
-        if STREAM is None: print(v)
-        else: STREAM.write('{}\n'.format(v))
+        if STREAM is None:
+            print(v)
+        else:
+            STREAM.write('{}\n'.format(v))
         return instruction_ptr + n_inputs + 1
     elif code == 5: # jump-true
         a, b = inputs[instruction_ptr+1:instruction_ptr+n_inputs+1]

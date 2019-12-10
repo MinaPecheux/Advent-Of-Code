@@ -12,6 +12,8 @@ def parse_input(data):
     
     :param data: Provided problem data.
     :type data: str
+    :return: Parsed data.
+    :rtype: list(int)
     '''
     return [ int(x) for x in data.split('\n') if x != '' ]
 
@@ -23,6 +25,8 @@ def compute_fuel(mass):
     
     :param mass: The mass of the module to compute the fuel consumption for.
     :type mass: int
+    :return: Required amount of fuel.
+    :rtype: int
     '''
     return (mass // 3) - 2
 
@@ -34,6 +38,8 @@ def compute_total_fuel(mass):
     
     :param mass: The mass of the module to compute the fuel consumption for.
     :type mass: int
+    :return: Required amount of fuel.
+    :rtype: int
     '''
     f = (mass // 3) - 2
     if f <= 0:

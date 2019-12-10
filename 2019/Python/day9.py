@@ -187,11 +187,14 @@ class ProgramInstance(object):
         idx, mode = self.get_index()
         # if necessary, apply the index as an address in the program code.
         if idx is None: return None
-        if not keep_index: val = self.program_get_data(idx)
-        else: val = idx
+        if not keep_index:
+            val = self.program_get_data(idx)
+        else:
+            val = idx
         # (fill the debug string in case of debug mode)
-        self._debug_str += ' arg{}={} (idx={}, mode={}) ;'.format(self._input_id,
-            val, idx, mode)
+        self._debug_str += ' arg{}={} (idx={}, mode={}) ;'.format(
+            self._input_id, val, idx, mode
+        )
         return val
 
     def process_opcode(self):
@@ -216,10 +219,12 @@ class ProgramInstance(object):
         op_modes = [ m for m in self.modes ]
         # prepare the debug string in case the debug mode is active
         self._input_id = 0
-        self._debug_str = '[ {:3d} ]'.format(self.instruction_ptr) + \
-            ' - inst = {:05d} '.format(int(instruction)) + \
-            ':: op = {} ({}), '.format(opname, opcode) + \
-            'modes = {}\n'.format(op_modes)
+        self._debug_str = (
+            '[ {:3d} ]'.format(self.instruction_ptr)
+            + ' - inst = {:05d} '.format(int(instruction))
+            + ':: op = {} ({}), '.format(opname, opcode)
+            + 'modes = {}\n'.format(op_modes)
+        )
         # prepare the pause mode as False (could be modified by some operations)
         pause = False
         # execute the right operation depending on the opopcode
@@ -265,7 +270,8 @@ class ProgramInstance(object):
         
         # if needed, print the debug string
         self._debug_str += '\n'
-        if self.debug: print(self._debug_str)
+        if self.debug:
+            print(self._debug_str)
         
         return pause
 
@@ -296,13 +302,13 @@ def make_tests():
     # test new instructions
     ref = '109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99'
     program = ProgramInstance([
-        109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99 ])
+        109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99
+    ])
     program.run()
     assert ','.join([ str(x) for x in program.output ]) == ref
     
     # Part I + II
-    assert len(str(process_inputs([
-        1102,34915192,34915192,7,4,7,99,0 ]))) == 16
+    assert len(str(process_inputs([ 1102,34915192,34915192,7,4,7,99,0 ]))) == 16
     assert process_inputs([ 104,1125899906842624,99 ]) == 1125899906842624
 
 if __name__ == '__main__':

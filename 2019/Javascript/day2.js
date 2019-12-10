@@ -16,8 +16,8 @@ const expect = require('chai').expect
 // ---------------------------
 /**
  * Parses the incoming data into processable inputs.
- * @param {string} data - The data to parse.
- * @returns {array(int)} - The parsed data.
+ * @param {string} data - Provided problem data.
+ * @returns {array(int)} - Parsed data.
  */
 const parseInput = (data) => {
   return _.map(_.filter(_.split(data, ','), (l) => l.length > 0), Number)

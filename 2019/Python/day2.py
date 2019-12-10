@@ -12,6 +12,8 @@ def parse_input(data):
     
     :param data: Provided problem data.
     :type data: str
+    :return: Parsed data.
+    :rtype: list(int)
     '''
     return [ int(x) for x in data.split(',') if x != '' ]
 
@@ -31,6 +33,8 @@ def process_opcode(inputs, instruction_ptr):
     :type inputs: list(int)
     :param instruction_ptr: Current instruction pointer.
     :type instruction_ptr: int
+    :return: Updated instruction pointer.
+    :rtype: int
     '''
     code = inputs[instruction_ptr]
     if code == 99:
@@ -52,6 +56,8 @@ def process_inputs(inputs, restore_gravity_assist=False):
     :param restore_gravity_assist: Whether or not to restore the gravity assist
         by modifying the input program.
     :type restore_gravity_assist: bool
+    :return: Final output of the program.
+    :rtype: int
     '''
     # restore gravity assist?
     if restore_gravity_assist:
@@ -77,6 +83,8 @@ def find_pair(inputs, wanted_output):
     :type inputs: list(int)
     :param wanted_output: Desired output of the program.
     :type wanted_output: int
+    :return: Specific checksum that matches the desired output.
+    :rtype: int
     '''
     for noun in range(0, 100): # range is [0, 100[ = [0, 99]
         for verb in range(0, 100):

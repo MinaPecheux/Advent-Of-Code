@@ -78,3 +78,12 @@ By using the right data type at the right time, you can increase the computation
 *Note: because I have the ``lodash`` package, some operations become really easy to do with objects. With pure Javascript, it is sometimes easier to use collection type such as the ``Map`` or the ``Set``... (see the [Mozilla doc](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects) on variable types).*
 
 I also use [template literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) (aka template strings) to automatically build the keys of my dictionary: the `` `myVar = ${myVar}` `` syntax is a way of integrating the value of ``myVar`` directly into a string. It is very useful for debugs but also to create keys like these ones, where we want to concatenate the horizontal and vertical coordinates of the point.
+
+## Day 4: Secure Container
+
+#### Answers
+**Part I: 1019 • Part II: 660**
+
+There is not much to say with this solution, except that I use a ``lodash`` operation, ``countBy``. It is very quick at creating an object that associates each unique value in a list or a string to the number of times it appears (see the function ``numberIsOkP2()``).
+
+Also, I take advantage of Javascript's ability to quickly change from one type to another by treating my number and its digits either as integers or as characters depending on what I need.

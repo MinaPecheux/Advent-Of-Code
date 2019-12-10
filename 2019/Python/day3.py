@@ -12,13 +12,15 @@ def parse_input(data):
     
     :param data: Provided problem data.
     :type data: str
+    :return: Parsed data.
+    :rtype: list(str)
     '''
     return [ p.split(',') for p in data.split('\n') if p != '' ]
 
 # [ Computation functions ]
 # -------------------------
 def manhattan_distance(x1, y1, x2, y2):
-    '''Computes the Manhattan distance between two 2D points.
+    '''Computes the Manhattan (or Taxicab) distance between two 2D points.
     
     :param x1: Horizontal coordinate of the first point.
     :type x1: int
@@ -28,6 +30,8 @@ def manhattan_distance(x1, y1, x2, y2):
     :type x2: int
     :param y1: Vertical coordinate of the second point.
     :type y1: int
+    :return: Taxicab distance between the two 2D points.
+    :rtype: int
     '''
     return abs(x2 - x1) + abs(y2 - y1)
     
@@ -37,6 +41,8 @@ def find_path_points(path):
     :param path: Path to walk, as a list of moves to take (with a direction and
         an integer pace).
     :type path: list(str)
+    :return: Points on the path.
+    :type: dict(tuple(int, int), int)
     '''
     cx = 0; cy = 0; d = 1
     points = {}
@@ -72,6 +78,8 @@ def find_closest_intersection_with_dist(paths):
     
     :param paths: Paths to process.
     :type paths: list(list(str))
+    :return: Distance of the closest intersection to the central port.
+    :rtype: int
     '''
     # compute all activated points on the grid
     path_points = [ find_path_points(path) for path in paths ]
@@ -89,6 +97,8 @@ def find_closest_intersection_with_steps(paths):
     
     :param paths: Paths to process.
     :type paths: list(list(str))
+    :return: Distance of the closest intersection to the central port.
+    :rtype: int
     '''
     # compute all activated points on the grid
     path_points = [ find_path_points(path) for path in paths ]
