@@ -87,3 +87,25 @@ I also use [template literals](https://developer.mozilla.org/en-US/docs/Web/Java
 There is not much to say with this solution, except that I use a ``lodash`` operation, ``countBy``. It is very quick at creating an object that associates each unique value in a list or a string to the number of times it appears (see the function ``numberIsOkP2()``).
 
 Also, I take advantage of Javascript's ability to quickly change from one type to another by treating my number and its digits either as integers or as characters depending on what I need.
+
+## Day 5: Sunny with a Chance of Asteroids
+
+#### Answers
+**Part I: 15508323 • Part II: 9006327**
+
+This challenge builds on Day 2. The code therefore is an extension of my solution for Day 2.
+
+In this version, I have made 2 major modifications:
+
+1. I have reorganized the ``OPERATIONS`` dictionary to hold more information, namely the number of inputs for each operation (plus I've added the new operations defined in the problem)
+2. I have improved the ``processOpcode()`` function to treat the program with the new important features:
+  - instructions can have a variable number of parameters, which is why I have modified the ``OPERATIONS`` dictionary to automatically extract it
+  - instructions have an execution mode (either in "address" or "immediate value" mode)
+  
+  Here, I have basically automated the impact of the number of inputs on the instruction pointer, I've coded up the new operations and I've dealt with the mode.
+  
+In my ``processOpcode()`` function, for the input instruction (with code ``3``), I use a global ``INPUT`` variable that is consumed by the program during the execution whenever it calls this operation. For the output instruction (with code ``4``), I use of a global ``OUTPUTS`` array where I can store the digits that the program outputs gradually.
+
+Then, at the very end of the execution of my program, I can simply query the last element of this array, which allows for simply assertions and tests.
+
+*Note: something quite important is that because we now have the mode to deal with, we should keep the program inputs as string so that we can extract all the relevant information from it. Consequently, we need to be careful whenever we set a value in our program to convert it back to a string... (see the ``processOpcode()`` method).*

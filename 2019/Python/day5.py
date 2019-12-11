@@ -70,6 +70,8 @@ def get_value(inputs, data, mode):
     :param mode: Execution mode (either 0, "address mode"; or 1, "immediate
         value mode").
     :type mode: int
+    :return: Data value.
+    :rtype: int
     '''
     return inputs[data] if mode == 0 else data
 

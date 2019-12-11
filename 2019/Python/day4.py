@@ -57,6 +57,8 @@ def number_is_ok_p2(number):
         
     :param number: Number to check.
     :type number: int
+    :return: Number validity.
+    :rtype: bool
     '''
     n_str = str(number)
     if len(n_str) != 6:
