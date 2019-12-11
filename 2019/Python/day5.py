@@ -13,6 +13,8 @@ def parse_input(data):
     
     :param data: Provided problem data.
     :type data: str
+    :return: Parsed data.
+    :rtype: list(int)
     '''
     return [ int(x) for x in data.split(',') if x != '' ]
 
@@ -83,6 +85,8 @@ def process_opcode(inputs, instruction_ptr):
     :type inputs: list(int)
     :param instruction_ptr: Current instruction pointer.
     :type instruction_ptr: int
+    :return: Updated instruction pointer.
+    :rtype: int
     '''
     instruction = str(inputs[instruction_ptr])
     code = int(instruction[-2:])

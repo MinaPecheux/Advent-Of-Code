@@ -17,6 +17,8 @@ def decode_layers(inputs, width, height):
     :type width: int
     :param height: Height of each layer in the image.
     :type height: int
+    :return: Layers in the image.
+    :rtype: list(str)
     '''
     layer_size = width * height
     n_layers = len(inputs) // layer_size
@@ -33,6 +35,8 @@ def compute_checksum(inputs, width, height):
     :type width: int
     :param height: Height of each layer in the image.
     :type height: int
+    :return: Checksum to verify the image validity.
+    :rtype: int
     '''
     layers = decode_layers(inputs, width, height)
     best_n_zeros, best_value = None, None

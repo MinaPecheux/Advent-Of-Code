@@ -46,10 +46,23 @@ class ProgramInstance(object):
         '''
         self.id = ProgramInstance.INSTANCE_ID
         ProgramInstance.INSTANCE_ID += 1
-        self.program = [ instruction for instruction in program ]
+        self.program = { i: inst for i, inst in enumerate(program) }
+        self.memory = []
+        self.output = []
+        self.modes = []
+        self.instruction_ptr = 0
+        self.is_running = False
+
+        self._initial_program = { i: inst for i, inst in enumerate(program) }
+    
+    def reset(self):
+        '''Resets the program instance in case you want to re-run the same
+        program with a fresh start.'''
+        self.instruction_ptr = 0
+        self.output = []
         self.memory = []
         self.is_running = False
-        self.instruction_ptr = 0
+        self.program = { k: v for k, v in self._initial_program.items() }
     
     def memory_insert(self, data):
         '''Inserts a value in the instance's memory, in first position.
@@ -69,110 +82,176 @@ class ProgramInstance(object):
         if not self.is_running:
             self.memory_insert(phase)
             self.is_running = True
+
+    def program_get_data(self, index):
+        '''Gets a value in the instance's program at a given position (if the
+        position is out of range, returns 0).
         
-    def run(self, instances):
+        :param index: Position to get.
+        :type index: int
+        :return: Program data value.
+        :rtype: int
+        '''
+        return self.program.get(index, 0)
+        
+    def program_set_data(self, index, data):
+        '''Sets a value in the instance's program at a given position.
+        
+        :param index: Position to insert at.
+        :type index: int
+        :param data: Value to insert.
+        :type data: int
+        '''
+        self.program[index] = data
+                
+    def run(self):
+        '''Runs the instance by executing its Intcode program from start to
+        finish (until it halts).'''
+        # process while operation is not "halt"
+        while self.instruction_ptr is not None:
+            self.process_opcode()
+            # abort if we errored
+            if self.instruction_ptr == -1:
+                return None
+        
+    def run_multiple(self, instances):
         '''Runs the instance by executing its Intcode program either from
-        scratch or from where it last stopped.
+        scratch or from where it last stopped, as part of a pool of instances
+        that feed each other with output to input connection.
         
-        :param instances: List of all program instances in the circuit.
+        :param instances: List of all program instances in the pool.
         :type instances: list(ProgramInstance)
+        :return: Index of the next instance in the pool to run, if any.
+        :rtype: int
         '''
         # if we stopped just before halting, we simply terminate the program
-        # and go to the next amplifier
-        if self.instruction_ptr is None:
-            next_amp = (self.id + 1) % len(instances)
-            output = self.memory[-1]
-            instances[next_amp].memory_insert(output)
-            return next_amp
+        # and go to the next instance
+        if len(self.output) > 0 and self.instruction_ptr is None:
+            next_instance = (self.id + 1) % len(instances)
+            output = self.output[-1]
+            instances[next_instance].memory_insert(output)
+            return next_instance
         # else we continue running the program from where we stopped
         while self.instruction_ptr is not None:
-            self.instruction_ptr, pause = process_opcode(self.program,
-                self.instruction_ptr, self.memory)
-            # if we reached the halt op for the last amplifier
-            if self.instruction_ptr is None and self.id == 4:
+            pause = self.process_opcode()
+            # if we reached the halt op for the last instance
+            if self.instruction_ptr is None and self.id == len(instances) - 1:
                 return -1
             # else if we need to temporary pause the execution of this
-            # amplifier
+            # instance
             if pause or self.instruction_ptr is None:
-                next_amp = (self.id + 1) % len(instances)
-                output = self.memory[-1]
-                instances[next_amp].memory_insert(output)
-                return next_amp
+                next_instance = (self.id + 1) % len(instances)
+                output = self.output[-1]
+                instances[next_instance].memory_insert(output)
+                return next_instance
             # else if we errored
             if self.instruction_ptr == -1:
                 return None
 
-def get_value(inputs, data, mode):
-    '''Gets the "address" or "immediate value" for a given set of inputs and
-    data.
-    
-    :param inputs: List of integers to execute as an Intcode program.
-    :type inputs: list(int)
-    :param data: Data to execute.
-    :type data: int
-    :param mode: Execution mode (either 0, "address mode"; or 1, "immediate
-        value mode").
-    :type mode: int
-    '''
-    if mode == 0: return inputs[data]
-    else: return data
-
-def process_opcode(inputs, instruction_ptr, memory):
-    '''Process an opcode by using the provided inputs and the current operation
-    index.
-    
-    :param inputs: List of integers to execute as an Intcode program.
-    :type inputs: list(int)
-    :param instruction_ptr: Current instruction pointer of the program instance.
-    :type instruction_ptr: int
-    :param memory: Current memory of the program instance.
-    :type memory: list(int)
-    '''
-    instruction = str(inputs[instruction_ptr])
-    code = int(instruction[-2:])
-    if code == 99:
-        return None, False
-
-    op, n_inputs = OPERATIONS[code]
-    modes = instruction[:-2]
-    op_modes = [ int(m) for m in modes[::-1] ] + [ 0 ] * (n_inputs - len(modes))
-
-    if code == 1 or code == 2: # add or multiply
-        a, b, c = inputs[instruction_ptr+1:instruction_ptr+n_inputs+1]
-        inputs[c] = op(
-            get_value(inputs, a, op_modes[0]),
-            get_value(inputs, b, op_modes[1]))
-        return instruction_ptr + n_inputs + 1, False
-    elif code == 3: # read input
-        a = inputs[instruction_ptr+1]
-        inputs[a] = memory.pop(0)
-        return instruction_ptr + n_inputs + 1, False
-    elif code == 4: # print output
-        a = inputs[instruction_ptr+1]
-        v = get_value(inputs, a, op_modes[0])
-        memory.append(v)
-        return instruction_ptr + n_inputs + 1, True
-    elif code == 5: # jump-true
-        a, b = inputs[instruction_ptr+1:instruction_ptr+n_inputs+1]
-        if get_value(inputs, a, op_modes[0]) != 0:
-            return get_value(inputs, b, op_modes[1]), False
+    def get_index(self):
+        '''Gets the index corresponding to the cell pointed by the current
+        instruction pointer plus the current input (in "address" or "immediate
+        value").
+        
+        :return: Index and mode of the next input.
+        :rtype: tuple(int, int)
+        '''
+        # check if there are no more inputs for this instruction; if so: abort
+        if len(self.modes) == 0:
+            return None, None
+        # extract the mode for this input
+        mode = self.modes.pop(0)
+        # process the index depending on the mode
+        if mode == 0:
+            val = self.program_get_data(self.instruction_ptr)
         else:
-            return instruction_ptr + n_inputs + 1, False
-    elif code == 6: # jump-false
-        a, b = inputs[instruction_ptr+1:instruction_ptr+n_inputs+1]
-        if get_value(inputs, a, op_modes[0]) == 0:
-            return get_value(inputs, b, op_modes[1]), False
+            val = self.instruction_ptr
+        # increase the current instruction pointer
+        self.instruction_ptr += 1
+        return val, mode
+
+    def get_value(self, keep_index=False):
+        '''Gets the "address" or "immediate value" for a given set of inputs and
+        data.
+        
+        :param keep_index: Whether or not the function should keep the index as
+            is, or interpret it as an address in the program.
+        :type keep_index: bool
+        :return: Program data value.
+        :rtype: int
+        '''
+        # get the index and mode
+        idx, mode = self.get_index()
+        if idx is None: return None
+        # if necessary, apply the index as an address in the program code
+        if not keep_index:
+            val = self.program_get_data(idx)
         else:
-            return instruction_ptr + n_inputs + 1, False
-    elif code == 7 or code == 8: # less than or equal
-        a, b, c = inputs[instruction_ptr+1:instruction_ptr+n_inputs+1]
-        if op(get_value(inputs, a, op_modes[0]), get_value(inputs, b, op_modes[1])):
-            inputs[c] = 1
+            val = idx
+        return val
+
+    def process_opcode(self):
+        '''Processes the next instruction in the program with the current memory
+        and instruction pointer.
+        
+        :return: Whether or not the program should pause (if pause is activated).
+        :rtype: bool
+        '''
+        # get the current instruction
+        instruction = str(self.program[self.instruction_ptr])
+        # extract the operation code (opcode) and check for halt or error
+        opcode = int(instruction[-2:])
+        if opcode == 99:
+            self.instruction_ptr = None
+            return False
+        if opcode not in OPERATIONS:
+            self.instruction_ptr = -1
+            return False
+        # get the information on this operation for further process
+        op, n_inputs = OPERATIONS[opcode]
+        m = instruction[:-2]
+        self.modes = [ int(m) for m in m[::-1] ] + [ 0 ] * (n_inputs - len(m))
+        # prepare the pause mode as False (could be modified by some operations)
+        pause = False
+        # execute the right operation depending on the opcode
+        self.instruction_ptr += 1
+        if opcode == 1 or opcode == 2: # add, multiply
+            va = self.get_value()
+            vb = self.get_value()
+            vc = self.get_value(True)
+            self.program_set_data(vc, op(va, vb))
+        elif opcode == 3: # read
+            if len(self.memory) == 0:
+                return False
+            va = self.get_value(True)
+            vm = self.memory.pop(0)
+            self.program_set_data(va, vm)
+        elif opcode == 4: # write
+            v = self.get_value()
+            self.output.append(v)
+            pause = True
+        elif opcode == 5: # jump if true
+            va = self.get_value()
+            vb = self.get_value()
+            if va != 0:
+                self.instruction_ptr = vb
+        elif opcode == 6: # jump if false
+            va = self.get_value()
+            vb = self.get_value()
+            if va == 0:
+                self.instruction_ptr = vb
+        elif opcode == 7 or opcode == 8: # set if less than, set if equal
+            va = self.get_value()
+            vb = self.get_value()
+            vc = self.get_value(True)
+            if op(va, vb):
+                self.program_set_data(vc, 1)
+            else:
+                self.program_set_data(vc, 0)
         else:
-            inputs[c] = 0
-        return instruction_ptr + n_inputs + 1, False
-    else:
-        return -1, False
+            pass
+        
+        return pause
 
 ### Part I
 def process_inputs(inputs):
@@ -182,25 +261,32 @@ def process_inputs(inputs):
     
     :param inputs: List of integers to execute as an Intcode program.
     :type inputs: list(int)
+    :return: Maximum input to the thrusters.
+    :rtype: int
     '''
     # prepare all possible permutations for phase settings:
     # we have X possibilities for the first one, X-1 for the second one,
     # X-2 for the third one... (no replacement)
     n_amplifiers = 5
-    candidate_phase_settings = itertools.permutations(range(5), n_amplifiers)
-    
+    candidate_phase_settings = itertools.permutations(range(n_amplifiers),
+        n_amplifiers)
     thrusts = []
+    
+    ProgramInstance.INSTANCE_ID = 0 # reset global instances IDs
+    amplifiers = [ ProgramInstance(inputs) for _ in range(n_amplifiers) ]    
     for phase_settings in candidate_phase_settings:
-        ProgramInstance.INSTANCE_ID = 0 # reset global instances IDs
-        amplifiers = [ ProgramInstance(inputs) for _ in range(n_amplifiers) ]
+        # reset all amplifiers
+        for amp in amplifiers:
+            amp.reset()
+        # prepare input for first amplifier
         amplifiers[0].memory_insert(0)
         for current_amplifier in range(n_amplifiers):
             phase = phase_settings[current_amplifier]
             amplifiers[current_amplifier].check_running(phase)
             # execute program
-            amplifiers[current_amplifier].run(amplifiers)
-        # remember the power sent to the thrusters
-        output = amplifiers[current_amplifier].memory[-1]
+            amplifiers[current_amplifier].run_multiple(amplifiers)
+        # remember the power sent to the thrusters with these settings
+        output = amplifiers[current_amplifier].output[-1]
         thrusts.append(output)
     return max(thrusts)
 
@@ -212,17 +298,23 @@ def process_inputs_feedback(inputs):
     
     :param inputs: List of integers to execute as an Intcode program.
     :type inputs: list(int)
+    :return: Maximum input to the thrusters.
+    :rtype: int
     '''
     # prepare all possible permutations for phase settings:
     # we have X possibilities for the first one, X-1 for the second one,
     # X-2 for the third one... (no replacement)
     n_amplifiers = 5
     candidate_phase_settings = itertools.permutations(range(5, 10), n_amplifiers)
-    
     thrusts = []
+    
+    ProgramInstance.INSTANCE_ID = 0 # reset global instances IDs
+    amplifiers = [ ProgramInstance(inputs) for _ in range(n_amplifiers) ]    
     for phase_settings in candidate_phase_settings:
-        ProgramInstance.INSTANCE_ID = 0 # reset global instances IDs
-        amplifiers = [ ProgramInstance(inputs) for _ in range(n_amplifiers) ]
+        # reset all amplifiers
+        for amp in amplifiers:
+            amp.reset()
+        # prepare input for first amplifier
         amplifiers[0].memory_insert(0)
         current_amplifier = 0
         running = True
@@ -232,7 +324,7 @@ def process_inputs_feedback(inputs):
             amplifiers[current_amplifier].check_running(phase)
             # run amplifier (either from scratch or from where it last
             # stopped)
-            next_amp = amplifiers[current_amplifier].run(amplifiers)
+            next_amp = amplifiers[current_amplifier].run_multiple(amplifiers)
             # . if we errored somewhere
             if next_amp is None:
                 return None
@@ -242,8 +334,8 @@ def process_inputs_feedback(inputs):
             # . else reassign the current amplifier index for next iteration
             else:
                 current_amplifier = next_amp
-        # remember the power sent to the thrusters
-        output = amplifiers[current_amplifier].memory[-1]
+        # remember the power sent to the thrusters with these settings
+        output = amplifiers[current_amplifier].output[-1]
         thrusts.append(output)
     return max(thrusts)
 

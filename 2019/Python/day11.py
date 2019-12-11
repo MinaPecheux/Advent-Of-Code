@@ -12,6 +12,8 @@ def parse_input(data):
     
     :param data: Provided problem data.
     :type data: str
+    :return: Parsed data.
+    :rtype: list(int)
     '''
     return [ int(x) for x in data.split(',') if x != '' ]
 
@@ -100,6 +102,8 @@ class ProgramInstance(object):
         
         :param index: Position to get.
         :type index: int
+        :return: Program data value.
+        :rtype: int
         '''
         return self.program.get(index, 0)
         
@@ -147,6 +151,8 @@ class ProgramInstance(object):
         
         :param instances: List of all program instances in the pool.
         :type instances: list(ProgramInstance)
+        :return: Index of the next instance in the pool to run, if any.
+        :rtype: int
         '''
         # if we stopped just before halting, we simply terminate the program
         # and go to the next instance
@@ -175,7 +181,11 @@ class ProgramInstance(object):
     def get_index(self):
         '''Gets the index corresponding to the cell pointed by the current
         instruction pointer plus the current input (in "address", "immediate
-        value" or "relative" mode).'''
+        value" or "relative" mode).
+        
+        :return: Index and mode of the next input.
+        :rtype: tuple(int, int)
+        '''
         # check if there are no more inputs for this instruction; if so: abort
         if len(self.modes) == 0:
             return None, None
@@ -202,6 +212,8 @@ class ProgramInstance(object):
         :param keep_index: Whether or not the function should keep the index as
             is, or interpret it as an address in the program.
         :type keep_index: bool
+        :return: Program data value.
+        :rtype: int
         '''
         # get the index and mode
         idx, mode = self.get_index()
@@ -219,7 +231,11 @@ class ProgramInstance(object):
 
     def process_opcode(self):
         '''Processes the next instruction in the program with the current memory
-        and instruction pointer.'''
+        and instruction pointer.
+        
+        :return: Whether or not the program should pause (if pause is activated).
+        :rtype: bool
+        '''
         # get the current instruction
         instruction = str(self.program[self.instruction_ptr])
         # extract the operation code (opcode) and check for halt or error
@@ -297,8 +313,9 @@ class ProgramInstance(object):
 
 ### Part I + II
 def process_inputs(inputs, start_white=False, display=False, debug=False):
-    '''Executes the Intcode program on the provided inputs and computes the final
-    result.
+    '''Executes the Intcode program on the provided inputs and finds out the
+    number of panels that have been painted at least once. It can also display
+    the message that has been painted if necessary.
     
     :param inputs: List of integers to execute as an Intcode program.
     :type inputs: list(int)
@@ -311,6 +328,8 @@ def process_inputs(inputs, start_white=False, display=False, debug=False):
     :param debug: Whether or not the ProgramInstance should debug its
         execution at each instruction processing.
     :type debug: bool
+    :return: Number of panels painted at least once.
+    :rtype: int
     '''
     # prepare the board and the set of painted panels:
     # - the board only remembers the panels painted white

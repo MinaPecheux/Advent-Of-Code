@@ -70,6 +70,8 @@ def parse_input(data):
     
     :param data: Provided problem data.
     :type data: str
+    :return: Parsed data.
+    :rtype: Map
     '''
     return Map(data.strip())
 
@@ -82,6 +84,8 @@ def dist(ast1, ast2):
     :type ast1: tuple(int, int)
     :param ast2: Coordinates of the second point.
     :type ast2: tuple(int, int)
+    :return: Euclidean distance between the two 2D points.
+    :rtype: float
     '''
     x1, y1 = ast1
     x2, y2 = ast2
@@ -95,6 +99,8 @@ def angle(ast1, ast2):
     :type ast1: tuple(int, int)
     :param ast2: Coordinates of the second point.
     :type ast2: tuple(int, int)
+    :return: Angle between the two 2D points.
+    :rtype: float
     '''
     x1, y1 = ast1
     x2, y2 = ast2
@@ -107,6 +113,9 @@ def find_best_asteroid(map):
     
     :param map: Map of the asteroids in the neighborhood.
     :type map: Map
+    :return: Coordinates and number of asteroids visible from the "best"
+        asteroid.
+    :rtype: tuple(tuple(int, int), int)
     '''
     # compute each asteroid sight (and overwrite the ones that are in the same
     # angle)
@@ -125,6 +134,8 @@ def process_laser_vaporization(map, station):
     :type map: Map
     :param station: Coordinates of the monitoring station.
     :type station: tuple(int, int)
+    :return: Checksum of the laser vaporization process.
+    :rtype: int
     '''
     # compute each asteroid sight (keep track of asteroids angle, distance and
     # position)

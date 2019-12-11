@@ -12,6 +12,8 @@ def parse_input(data):
     
     :param data: Provided problem data.
     :type data: str
+    :return: Parsed data.
+    :rtype: list(int)
     '''
     return [ int(x) for x in data.split(',') if x != '' ]
 
@@ -60,6 +62,8 @@ class ProgramInstance(object):
         self.debug = debug
         self._input_id = 0
         self._debug_str = ''
+
+        self._initial_program = { i: inst for i, inst in enumerate(program) }
     
     def reset(self):
         '''Resets the program instance in case you want to re-run the same
@@ -68,6 +72,7 @@ class ProgramInstance(object):
         self.output = []
         self.memory = []
         self.is_running = False
+        self.program = { k: v for k, v in self._initial_program.items() }
         self._input_id = 0
         self._debug_str = ''
         
@@ -96,6 +101,8 @@ class ProgramInstance(object):
         
         :param index: Position to get.
         :type index: int
+        :return: Program data value.
+        :rtype: int
         '''
         return self.program.get(index, 0)
         
@@ -127,6 +134,8 @@ class ProgramInstance(object):
         
         :param instances: List of all program instances in the pool.
         :type instances: list(ProgramInstance)
+        :return: Index of the next instance in the pool to run, if any.
+        :rtype: int
         '''
         # if we stopped just before halting, we simply terminate the program
         # and go to the next instance
@@ -155,7 +164,11 @@ class ProgramInstance(object):
     def get_index(self):
         '''Gets the index corresponding to the cell pointed by the current
         instruction pointer plus the current input (in "address", "immediate
-        value" or "relative" mode).'''
+        value" or "relative" mode).
+        
+        :return: Index and mode of the next input.
+        :rtype: tuple(int, int)
+        '''
         # check if there are no more inputs for this instruction; if so: abort
         if len(self.modes) == 0:
             return None, None
@@ -182,6 +195,8 @@ class ProgramInstance(object):
         :param keep_index: Whether or not the function should keep the index as
             is, or interpret it as an address in the program.
         :type keep_index: bool
+        :return: Program data value.
+        :rtype: int
         '''
         # get the index and mode
         idx, mode = self.get_index()
@@ -199,7 +214,11 @@ class ProgramInstance(object):
 
     def process_opcode(self):
         '''Processes the next instruction in the program with the current memory
-        and instruction pointer.'''
+        and instruction pointer.
+        
+        :return: Whether or not the program should pause (if pause is activated).
+        :rtype: bool
+        '''
         # get the current instruction
         instruction = str(self.program[self.instruction_ptr])
         # extract the operation code (opcode) and check for halt or error
@@ -227,7 +246,7 @@ class ProgramInstance(object):
         )
         # prepare the pause mode as False (could be modified by some operations)
         pause = False
-        # execute the right operation depending on the opopcode
+        # execute the right operation depending on the opcode
         self.instruction_ptr += 1
         if opcode == 1 or opcode == 2: # add, multiply
             va = self.get_value()
@@ -236,13 +255,12 @@ class ProgramInstance(object):
             self.program_set_data(vc, op(va, vb))
         elif opcode == 3: # read
             if len(self.memory) == 0:
-                return None, False
+                return False
             va = self.get_value(True)
             vm = self.memory.pop(0)
             self.program_set_data(va, vm)
         elif opcode == 4: # write
             v = self.get_value()
-            # self.memory.append(v)
             self.output.append(v)
             pause = True
         elif opcode == 5: # jump if true
@@ -287,6 +305,8 @@ def process_inputs(inputs, input=None, debug=False):
     :param debug: Whether or not the ProgramInstance should debug its
         execution at each instruction processing.
     :type debug: bool
+    :return: Last output of the program.
+    :rtype: int
     '''
     program = ProgramInstance(inputs, debug=debug)
     if input is not None:

@@ -13,6 +13,8 @@ def parse_input(data):
     
     :param data: Provided problem data.
     :type data: str
+    :return: Parsed data.
+    :rtype: list(str)
     '''
     return [ line.split(')') for line in data.split('\n') if line != '' ]
 
@@ -26,6 +28,8 @@ def count_orbits(orbits):
     :param orbits: List of orbit pairs in the form (object at the center of the
         orbit, revolving object).
     :type orbits: list(tuple(str))
+    :return: Orbits count.
+    :rtype: int
     '''
     G = nx.DiGraph()
     G.add_edges_from(orbits)
@@ -41,6 +45,8 @@ def find_min_moves(graph):
     
     :param graph: Already computed graph to compute the orbital moves on.
     :type graph: nx.Graph
+    :return: Minimal number of moves to get to Santa.
+    :rtype: int
     '''
     # remove 2 because we exclude the final nodes (that are include by NetworkX)
     # and the move from our current position to the object we are revoving around
