@@ -268,8 +268,7 @@ def process_inputs(inputs):
     # we have X possibilities for the first one, X-1 for the second one,
     # X-2 for the third one... (no replacement)
     n_amplifiers = 5
-    candidate_phase_settings = itertools.permutations(range(n_amplifiers),
-        n_amplifiers)
+    candidate_phase_settings = itertools.permutations(range(5), n_amplifiers)
     thrusts = []
     
     ProgramInstance.INSTANCE_ID = 0 # reset global instances IDs
