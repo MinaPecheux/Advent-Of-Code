@@ -142,7 +142,7 @@ In Part II, the only tricky thing is the order of the layers: you're told that t
 #### Answers
 **Part I: 2752191671 • Part II: 87571**
 
-To be honest, while I spent *hours* trying to debug some index shifting errors, the problem is not that hard *per se*: once again, I'm asked to improve the Intcode program I worked on during Days 2 and 5. I've refactored the code in some places but the overall structure is very similar.
+To be honest, while I spent *hours* trying to debug some index shifting errors, the problem is not that hard *per se*: once again, I'm asked to improve the Intcode program I worked on during Days 2, 5 and 7. I've refactored the code in some places but the overall structure is very similar.
 
 My big issue was to properly understand what remain indices and what turn into data with the new mode... many thanks to [youaremean_YAM](https://www.reddit.com/user/youaremean_YAM/) for his/her JS solution that finally helped me get it right!
 
@@ -162,3 +162,25 @@ Compared to the previous Intcode interpreter, we need to add a new mode, called 
 Overall, the solution relies on tools I've already mentioned before: classes, ``dict``s, ``set``s, ``list``s... One thing to note, however, is that we use the fact that Python ``set``s are unordered collections of *unique* items: whenever you add an item to the set, if it is already there, then the collection won't actually be updated.
 
 This allows us to "overwrite" the asteroids that all have the same angle to the reference asteroid, in ``compute_asteroid_sights()``, and therefore to essentially "mask" the ones that are hidden.
+
+## Day 11: Space Police
+
+#### Answers
+**Part I: 2093 • Part II: BJRKLJUP**
+
+Once again, I needed to reuse the Intcode interpreter developed on Days 2, 5, 7 and 9. There are only really tiny changes in the ``ProgramInstance`` class this time, so that I can run my program and ask it to pause after a given number of outputs (see the ``run()`` method with its new parameter, ``pause_every``).
+
+Then, the ``process_inputs()`` function simply makes use of this class to give us the result both for Part I and Part II.
+
+The basic idea of this method is to:
+- create an instance of our ``ProgramInstance`` class to execute the given inputs as an Intcode program
+- have it run with a pause every 2 outputs
+- whenever it pauses, parse the last two outputted digits to get the new color of the panel, the new rotation of the robot and move it on the board
+
+There are some auxiliary variables to store what we need for the result: the current direction and coordinates of the robot, the set of panels that are currently painted white and therefore form a message (``board``) and finally the set of panels that have been painted at least once by the robot, even if they have been repainted black since the beginning (``painted``).
+
+In Part I, we want to know how many panels the robot will paint. So we simply need to get the length of the ``painted`` set.
+
+In Part II, we want to actually output the message. This time, I'm using the ``board`` set that only stores the panels that are currently painted white. At the end, I simply need to iterate through this set of positions to display the message.
+
+*Note: a small hint about the ``x`` and ``y`` coordinate changes depending on the direction - while you might think that going "up" means increasing the ``y`` coordinate, it is better to decrease it so that the message prints correctly at the end of Part II. Otherwise, you will get a message reversed on the horizontal axis and you will have to iterate your ``y`` range in reverse order...*
