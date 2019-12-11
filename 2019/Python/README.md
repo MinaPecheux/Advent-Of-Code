@@ -122,9 +122,11 @@ class ProgramInstance(object):
 
 This ``__init__()`` function will be called whenever you instantiate a new variable of type ``ProgramInstance``. The neat thing with object-oriented programming, as I said just before, is that you can gather in the same place various variables or methods that are logically linked together; here, our class can contain other methods that implement the behavior we want one of program instance to have: a basic state check, memory updates, instructions execution...
 
-My final ``ProgramInstance`` class provided me with an easy-to-use interface for my actual computation functions (``process_inputs()`` and ``process_inputs_feedback()``). In those functions, I just create instances of the ``ProgramInstance`` class and play around with them, but the class abstracts away all the actual execution or memory management stuff so that these computation functions aren't too long. (This means that the true meat of the code resides in the ``ProgramInstance`` class - however, it is not that hard to understand, so I won't dive into the details here.)
+My final ``ProgramInstance`` class provided me with an easy-to-use interface for my actual computation functions (``process_inputs()`` and ``process_inputs_feedback()``). In those functions, I just create instances of the ``ProgramInstance`` class and play around with them, but the class abstracts away all the actual execution or memory management stuff so that these computation functions aren't too long.
 
-One thing to note is that we have modified the ``process_opcode()`` method and the "input" instruction a bit to access our ``ProgramInstance`` memory rather than the global ``INPUT`` variable we had before. The ``process_opcode()`` now also returns a boolean representing whether or not the ``ProgramInstance`` we were executed should pause and wait for other processes to complete before resuming.
+This means that the true meat of the code resides in the ``ProgramInstance`` class.
+
+One thing to note is that for the "read" and "write" operations, we don't use global variables anymore but instead variables stored in the ``ProgramInstance``. The ``process_opcode()`` now returns a boolean representing whether or not the ``ProgramInstance`` we were executed should pause and wait for other processes to complete before resuming.
 
 Finally, I've used a class variable called ``INSTANCE_ID`` to assign auto-incrementing IDs to my instances. Rather than maintaining a counter outside of the class, I can just let it take care of it and automatically generate a new integer ID whenever I create a new instance of my class. However, I need to be careful to reset the counter whenever I want to reset my pool of instances from scratch (in our example, whenever I want to try a new permutation of phase settings).
 
@@ -142,7 +144,7 @@ In Part II, the only tricky thing is the order of the layers: you're told that t
 #### Answers
 **Part I: 2752191671 • Part II: 87571**
 
-To be honest, while I spent *hours* trying to debug some index shifting errors, the problem is not that hard *per se*: once again, I'm asked to improve the Intcode program I worked on during Days 2, 5 and 7. I've refactored the code in some places but the overall structure is very similar.
+To be honest, while I spent *hours* trying to debug some index shifting errors, the problem is not that hard *per se*: once again, I'm asked to improve the Intcode program I worked on during Days 2, 5 and 7.
 
 My big issue was to properly understand what remain indices and what turn into data with the new mode... many thanks to [youaremean_YAM](https://www.reddit.com/user/youaremean_YAM/) for his/her JS solution that finally helped me get it right!
 

@@ -407,27 +407,7 @@ def process_inputs(inputs, start_white=False, display=False, debug=False):
     # repainted black)
     return len(painted)
 
-# [ Base tests ]
-# --------------
-def make_tests():
-    '''Performs tests on the provided examples to check the result of the
-    computation functions is ok.'''
-    # test new instructions
-    ref = '109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99'
-    program = ProgramInstance([
-        109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99
-    ])
-    program.run()
-    assert ','.join([ str(x) for x in program.output ]) == ref
-    
-    # Part I + II
-    assert len(str(process_inputs([ 1102,34915192,34915192,7,4,7,99,0 ]))) == 16
-    assert process_inputs([ 104,1125899906842624,99 ]) == 1125899906842624
-
 if __name__ == '__main__':
-    # check function results on example cases
-    # make_tests()
-    
     # get input data
     data_path = '../data/day11.txt'
     inputs = parse_input(open(data_path, 'r').read())
@@ -438,5 +418,5 @@ if __name__ == '__main__':
     
     ### PART II
     solution = process_inputs(inputs, start_white=True, display=True)
-    print('PART II: solution (see the shell)')
+    print('PART II: solution (see above in the shell)')
     
