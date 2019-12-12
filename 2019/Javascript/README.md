@@ -140,3 +140,12 @@ This means that the true meat of the code resides in the ``ProgramInstance`` cla
 One thing to note is that for the "read" and "write" operations, we don't use global variables anymore but instead variables stored in the ``ProgramInstance``. The ``processOpcode()`` now returns a boolean representing whether or not the ``ProgramInstance`` we were executed should pause and wait for other processes to complete before resuming.
 
 Finally, I've used a global variable called ``INSTANCE_ID`` to assign auto-incrementing IDs to my instances. Rather than passing the ID each time, I can just let the ``ProgramInstance`` class take care of it and automatically generate a new integer ID whenever I create a new instance of my class. However, I need to be careful to reset the counter whenever I want to reset my pool of instances from scratch (in our example, whenever I want to try a new permutation of phase settings).
+
+## Day 8: Space Image Format
+
+#### Answers
+**Part I: 2064 • Part II: KAUZA**
+
+Day 8 is a nice easy peasy Sunday problem about image decoding. It is quite simple; you just need to be careful in how you represent a 2D image as a 1D string and compute your position transformations properly.
+
+In Part II, the only tricky thing is the order of the layers: you're told that the first one comes first, then the second one, and so on. They can overwrite each other (if the pixel is not transparent), so the easiest way to deal with this is to process them in the reverse order: take a "result image" that you initializing with blanks everywhere; then iterate through your layers from last to first and simply turn on or off pixels if you find the corresponding value.

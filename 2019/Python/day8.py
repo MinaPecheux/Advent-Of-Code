@@ -52,7 +52,7 @@ def compute_checksum(inputs, width, height):
 ### Part II
 def display_message(layers, width, height):
     '''Displays the message that was sent (and has previously been divided into
-    even layers.)
+    even layers).
     
     :param layers: Layers of the image.
     :type layers: list(str)
