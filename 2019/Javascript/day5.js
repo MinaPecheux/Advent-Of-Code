@@ -17,10 +17,10 @@ const expect = require('chai').expect
 /**
  * Parses the incoming data into processable inputs.
  * @param {string} data - Provided problem data.
- * @returns {array(string)} - Parsed data.
+ * @returns {array(int)} - Parsed data.
  */
 const parseInput = (data) => {
-  return _.filter(_.split(data, ','), (l) => l.length > 0)
+  return _.map(_.filter(_.split(data, ','), (l) => l.length > 0), Number)
 }
 
 // [ Computation functions ]
@@ -42,27 +42,25 @@ const OPERATIONS = {
 /**
  * Gets the "address" or "immediate value" for a given set of inputs and
    data.
- * @param {array(int)} inputs - List of integers to execute as an Intcode
- *                              program.
+ * @param {array(int)} inputs - List of integers to execute as an Intcode program.
  * @param {int} data - Data to execute.
  * @param {int} mode - Execution mode (either 0, "address mode"; or 1, "immediate
  *                     value mode").
  * @returns {int} - Data value.
  */
 const getValue = (inputs, data, mode) => {
-  return (mode === 0) ? parseInt(inputs[data]) : parseInt(data)
+  return (mode === 0) ? inputs[data] : data
 }
 
 /**
  * Processes an opcode by using the provided inputs and the current operation
    index.
- * @param {array(string)} inputs - List of strings to execute as an Intcode
- *                                 program (can be parsed as integers).
+ * @param {array(int)} inputs - List of integers to execute as an Intcode program.
  * @param {int} instructionPtr - Current instruction pointer.
  * @returns {int} - Updated instruction pointer.
  */
 const processOpcode = (inputs, instructionPtr) => {
-  const instruction = inputs[instructionPtr]
+  const instruction = inputs[instructionPtr].toString()
   const code = parseInt(instruction.substring(instruction.length - 2))
   
   if (!_.has(OPERATIONS, code)) {
@@ -85,11 +83,11 @@ const processOpcode = (inputs, instructionPtr) => {
       a = tmp[0]; b = tmp[1]; c = tmp[2]
       inputs[c] = op(
         getValue(inputs, a, opModes[0]), getValue(inputs, b, opModes[1])
-      ).toString()
+      )
       return instructionPtr + n + 1
     case 3: // read
       a = inputs[instructionPtr+1]
-      inputs[a] = op().toString()
+      inputs[a] = op()
       return instructionPtr + n + 1
     case 4: // print
       a = inputs[instructionPtr+1]
@@ -113,7 +111,7 @@ const processOpcode = (inputs, instructionPtr) => {
       a = tmp[0]; b = tmp[1]; c = tmp[2]
       inputs[c] = (op(
         getValue(inputs, a, opModes[0]), getValue(inputs, b, opModes[1])
-      )) ? '1' : '0'
+      )) ? 1 : 0
       return instructionPtr + n + 1
     default:
       return -1
@@ -124,8 +122,8 @@ const processOpcode = (inputs, instructionPtr) => {
 /**
  * Executes the Intcode program on the provided inputs and computes the final
    result.
- * @param {array(int)} inputs - List of integers to execute as an Intcode
- *                              program.
+ * @param {array(string)} inputs - List of strings to execute as an Intcode
+ *                                 program (can be parsed as integers).
  * @returns {int} - Final output of the program.
  */
 const processInputs = (inputs) => {

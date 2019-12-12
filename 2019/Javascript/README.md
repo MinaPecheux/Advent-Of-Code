@@ -109,3 +109,34 @@ In my ``processOpcode()`` function, for the input instruction (with code ``3``),
 Then, at the very end of the execution of my program, I can simply query the last element of this array, which allows for simply assertions and tests.
 
 *Note: something quite important is that because we now have the mode to deal with, we should keep the program inputs as string so that we can extract all the relevant information from it. Consequently, we need to be careful whenever we set a value in our program to convert it back to a string... (see the ``processOpcode()`` method).*
+
+## Day 6: (Passed)
+
+## Day 7: Amplification Circuit
+
+#### Answers
+**Part I: 116680 • Part II: 89603079**
+
+This problem continues building on the Intcode program that was first written on Day 2 and then improved on on Day 5. This time, we are going to need to run several instances of our Intcode program at the same time while making sure each has its own "environment". It is not truly parallel execution, though, since some instances will depend on the output from others and thus need to wait for them before they can proceed. Hence the need to separate data for each instance, so that they don't overwrite sensible information that the other might use later on.
+
+To better separate and manage the different program instances, I've decided to use one feature of Javascript: classes! *(Note: [JS classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) aren't "true" classes, there are actually syntactic sugar over JS's existing prototype-based inheritance.)* Those fall in the object-oriented programming philosophy and are, to me, a nice way of aggregating together bits of code that have a logical link. So, I've coded up a ``ProgramInstance`` class that represents an instance of our Intcode program with its own copy of the program to execute (that will be modified in-place as it runs), its own instruction pointer, its own memory and its own running state.
+
+To create a basic class, you should define a ``class`` that has at least an ``constructor()`` method:
+
+```javascript
+class ProgramInstance {
+    constructor() {
+      
+    }
+}
+```
+
+This ``constructor()`` function will be called whenever you instantiate a new variable of type ``ProgramInstance``. The neat thing with object-oriented programming, as I said just before, is that you can gather in the same place various variables or methods that are logically linked together; here, our class can contain other methods that implement the behavior we want one of program instance to have: a basic state check, memory updates, instructions execution...
+
+My final ``ProgramInstance`` class provided me with an easy-to-use interface for my actual computation functions (``processInputs()`` and ``processInputsFeedback()``). In those functions, I just create instances of the ``ProgramInstance`` class and play around with them, but the class abstracts away all the actual execution or memory management stuff so that these computation functions aren't too long.
+
+This means that the true meat of the code resides in the ``ProgramInstance`` class.
+
+One thing to note is that for the "read" and "write" operations, we don't use global variables anymore but instead variables stored in the ``ProgramInstance``. The ``processOpcode()`` now returns a boolean representing whether or not the ``ProgramInstance`` we were executed should pause and wait for other processes to complete before resuming.
+
+Finally, I've used a global variable called ``INSTANCE_ID`` to assign auto-incrementing IDs to my instances. Rather than passing the ID each time, I can just let the ``ProgramInstance`` class take care of it and automatically generate a new integer ID whenever I create a new instance of my class. However, I need to be careful to reset the counter whenever I want to reset my pool of instances from scratch (in our example, whenever I want to try a new permutation of phase settings).
