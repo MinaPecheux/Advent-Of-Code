@@ -164,3 +164,14 @@ Part I and Part II only differ in the input you pass your processing function: `
 Compared to the previous Intcode interpreter, we need to add a new mode, called the "relative" mode, that allows for address references with a relative base (that can be modified) and the ``offset_relative_base`` to update this aforementioned relative base. I've also added a debug mode to show the instructions execution process step by step and I've cleaned up the code to better use the ``ProgramInstance``'s own variables.
 
 *Note: I've also added a "debug" mode to the ``ProgramInstance`` class to allow for a step-by-step logging of the instructions execution.*
+
+## Day 10: Monitoring Station
+
+#### Answers
+**Part I: 280 • Part II: 706**
+
+*Disclaimer: my first solution for Part I was really ugly... I've drawn inspiration from [kcon1](https://www.reddit.com/user/kcon1/)'s answer on the reddit thread, [over here](https://www.reddit.com/r/adventofcode/comments/e8p9zz/2019_day_10_part_2_python_how_to_approach_part_2/) for Part I. Part II is loosely inspired by his/her suggestion.*
+
+Overall, the solution relies on tools I've already mentioned before: classes, ``object``s, ``Set``s, ``array``s... One thing to note, however, is that we use the fact that JS ``Set``s are unordered collections of *unique* items: whenever you add an item to the set, if it is already there, then the collection won't actually be updated.
+
+This allows us to "overwrite" the asteroids that all have the same angle to the reference asteroid, in ``computeAsteroidSights()``, and therefore to essentially "mask" the ones that are hidden.

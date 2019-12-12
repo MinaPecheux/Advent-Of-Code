@@ -50,8 +50,8 @@ class ProgramInstance {
   
   /**
    * @constructs ProgramInstance
-   * @param {array(string)} program - Original Intcode program to execute (will
-   *                                  be copied to avoid in-place modification).
+   * @param {array(int)} program - Original Intcode program to execute (will
+   *                               be copied to avoid in-place modification).
    */
   constructor(program) {
     this.id = INSTANCE_ID++
@@ -246,7 +246,7 @@ class ProgramInstance {
     switch (opcode) {
       case 99:
         this.instructionPtr = null
-        return false
+        break
       case 1: // add
       case 2: // multiply
         a = this.getValue(); b = this.getValue(); c = this.getValue(true)

@@ -40,6 +40,8 @@ class Map(object):
         :param store_coords: Whether or not to store the coordinates of the
             other asteroids.
         :type store_coords: bool
+        :return: Sights of each asteroid on the map.
+        :rtype: dict(tuple, float) or dict(tuple, tuple(float, float, tuple))
         '''
         sights = {}
         for ast1 in self.asteroids:
@@ -143,9 +145,7 @@ def process_laser_vaporization(map, station):
     # sort the sights per angle, then per distance
     sorted_sights = sorted(sorted(sights, key=lambda x: x[1]), key=lambda x: x[0])
     # roll the laser until 200 asteroids have been destroyed
-    i = 0
     last_angle = -1.0
-    target_coords = None
     for i in range(200):
         idx = 0
         a = sorted_sights[idx][0]
