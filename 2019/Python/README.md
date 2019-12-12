@@ -154,6 +154,8 @@ Compared to the previous Intcode interpreter, we need to add a new mode, called 
 
 *Note: the code could probably be further optimized... it takes about 7 seconds to solve Part II. Even though this is not that bad, it would be nice to have a faster execution (the JS code I talked about earlier gives me the answer instantaneously: fancy!).*
 
+*Note 2: I've also added a "debug" mode to the ``ProgramInstance`` class to allow for a step-by-step logging of the instructions execution.*
+
 ## Day 10: Monitoring Station
 
 #### Answers

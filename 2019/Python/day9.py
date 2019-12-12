@@ -69,6 +69,7 @@ class ProgramInstance(object):
         '''Resets the program instance in case you want to re-run the same
         program with a fresh start.'''
         self.instruction_ptr = 0
+        self.relative_base = 0
         self.output = []
         self.memory = []
         self.is_running = False
@@ -235,14 +236,13 @@ class ProgramInstance(object):
         opname, op, n_inputs = OPERATIONS[opcode]
         m = instruction[:-2]
         self.modes = [ int(m) for m in m[::-1] ] + [ 0 ] * (n_inputs - len(m))
-        op_modes = [ m for m in self.modes ]
         # prepare the debug string in case the debug mode is active
         self._input_id = 0
         self._debug_str = (
             '[ {:3d} ]'.format(self.instruction_ptr)
             + ' - inst = {:05d} '.format(int(instruction))
             + ':: op = {} ({}), '.format(opname, opcode)
-            + 'modes = {}\n'.format(op_modes)
+            + 'modes = {}\n'.format(self.modes)
         )
         # prepare the pause mode as False (could be modified by some operations)
         pause = False
@@ -323,7 +323,7 @@ def make_tests():
     ref = '109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99'
     program = ProgramInstance([
         109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99
-    ])
+    ], debug=True)
     program.run()
     assert ','.join([ str(x) for x in program.output ]) == ref
     
