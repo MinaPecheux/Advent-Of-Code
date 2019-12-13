@@ -201,3 +201,31 @@ Part II, on the other hand, is a bit harder. It is clearly not feasible by brute
 To do this, I've used ``dict``s and the built-in ``hash`` Python method that is a neat way of quickly generating an efficient [hash](https://en.wikipedia.org/wiki/Hash_function) from a string. This allows me to easily get the period of each axis. Then, I implemented some classic ``GCD()`` and ``LCM()`` functions to perform the final computation.
 
 *Note: for the input parsing part, I used a [regular expression](https://en.wikipedia.org/wiki/Regular_expression) (or Regex): the idea is to define a "pattern" to search for in a string, and then to see if the given string can be matched to this pattern. If so, we are even able to isolate the bit that match the different parts of our pattern and thus directly extract our values.*
+
+## Day 13: Care Package
+
+#### Answers
+**Part I: 268 • Part II: 13989**
+
+Day 13 reuses once again the Intcode interpreter that was developed previously. No need to change anything in the actual ``ProgramInstance`` class this time, it's just about providing the right inputs to the program to solve the problem!
+
+Part I is quite straight-forward: you simply need to run the program and stop every 3 outputs, then parse the 3 digits to get the ``x``, ``y`` and ``id`` value at this stage, and finally use those to update the ``board``.
+
+Part II is not that hard either, you simply need to:
+
+- modify the initial program to "play in free mode", i.e. replace the first digit in the Intcode program by a ``2``
+- move the horizontal paddle to catch the ball and not have the game stop immediately - this basically means you need to go right when the ball is on your right and left when it's on your left, which is done by putting the right digit in the ``ProgramInstance``'s memory
+- keep track of the number of remaining blocks
+- whenever you output a score, if there are no blocks remaining, the game ends and you can return this last score as the player's final score
+
+I've also added a feature in the ``compute_score()`` method to automatically export screenshots of the game while it is running. If you turn on the ``export`` option, then a folder ``export/`` will be created in your current working directory and the board will be saved as JPG images regularly.
+
+*Note: turning on the export mode will significantly slow down the computation, so you should only enable it if you want to create the images. It is disabled by default.*
+
+It is then really easy to create a basic MP4 movie from all of those JPG images using the common audio/video conversion tool [ffmpeg](https://ffmpeg.org/):
+
+```
+ffmpeg -framerate 200 -i export/%d.jpg movie.mp4
+```
+
+This will produce videos like [this one](/resources/2019_day13_visualization.mp4).
