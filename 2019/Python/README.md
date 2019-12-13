@@ -172,7 +172,7 @@ This allows us to "overwrite" the asteroids that all have the same angle to the 
 #### Answers
 **Part I: 2093 • Part II: BJRKLJUP**
 
-Once again, I needed to reuse the Intcode interpreter developed on Days 2, 5, 7 and 9. There are only really tiny changes in the ``ProgramInstance`` class this time, so that I can run my program and ask it to pause after a given number of outputs (see the ``run()`` method with its new parameter, ``pause_every``).
+Once again, I needed to reuse the Intcode interpreter developed on Days 2, 5, 7 and 9. There are only really tiny changes to the ``ProgramInstance`` class this time, so that I can run my program and ask it to pause after a given number of outputs (see the ``run()`` method with its new parameter, ``pause_every``).
 
 Then, the ``process_inputs()`` function simply makes use of this class to give us the result both for Part I and Part II.
 

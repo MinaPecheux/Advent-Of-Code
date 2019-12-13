@@ -385,7 +385,7 @@ def process_inputs(inputs, start_white=False, display=False, debug=False):
     # if necessary, display the final message, i.e. the board that
     # has been printed (and only contains the painted panels)
     if display:
-        # . separate horizontal from vertical coordiantes
+        # . separate horizontal from vertical coordinates
         x, y = zip(*board)
         # . find board boundaries
         min_x, max_x = min(x), max(x)
