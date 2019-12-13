@@ -390,7 +390,7 @@ def count_blocks(inputs, display=False, debug=False):
         screen when the game exits.
     :rtype: dict, int
     '''
-    # prepare the board and paddle/ball coordinates
+    # prepare the board
     board = {}
     # prepare the program instance to read the given inputs as an Intcode
     # program
@@ -431,6 +431,8 @@ def compute_score(board, inputs, export=False, debug=False):
     '''Executes the Intcode program on the provided inputs and finds out the
     score of the player when the last block has been destroyed.
     
+    :param board: Initial board.
+    :type board: dict
     :param inputs: List of integers to execute as an Intcode program.
     :type inputs: list(int)
     :param export: Whether or not to export the board as an image at each game
