@@ -35,6 +35,8 @@ def compute_total_energy(moon):
     
     :param moon: Current position and velocity of the moon.
     :type moon: tuple(int, int, int, int, int, int)
+    :return: Total energy of the moon.
+    :rtype: int
     '''
     x, y, z, vx, vy, vz = moon
     potential_energy = abs(x) + abs(y) + abs(z)
@@ -108,8 +110,7 @@ def LCM(x, y):
    :return: LCM of the two numbers.
    :rtype: int
    '''
-   lcm = (x * y) // GCD(x, y)
-   return lcm
+   return (x * y) // GCD(x, y)
 
 def find_first_repetition(moons):
     '''Simulates the moons' movement until they repeat a previous state.
