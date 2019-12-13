@@ -276,3 +276,12 @@ I'll point out some tools I've played around with, though:
 - for the cart intersection crossing algorithm, in order to have the cycling directions ("first to left, then straight, then right; then it cycles back"), I've used a modulo operation to easily "wrap around" the third state
 
 - for my test input data, I've used Python's docstrings (with triple quotes) to be able to include new lines into my strings (as if I were reading a multiline file)
+
+## Day 14: Chocolate Charts
+
+#### Answers
+**Part I: 6107101544 • Part II: 20291131**
+
+Overall, Day 14 is a basic re-implementation of the algorithms given in the problem. There isn't much to it - the only little trick in my solution is to use the modulo for the "looping around" of the current recipes indices.
+
+But I haven't managed to optimize Part II yet: it currently takes ~45 seconds to compute. I still don't have any idea of a clever process to reduce this execution time...

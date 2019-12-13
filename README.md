@@ -21,7 +21,7 @@ the 2019 and 2018 challenges. I will keep on filling the repository as I code up
 
 ```
 2019    [ ■■■■■■■■■■■■■             ] 13 / 25
-2018    [ ■■■■■■■■■■■■■             ] 13 / 25
+2018    [ ■■■■■■■■■■■■■■            ] 14 / 25
 2017    n/a
 2016    n/a
 2015    n/a
