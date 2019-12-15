@@ -229,3 +229,18 @@ ffmpeg -framerate 200 -i export/%d.jpg movie.mp4
 ```
 
 This will produce videos like [this one](/resources/2019_day13_visualization.mp4).
+
+## Day 14: Space Stoichiometry
+
+#### Answers
+**Part I: 469536 • Part II: 3343477**
+
+*Disclaimer: While I originally had a similar idea to the one presented here, I actually got completely stuck on this problem and could only solve some of the example cases with my initial algorithm! I eventually headed to the reddit thread and found for example [this answer](https://github.com/jcisio/adventofcode2019/blob/master/day14/d14.py) by [jcisio](https://www.reddit.com/user/jcisio/). My solution is simply a reimplementation of his/hers to fit my usual solution format.*
+
+The issue I had with my original solution was that I couldn't process the materials in the proper order; so I had trouble accounting for the required amount of ``ORE``.
+
+The trick to solve this problem is to use some sort of topological sort on the data to be able to consume the reagents "in the correct order". More specifically, here, we simply consider the "distance" each reagent has to the final raw material, ``ORE``.
+
+Then, we can do the sort of loop I had in my initial algorithm but always take the material that is the "farthest" from ``ORE``, and thus use the "more complex" reactions in our list.
+
+The only small improvement I've found upon ``jcisio``'s code is to use the ``defaultdict`` container (available in the ``itertools`` module) to have a dictionary of integers able to replace the missing values with a default automatically. This is a neat way of "adding" to a dictionary without having to explicitly handle the initial case when the key is not yet present in the dictionary: if this happens, then the ``defaultdict`` will simply assume a default value at this key and then process your action based on that (in the case of a ``defaultdict(int)``, the initial value is ``0.0``).
