@@ -353,8 +353,8 @@ class MazeSolver(object):
     def __init__(self, program, start_position=(0, 0), export=False, export_size=None):
         '''Initialization function of a new MazeSolver.
         
-        :param program: List of integers to execute as an Intcode program.
-        :type program: list(int)
+        :param program: Instance of Intcode program to run to move the robot.
+        :type program: ProgramInstance
         :param start_position: Initial position of the robot in the maze.
         :type start_position: tuple(int, int)
         :param export: Whether or not the solve algorithms should export their
