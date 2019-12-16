@@ -228,7 +228,7 @@ It is then really easy to create a basic MP4 movie from all of those JPG images 
 ffmpeg -framerate 200 -i export/%d.jpg movie.mp4
 ```
 
-This will produce videos like [this one](/resources/2019_day13_visualization.mp4).
+This will produce videos like [this one](/resources/day13_visualization.mp4).
 
 ## Day 14: Space Stoichiometry
 
@@ -244,3 +244,30 @@ The trick to solve this problem is to use some sort of topological sort on the d
 Then, we can do the sort of loop I had in my initial algorithm but always take the material that is the "farthest" from ``ORE``, and thus use the "more complex" reactions in our list.
 
 The only small improvement I've found upon ``jcisio``'s code is to use the ``defaultdict`` container (available in the ``itertools`` module) to have a dictionary of integers able to replace the missing values with a default automatically. This is a neat way of "adding" to a dictionary without having to explicitly handle the initial case when the key is not yet present in the dictionary: if this happens, then the ``defaultdict`` will simply assume a default value at this key and then process your action based on that (in the case of a ``defaultdict(int)``, the initial value is ``0.0``).
+
+## Day 15: Oxygen System
+
+#### Answers
+**Part I: 240 • Part II: 322**
+
+Day 15 is about maze exploration and traversal, hence I needed to reimplement some common graph-related algorithms. Namely, I've worked on flow algorithms, pathfinding algorithms and general recursive search (with a BFS-approach, here).
+
+Since we don't know what the room looks like, we first need to explore it to map out the tiles types at each coordinate ("wall", "empty" or "oxygen system"). To do this, we can proceed recursively by moving the robot through the entire board and storing its feedback for each tile; this allows us to get a match between an (x, y) coordinate and a tile type.
+
+Then, we can use Dijkstra's algorithm to compute the shortest path between the initial position of the robot and the oxygen system.
+
+Part II asks us to determine how long it takes (how many iterations it requires) to fill the entire maze with oxygen, starting from the oxygen system and then propagating oxygen to the neighbor tiles at each iteration. This can be solved both with a DFS- or BFS-approach; I originally coded up a DFS-based algorithm and eventually changed it to a BFS-approach to be able to do a visualization.
+
+I've also played around with the ``NumPy`` and ``PIL`` packages to export the process frame by frame so that I could later assemble them into movies with ``ffmpeg``. If you turn the ``export`` option on, the solver will also store the state of the maze at various steps into various folders (``day15_explore/``, ``day15_path/`` and ``day15_fill/``). These images can then be turned into movies with ``ffmpeg`` like this:
+
+```
+ffmpeg -i day15_explore/%d.jpg day15_explore.mp4
+```
+
+If you want to control the speed of the movie, you can change the framerate (by default, it is of ``25``; a higher framerate means a faster video):
+
+```
+ffmpeg -framerate 60 -i day15_explore/%d.jpg day15_explore.mp4
+```
+
+This produces videos like the ones in the ``resources/`` subfolder available here: for the [explore](/resources/day15_explore.mp4), [path finding]((/resources/day15_path.mp4)) and [fill]((/resources/day15_fill.mp4)) steps.
