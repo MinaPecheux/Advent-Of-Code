@@ -271,3 +271,26 @@ ffmpeg -framerate 60 -i day15_explore/%d.jpg day15_explore.mp4
 ```
 
 This produces videos like the ones in the ``resources/`` subfolder available here: for the [explore](/resources/day15_explore.mp4), [path finding]((/resources/day15_path.mp4)) and [fill]((/resources/day15_fill.mp4)) steps.
+
+## Day 16: Flawed Frequency Transmission
+
+#### Answers
+**Part I: 50053207 • Part II: 32749588**
+
+For this problem, we are once again faced with an optimization issue. Indeed, Part I can be solved with a very naive approach that basically reimplements the given algorithm and applies it 100 times to the inputs to compute the next phase each time. However, Part II cannot work the same way because the inputs we need to deal with are too big for this approach to compute the solution in a reasonable time.
+
+The trick is actually quite specific to both the inputs and the applied pattern (though I had sort of felt the idea, I read it phrased more clearly in [this reddit thread](https://www.reddit.com/r/adventofcode/comments/ebf5cy/2019_day_16_part_2_understanding_how_to_come_up/)):
+
+- because of the offset that is applied to the pattern, the first numbers in it are zeroes which act as a "filter" that simply ignores the beginning of the inputs for the new phase computation
+
+- moreover, when you've passed those zeros, you then have a bunch of ones that basically sum the digits in the inputs on this portion
+
+- in particular, suppose we have an input of length ``L``; then for the ``N``th digit of the new phase, if ``N >= L / 2``, we only have to sum the digits of the inputs from the index ``N`` to the end
+
+- and it so happens that, in Part II, we are asked to skip a number of digits that is more than ``L / 2``!
+
+- therefore, we are in this specific case and we can use that to significantly reduce the computation time: at each step, when we compute the next phase, we only need to take care of the end of the inputs and to sum them starting from the right index
+
+To avoid summing lots of digits at once (``L / 2`` can still be a pretty huge number...), we can start from the last digit in the new phase that has to be a simple copy of the last digit in the previous phase, and then work back until we reach our "skip digits" head index. For every digit, we just sum the one we computed previously (and that represents the whole sum minus the current digit) and add it the current digit from the previous phase.
+
+*Note: because this solution is tuned specifically for these types of inputs, we can't truly check it on the given tests - for the examples that Eric provides, the number of digits to skip is below the ``L / 2`` threshold and thus our method won't work properly...*
