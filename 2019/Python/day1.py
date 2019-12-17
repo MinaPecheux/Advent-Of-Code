@@ -41,11 +41,10 @@ def compute_total_fuel(mass):
     :return: Required amount of fuel.
     :rtype: int
     '''
-    f = (mass // 3) - 2
+    f = compute_fuel(mass)
     if f <= 0:
         return 0
-    else:
-        return f + compute_total_fuel(f)
+    return f + compute_total_fuel(f)
     
 # [ Base tests ]
 # --------------
