@@ -12,6 +12,9 @@
 #include "utils.h"
 #include "parser.h"
 
+// [ Computation functions ]
+// -------------------------
+
 /**
  * \fn int computeFuel(int mass)
  * \brief Computes the required fuel for a module of given mass.
@@ -36,6 +39,9 @@ int computeTotalFuel(int mass) {
   int f = computeFuel(mass);
   return (f <= 0) ? 0 : f + computeTotalFuel(f);
 }
+
+// [ Base tests ]
+// --------------
 
 /**
  * \fn void makeTests()
