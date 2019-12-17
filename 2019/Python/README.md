@@ -270,7 +270,7 @@ If you want to control the speed of the movie, you can change the framerate (by 
 ffmpeg -framerate 60 -i day15_explore/%d.jpg day15_explore.mp4
 ```
 
-This produces videos like the ones in the ``resources/`` subfolder available here: for the [explore](/resources/day15_explore.mp4), [path finding]((/resources/day15_path.mp4)) and [fill]((/resources/day15_fill.mp4)) steps.
+This produces videos like the ones in the ``resources/`` subfolder available here: for the [explore](/resources/day15_explore.mp4), [path finding](/resources/day15_path.mp4) and [fill](/resources/day15_fill.mp4) steps.
 
 ## Day 16: Flawed Frequency Transmission
 
@@ -294,3 +294,35 @@ The trick is actually quite specific to both the inputs and the applied pattern 
 To avoid summing lots of digits at once (``L / 2`` can still be a pretty huge number...), we can start from the last digit in the new phase that has to be a simple copy of the last digit in the previous phase, and then work back until we reach our "skip digits" head index. For every digit, we just sum the one we computed previously (and that represents the whole sum minus the current digit) and add it the current digit from the previous phase.
 
 *Note: because this solution is tuned specifically for these types of inputs, we can't truly check it on the given tests - for the examples that Eric provides, the number of digits to skip is below the ``L / 2`` threshold and thus our method won't work properly...*
+
+## Day 17: Set and Forget
+
+#### Answers
+**Part I: 3292 • Part II: 651043**
+
+*Disclaimer: for now, my solution is a mix of automated and by-hand steps; in particular, I've determined the complete path automatically but the division in 3 subpatterns (the ``A``, ``B`` and ``C`` movements) was done just by looking at the result. I haven't found a way to do this without a human eye yet.*
+
+Day 17 uses the Intcode interpreter yet another time! Today, I was asked to play around with ASCII encoding/decoding a bit and to move a little robot on a map uses an Intcode program.
+
+Part I is pretty simple: you want to find the intersections on the map and to compute a basic checksum from them. So, you just need to:
+- convert the ASCII codes to characters (thanks to Python's built-in ``chr`` for example)
+- check where the characters correspond to a scaffold (i.e. the character is ``#``)
+- see where one scaffold is surrounded by 4 others: this is an intersection
+- then for each intersection of ``(x,y)`` coordinates, compute its checksum ``x * y``
+- and sum all the checksums
+
+Part II *could* have been a piece of cake but the fact that the robot has a limited memory forces you to use the ``A/B/C`` movements mechanism to compress the repeating patterns and have a complete path request that fits in storage.
+
+My technique is as follows:
+
+1. compute the full path that the robot needs to take to walk on each scaffold at least once
+
+2. look at the path myself (with a human eye) and find out the repeating patterns, making sure that they aren't too long and that there are only 3. I actually gave it shot and had a final pattern that "overflowed" and moved the robot a bit too much... but it seems to be alright and to still give me the right answer! :)
+
+3. encode the movements and the pattern of movements into ASCII (with Python's built-in ``ord``) and pass it to the robot, then wait for the program to complete its execution and get the last output as my final result
+
+I've also implemented an export option just like in previous puzzles - it will create a subfolder ``day17/`` containing images of the robot's complete set of movements on the map. These images can then be turned into a movie (like [this one](/resources/day17.mp4)) with ``ffmpeg``:
+
+```
+ffmpeg -framerate 30 -i day17/%d.jpg day17.mp4
+```
