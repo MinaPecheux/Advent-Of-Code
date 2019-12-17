@@ -228,7 +228,7 @@ It is then really easy to create a basic MP4 movie from all of those JPG images 
 ffmpeg -framerate 200 -i export/%d.jpg movie.mp4
 ```
 
-This will produce videos like [this one](/resources/day13_visualization.mp4).
+This will produce videos like [this one](resources/day13_visualization.mp4).
 
 ## Day 14: Space Stoichiometry
 
@@ -270,7 +270,7 @@ If you want to control the speed of the movie, you can change the framerate (by 
 ffmpeg -framerate 60 -i day15_explore/%d.jpg day15_explore.mp4
 ```
 
-This produces videos like the ones in the ``resources/`` subfolder available here: for the [explore](/resources/day15_explore.mp4), [path finding](/resources/day15_path.mp4) and [fill](/resources/day15_fill.mp4) steps.
+This produces videos like the ones in the ``resources/`` subfolder available here: for the [explore](resources/day15_explore.mp4), [path finding](resources/day15_path.mp4) and [fill](resources/day15_fill.mp4) steps.
 
 ## Day 16: Flawed Frequency Transmission
 
@@ -321,7 +321,7 @@ My technique is as follows:
 
 3. encode the movements and the pattern of movements into ASCII (with Python's built-in ``ord``) and pass it to the robot, then wait for the program to complete its execution and get the last output as my final result
 
-I've also implemented an export option just like in previous puzzles - it will create a subfolder ``day17/`` containing images of the robot's complete set of movements on the map. These images can then be turned into a movie (like [this one](/resources/day17.mp4)) with ``ffmpeg``:
+I've also implemented an export option just like in previous puzzles - it will create a subfolder ``day17/`` containing images of the robot's complete set of movements on the map. These images can then be turned into a movie (like [this one](resources/day17.mp4)) with ``ffmpeg``:
 
 ```
 ffmpeg -framerate 30 -i day17/%d.jpg day17.mp4
