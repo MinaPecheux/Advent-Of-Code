@@ -12,20 +12,46 @@
 #include "utils.h"
 #include "parser.h"
 
+/**
+ * \fn int computeFuel(int mass)
+ * \brief Computes the required fuel for a module of given mass.
+ *
+ * \param mass The mass of the module to compute the fuel consumption for.
+ * \return Required amount of fuel.
+ */
 int computeFuel(int mass) {
   return mass / 3 - 2;
 }
 
+/**
+ * \fn int computeTotalFuel(int mass)
+ * \brief Computes the total required fuel for a module of given mass and the
+ * added fuel, and so on. It works recursively until the computed amount of
+ * fuel is zero or negative.
+ *
+ * \param mass The mass of the module to compute the fuel consumption for.
+ * \return Required amount of fuel.
+ */
 int computeTotalFuel(int mass) {
   int f = computeFuel(mass);
-  if (f <= 0) {
-    return 0;
-  }
-  return f + computeTotalFuel(f);
+  return (f <= 0) ? 0 : f + computeTotalFuel(f);
 }
 
+/**
+ * \fn void makeTests()
+ * \brief Performs tests on the provided examples to check the result of the
+ * computation functions is ok.
+ */
 void makeTests() {
+  // Part I
   assert(computeFuel(12) == 2);
+  assert(computeFuel(14) == 2);
+  assert(computeFuel(1969) == 654);
+  assert(computeFuel(100756) == 33583);
+  // Part II
+  assert(computeTotalFuel(14) == 2);
+  assert(computeTotalFuel(1969) == 966);
+  assert(computeTotalFuel(100756) == 50346);
 }
 
 int main(int argc, char const *argv[]) {
