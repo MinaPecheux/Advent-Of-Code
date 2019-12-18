@@ -338,3 +338,16 @@ I've also implemented an export option just like in previous puzzles - it will c
 ```
 ffmpeg -framerate 30 -i day17/%d.jpg day17.mp4
 ```
+
+## Day 18: Many-Worlds Interpretation
+
+#### Answers
+**Part I: 4620 • Part II: 1564**
+
+*Disclaimer: the solution comes from [i_have_no_biscuits](https://www.reddit.com/user/i_have_no_biscuits/) (it's available [over here](https://repl.it/repls/DarkkhakiExcitableSnake)). I've merely organized it a bit, documented it and wrapped some useful functions into a ``Map`` class.*
+
+While my first solution did well with the very basic examples, it got stuck with the last examples because I hadn't found a way to clearly sort paths so that I could avoid going the long way around and lose moves getting a far away key.
+
+In truth, I think I was thinking more along the lines of a DFS whereas a BFS is better in this scenario. The technique used here is to first prepare a dictionary to match all interesting points on the map (i.e. entrances, doors and keys) to their distances to all the other interesting points and the optional points that are on the road between the two. This way, it is possible to easily sort according to distance and also check if all the obstacles on the way can be passed.
+
+*Note: the code could perhaps be optimized since Part I currently takes ~5 seconds to solve...*
