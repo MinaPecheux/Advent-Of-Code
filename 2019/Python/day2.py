@@ -4,6 +4,7 @@
 ### ---------------------------------------------
 ### Day 2: 1202 Program Alarm
 ### =============================================
+from intcode import IntcodeProgram
 
 # [ Input parsing functions ]
 # ---------------------------
@@ -19,34 +20,6 @@ def parse_input(data):
 
 # [ Computation functions ]
 # -------------------------
-OPERATIONS = {
-    1: lambda a, b: a + b,
-    2: lambda a, b: a * b
-}
-
-### PART I
-def process_opcode(inputs, instruction_ptr):
-    '''Process an opcode by using the provided inputs and the current operation
-    index.
-    
-    :param inputs: List of integers to execute as an Intcode program.
-    :type inputs: list(int)
-    :param instruction_ptr: Current instruction pointer.
-    :type instruction_ptr: int
-    :return: Updated instruction pointer.
-    :rtype: int
-    '''
-    code = inputs[instruction_ptr]
-    if code == 99:
-        return None
-    elif code == 1 or code == 2:
-        op = OPERATIONS[code]
-        a, b, c = inputs[instruction_ptr+1:instruction_ptr+4]
-        inputs[c] = op(inputs[a], inputs[b])
-        return instruction_ptr + 4
-    else:
-        return -1
-
 def process_inputs(inputs, restore_gravity_assist=False):
     '''Executes the Intcode program on the provided inputs and computes the final
     result.
@@ -63,14 +36,11 @@ def process_inputs(inputs, restore_gravity_assist=False):
     if restore_gravity_assist:
         inputs[1] = 12
         inputs[2] = 2
-    # execute program (modifies the inputs in-place)
-    instruction_ptr = 0
-    while instruction_ptr is not None:
-        instruction_ptr = process_opcode(inputs, instruction_ptr)
-        if instruction_ptr == -1:
-            return None
+    # create and execute program
+    program = IntcodeProgram(inputs)
+    program.run()
     # isolate final result
-    return inputs[0]
+    return program.program[0]
     
 ### PART II
 def find_pair(inputs, wanted_output):
@@ -86,14 +56,18 @@ def find_pair(inputs, wanted_output):
     :return: Specific checksum that matches the desired output.
     :rtype: int
     '''
+    # prepare program
+    program = IntcodeProgram(inputs)
     for noun in range(0, 100): # range is [0, 100[ = [0, 99]
         for verb in range(0, 100):
-            # copy original data to avoid overwrite
-            test_inputs = [ i for i in inputs ]
-            # restore gravity assist
-            test_inputs[1] = noun
-            test_inputs[2] = verb
-            if process_inputs(test_inputs) == wanted_output:
+            # reset program to initial state
+            program.reset()
+            # set up noun and verb
+            program.program[1] = noun
+            program.program[2] = verb
+            # run and compare result
+            program.run()
+            if program.program[0] == wanted_output:
                 return 100 * noun + verb
 
 # [ Base tests ]

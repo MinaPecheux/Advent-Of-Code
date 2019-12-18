@@ -18,6 +18,31 @@ In these files, I try to always organize the code in the same way:
 
 5. finally, the main part that solves the problem by running the computation functions on the actual inputs I was given (that depend on the user)
 
+## Intcode interpreter (``intcode.py``)
+
+This year, several puzzles make use of an Intcode interpreter that is built gradually all throughout Day 2, 5, 7 and 9 (at this point, you're supposed to have a complete interpreter able to execute any Intcode program that you're given).
+
+It is further on Days 11, 13, 15 and 17.
+
+In order to avoid repeating code, I've coded up my Intcode interpreter into a dedicated file called ``intcode.py``. To do that, I've used a key feature of Python that falls under the object-oriented programming paradigm: classes. It is a nice way of aggregating together bits of code that have a logical link.
+
+To create a basic class, you should inherit from the ``object`` built-in and then define a ``class`` that has at least an ``__init__()`` method:
+
+```python
+class IntcodeProgram(object):
+    
+    def __init__(self):
+        pass
+```
+
+This ``__init__()`` function will be called whenever you instantiate a new variable of type ``IntcodeProgram``. The neat thing with object-oriented programming, as I said just before, is that you can gather in the same place various variables or methods that are logically linked together; here, our class can contain other methods that implement the behavior we want one of program instance to have: a basic state check, memory updates, instructions execution...
+
+My final ``IntcodeProgram`` class provided me with an easy-to-use interface for my actual computation functions in the puzzle scripts. In those functions, I just create instances of the ``IntcodeProgram`` class and play around with them, but the class abstracts away all the actual execution or memory management stuff so that these computation functions aren't too long.
+
+This means that the true meat of the code resides in the ``IntcodeProgram`` class.
+
+I've used a class variable called ``INSTANCE_ID`` to assign auto-incrementing IDs to my instances. Rather than maintaining a counter outside of the class, I can just let it take care of it and automatically generate a new integer ID whenever I create a new instance of my class. However, I need to be careful to reset the counter whenever I want to reset my pool of instances from scratch (for example, in Day 7, whenever I want to try a new permutation of phase settings).
+
 ## Day 1: The Tyranny of the Rocket Equation
 
 #### Answers
@@ -32,13 +57,17 @@ You therefore call the function from within itself (here ``compute_total_fuel()`
 #### Answers
 **Part I: 3716293 • Part II: 6429**
 
-This problem is an opportunity to talk about **mutability** in Python: in this solution, I extensively use the fact that ``list``s are mutable in Python. This means that even if they are passed as parameters to functions, the variables still point to the same address in memory and can therefore be modified directly.
+> Day 2 relies on the Intcode interpreter that is implemented in the ``intcode.py`` file.
+
+This problem is an opportunity to talk about **mutability** in Python. We are making use of the Intcode interpreter for the first time and we need to pass it the code to execute (which is stored as a list of integers). In my ``IntcodeProgram`` class, this program is turned into a dictionary. This allows me to make a new "version" of the inputs that is independent from the initial list that I feed the instance so that it isn't touched by the code.
+
+Mutable variables are variables that, even if they are passed as parameters to functions, still point to the same address in memory and can therefore be modified directly.
 
 On the other hand, immutable classes like the basic types (``bool``, ``int``, ``float``, ``str``) and some particular containers (``set``, ``tuple``, ``frozenset``) cannot be modified after being created. If you want to change the value, you need to reassign the variable to a brand new value in memory.
 
-For example, in the ``process_inputs()`` function, I directly touch the ``inputs`` list that is passed as a parameter as I execute the Intcode program.
+For example, in the ``process_inputs()`` function, I pass the ``inputs`` list to my Intcode program so that it makes its own copy of it.
 
-Hence the need to "copy" the inputs before running them through any processing code!
+If I removed this transformation, I would need to "copy" the inputs before running them through any processing code!
 
 > For more info on immutability in Python, you can check out [Python's reference](https://docs.python.org/3/reference/datamodel.html?highlight=immutability) on the data model (Dec. 2019).
 
@@ -71,21 +100,17 @@ Also, I take advantage of Python's ability to quickly change from one type to an
 #### Answers
 **Part I: 15508323 • Part II: 9006327**
 
-This challenge builds on Day 2. The code therefore is an extension of my solution for Day 2.
+> Day 5 relies on the Intcode interpreter that is implemented in the ``intcode.py`` file.
 
-In this version, I have made 3 major modifications:
+In this puzzle, I did some modifications on the common ``IntcodeProgram`` class to keep on improving its features (namely: I reorganized the ``OPERATIONS`` dictionary to hold more information and I've worked on the ``process_opcode()`` method to automate pointers evolution)
 
-1. I have added a custom util ``Debugger`` class
-2. I have reorganized the ``OPERATIONS`` dictionary to hold more information, namely the number of inputs for each operation (plus I've added the new operations defined in the problem)
-3. I have improved the ``process_opcode()`` function to treat the program with the new important features:
-  - instructions can have a variable number of parameters, which is why I have modified the ``OPERATIONS`` dictionary to automatically extract it
-  - instructions have an execution mode (either in "address" or "immediate value" mode)
+I've also made a secondary version for the Day 5 puzzle to play around with the notion of Python's context classes.
+
+In this version, I don't directly use the common ``IntcodeProgram`` class but rather extract just the required features and use a a custom util ``Debugger`` class.
   
-  Here, I have basically automated the impact of the number of inputs on the instruction pointer, I've coded up the new operations and I've dealt with the mode.
-  
-The ``Debugger`` class is a utility I had fun making that just allows me to have my Intcode program output its results to a specific stream rather than the usual ``sys.stdout`` used by Python when you do a ``print()``. It is a context manager class that simply puts a piece of code into a special "state" where it has a access to a global stream variable to write to.
+The ``Debugger`` class is a utility I had fun making that just allows me to have my program output its results to a specific stream rather than the usual ``sys.stdout`` used by Python when you do a ``print()``. It is a context manager class that simply puts a piece of code into a special "state" where it has a access to a global stream variable to write to.
 
-In my ``process_opcode()`` function, for the output instruction (with code ``4``), I make use of this stream if possible.
+In my local ``process_opcode()`` function, for the output instruction (with code ``4``), I make use of this stream if possible.
 
 Then, at the very end of the execution of my program, I can simply query the ``last_output()`` of the stream stored in my current ``Debugger`` instance to get my result. This significantly simplifies the test functions and the assertions. (Otherwise, I would have had to read back the printed output, somehow, and split it back to get the last line...).
 
@@ -107,28 +132,9 @@ I won't do a full detailed presentation of the lib itself but rather I'll take t
 #### Answers
 **Part I: 116680 • Part II: 89603079**
 
-This problem continues building on the Intcode program that was first written on Day 2 and then improved on on Day 5. This time, we are going to need to run several instances of our Intcode program at the same time while making sure each has its own "environment". It is not truly parallel execution, though, since some instances will depend on the output from others and thus need to wait for them before they can proceed. Hence the need to separate data for each instance, so that they don't overwrite sensible information that the other might use later on.
+> Day 7 relies on the Intcode interpreter that is implemented in the ``intcode.py`` file.
 
-To better separate and manage the different program instances, I've decided to use one of the core features of Python: classes! Those fall in the object-oriented programming philosophy and are, to me, a nice way of aggregating together bits of code that have a logical link. So, I've coded up a ``ProgramInstance`` class that represents an instance of our Intcode program with its own copy of the program to execute (that will be modified in-place as it runs), its own instruction pointer, its own memory and its own running state.
-
-To create a basic class, you should inherit from the ``object`` built-in and then define a ``class`` that has at least an ``__init__()`` method:
-
-```python
-class ProgramInstance(object):
-    
-    def __init__(self):
-        pass
-```
-
-This ``__init__()`` function will be called whenever you instantiate a new variable of type ``ProgramInstance``. The neat thing with object-oriented programming, as I said just before, is that you can gather in the same place various variables or methods that are logically linked together; here, our class can contain other methods that implement the behavior we want one of program instance to have: a basic state check, memory updates, instructions execution...
-
-My final ``ProgramInstance`` class provided me with an easy-to-use interface for my actual computation functions (``process_inputs()`` and ``process_inputs_feedback()``). In those functions, I just create instances of the ``ProgramInstance`` class and play around with them, but the class abstracts away all the actual execution or memory management stuff so that these computation functions aren't too long.
-
-This means that the true meat of the code resides in the ``ProgramInstance`` class.
-
-One thing to note is that for the "read" and "write" operations, we don't use global variables anymore but instead variables stored in the ``ProgramInstance``. The ``process_opcode()`` now returns a boolean representing whether or not the ``ProgramInstance`` we were executed should pause and wait for other processes to complete before resuming.
-
-Finally, I've used a class variable called ``INSTANCE_ID`` to assign auto-incrementing IDs to my instances. Rather than maintaining a counter outside of the class, I can just let it take care of it and automatically generate a new integer ID whenever I create a new instance of my class. However, I need to be careful to reset the counter whenever I want to reset my pool of instances from scratch (in our example, whenever I want to try a new permutation of phase settings).
+For this problem, we need to run several instances of our Intcode program at the same time while making sure each has its own "environment". This lead me to implement the ``run_multiple()`` method in the shared ``IntcodeProgram`` class. It is not truly parallel execution, though, since some instances will depend on the output from others and thus need to wait for them before they can proceed. Hence the need to separate data for each instance, so that they don't overwrite sensible information that the other might use later on.
 
 ## Day 8: Space Image Format
 
@@ -144,17 +150,15 @@ In Part II, the only tricky thing is the order of the layers: you're told that t
 #### Answers
 **Part I: 2752191671 • Part II: 87571**
 
-To be honest, while I spent *hours* trying to debug some index shifting errors, the problem is not that hard *per se*: once again, I'm asked to improve the Intcode program I worked on during Days 2, 5 and 7.
+> Day 9 relies on the Intcode interpreter that is implemented in the ``intcode.py`` file.
+
+To be honest, while I spent *hours* trying to debug some index shifting errors, the problem is not that hard *per se*: once again, I'm asked to improve the Intcode program I worked on during Days 2, 5 and 7. Compared to the previous Intcode interpreter, we need to add a new mode, called the "relative" mode, that allows for address references with a relative base (that can be modified) and the ``offset_relative_base`` to update this aforementioned relative base.
 
 My big issue was to properly understand what remain indices and what turn into data with the new mode... many thanks to [youaremean_YAM](https://www.reddit.com/user/youaremean_YAM/) for his/her JS solution that finally helped me get it right!
 
 Part I and Part II only differ in the input you pass your processing function: ``1`` for the first, ``2`` for the second. Other than that, you should execute the exact same code.
 
-Compared to the previous Intcode interpreter, we need to add a new mode, called the "relative" mode, that allows for address references with a relative base (that can be modified) and the ``offset_relative_base`` to update this aforementioned relative base. I've also added a debug mode to show the instructions execution process step by step and I've cleaned up the code to better use the ``ProgramInstance``'s own variables.
-
 *Note: the code could probably be further optimized... it takes about 7 seconds to solve Part II. Even though this is not that bad, it would be nice to have a faster execution (the JS code I talked about earlier gives me the answer instantaneously: fancy!).*
-
-*Note 2: I've also added a "debug" mode to the ``ProgramInstance`` class to allow for a step-by-step logging of the instructions execution.*
 
 ## Day 10: Monitoring Station
 
@@ -172,12 +176,14 @@ This allows us to "overwrite" the asteroids that all have the same angle to the 
 #### Answers
 **Part I: 2093 • Part II: BJRKLJUP**
 
-Once again, I needed to reuse the Intcode interpreter developed on Days 2, 5, 7 and 9. There are only really tiny changes to the ``ProgramInstance`` class this time, so that I can run my program and ask it to pause after a given number of outputs (see the ``run()`` method with its new parameter, ``pause_every``).
+> Day 11 relies on the Intcode interpreter that is implemented in the ``intcode.py`` file.
 
-Then, the ``process_inputs()`` function simply makes use of this class to give us the result both for Part I and Part II.
+In this puzzle, we want to stop after we have outputted a certain number of digits with our program. Thus I added a ``pause_every`` optional parameter to my ``run()`` method in the shared ``IntcodeProgram`` class to be able to pause the execution after a given number of outputs.
+
+The ``process_inputs()`` function simply makes use of the common class to give us the result both for Part I and Part II.
 
 The basic idea of this method is to:
-- create an instance of our ``ProgramInstance`` class to execute the given inputs as an Intcode program
+- create an instance of our ``IntcodeProgram`` class to execute the given inputs as an Intcode program
 - have it run with a pause every 2 outputs
 - whenever it pauses, parse the last two outputted digits to get the new color of the panel, the new rotation of the robot and move it on the board
 
@@ -207,28 +213,30 @@ To do this, I've used ``dict``s and the built-in ``hash`` Python method that is 
 #### Answers
 **Part I: 268 • Part II: 13989**
 
-Day 13 reuses once again the Intcode interpreter that was developed previously. No need to change anything in the actual ``ProgramInstance`` class this time, it's just about providing the right inputs to the program to solve the problem!
+> Day 13 relies on the Intcode interpreter that is implemented in the ``intcode.py`` file.
+
+There is no need to change anything in the actual ``IntcodeProgram`` class this time, it's just about providing the right inputs to the program to solve the problem!
 
 Part I is quite straight-forward: you simply need to run the program and stop every 3 outputs, then parse the 3 digits to get the ``x``, ``y`` and ``id`` value at this stage, and finally use those to update the ``board``.
 
 Part II is not that hard either, you simply need to:
 
 - modify the initial program to "play in free mode", i.e. replace the first digit in the Intcode program by a ``2``
-- move the horizontal paddle to catch the ball and not have the game stop immediately - this basically means you need to go right when the ball is on your right and left when it's on your left, which is done by putting the right digit in the ``ProgramInstance``'s memory
+- move the horizontal paddle to catch the ball and not have the game stop immediately - this basically means you need to go right when the ball is on your right and left when it's on your left, which is done by putting the right digit in the ``IntcodeProgram``'s memory
 - keep track of the number of remaining blocks
 - whenever you output a score, if there are no blocks remaining, the game ends and you can return this last score as the player's final score
 
-I've also added a feature in the ``compute_score()`` method to automatically export screenshots of the game while it is running. If you turn on the ``export`` option, then a folder ``export/`` will be created in your current working directory and the board will be saved as JPG images regularly.
+I've also added a feature in the ``compute_score()`` method to automatically export screenshots of the game while it is running. If you turn on the ``export`` option, then a folder ``day13/`` will be created in your current working directory and the board will be saved as JPG images regularly.
 
 *Note: turning on the export mode will significantly slow down the computation, so you should only enable it if you want to create the images. It is disabled by default.*
 
 It is then really easy to create a basic MP4 movie from all of those JPG images using the common audio/video conversion tool [ffmpeg](https://ffmpeg.org/):
 
 ```
-ffmpeg -framerate 200 -i export/%d.jpg movie.mp4
+ffmpeg -framerate 200 -i day13/%d.jpg day13.mp4
 ```
 
-This will produce videos like [this one](resources/day13_visualization.mp4).
+This will produce videos like [this one](resources/day13.mp4).
 
 ## Day 14: Space Stoichiometry
 
@@ -249,6 +257,8 @@ The only small improvement I've found upon ``jcisio``'s code is to use the ``def
 
 #### Answers
 **Part I: 240 • Part II: 322**
+
+> Day 15 relies on the Intcode interpreter that is implemented in the ``intcode.py`` file.
 
 Day 15 is about maze exploration and traversal, hence I needed to reimplement some common graph-related algorithms. Namely, I've worked on flow algorithms, pathfinding algorithms and general recursive search (with a BFS-approach, here).
 
@@ -299,6 +309,8 @@ To avoid summing lots of digits at once (``L / 2`` can still be a pretty huge nu
 
 #### Answers
 **Part I: 3292 • Part II: 651043**
+
+> Day 17 relies on the Intcode interpreter that is implemented in the ``intcode.py`` file.
 
 *Disclaimer: for now, my solution is a mix of automated and by-hand steps; in particular, I've determined the complete path automatically but the division in 3 subpatterns (the ``A``, ``B`` and ``C`` movements) was done just by looking at the result. I haven't found a way to do this without a human eye yet.*
 
