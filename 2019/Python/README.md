@@ -351,3 +351,41 @@ While my first solution did well with the very basic examples, it got stuck with
 In truth, I think I was thinking more along the lines of a DFS whereas a BFS is better in this scenario. The technique used here is to first prepare a dictionary to match all interesting points on the map (i.e. entrances, doors and keys) to their distances to all the other interesting points and the optional points that are on the road between the two. This way, it is possible to easily sort according to distance and also check if all the obstacles on the way can be passed.
 
 *Note: the code could perhaps be optimized since Part I currently takes ~5 seconds to solve...*
+
+## Day 19: Tractor Beam
+
+#### Answers
+**Part I: 217 • Part II: 6840937**
+
+> Day 19 relies on the Intcode interpreter that is implemented in the ``intcode.py`` file.
+
+In this puzzle, we talk about a tractor beam! The question is: what positions in the grid facing us are affected by this beam? To learn whether a position is affected or not, we can call a specific Intcode program that, once run with the ``(x, y)`` position as inputs, will return ``0`` if the position is not in the tractor beam and ``1`` otherwise.
+
+I'll admit I brute-forced both Part I and Part II... but I did find a way of optimizing the map construction! All in all, both parts take about 1'30'' min to be completed.
+
+Indeed, since the tractor beam is oriented to the bottom right corner, we can drastically reduce the number of positions to check. My technique was as follows (considering row ``y``):
+
+- suppose that row ``y-1`` had "tracted positions" only from ``x_min`` to ``x_max`` (the rest of the row would return ``0`` if checked)
+
+- then we can safely assume that the next row will roughly spread from ``x_min - 1`` to ``x_max + 1`` at most (the cone of the beam does not grow on its own, so it simply increases a bit with each row)
+
+- so we basically need to check only 6 positions (to be really safe...):
+  - ``(x_min - 1, y)``, ``(x_min, y)``, ``(x_min + 1, y)`` for the minimum boundary; this will also give us the new value of ``x_min`` which is the lowest value where the position is affected between ``x_min - 1``, ``x``, ``x_min + 1``
+  - ``(x_max - 1, y)``, ``(x_max, y)``, ``(x_max + 1, y)`` for the maximum boundary; this will also give us the new value of ``x_max`` which is the highest value where the position is affected between ``x_max - 1``, ``x``, ``x_max + 1``
+
+- then, we can "fill" the horizontal positions in the middle of the (updated) ``x_min -> x_max`` range
+
+Here is a little representation of the scene to help you get the gist of it - the ``#`` are the positioned in the tractor beam from last row, the ``?`` are the positions that will be checked, the ``x`` are the positions that will be filled:
+
+```
+              x_min      x_max
+                  |      |
+                  v      v
+ROW   y - 1   ....########........
+          y   ...???xxxx???.......
+```
+
+This will still give us a linear execution time, but it will be greatly reduced! This means that we can examine quite a large grid in Part II without too unrealistic of a compute time.
+
+In Part II, since I know I'm searching for a ``100 x 100`` square, I've decided to first prepare a ``2000 x 2000`` grid and to then search in it for the square matching this size that is the closest to the origin (at coordinates ``(0, 0)``). A disclaimer however: this size of 2000 fits my inputs (so that it's not too long but still enough for a ``100 x 100`` square is present in it). (My first trial with a ``1000 x 1000`` grid did not contain any solution.) Depending on your input, you might need to change this size in the ``find_closest_square()`` function.
+

@@ -20,7 +20,7 @@ the 2019 and 2018 challenges. I will keep on filling the repository as I code up
 **Python:**
 
 ```
-2019    [ ■■■■■■■■■■■■■■■■■■        ] 18 / 25
+2019    [ ■■■■■■■■■■■■■■■■■■■       ] 19 / 25
 2018    [ ■■■■■■■■■■■■■■            ] 14 / 25
 2017    n/a
 2016    n/a
