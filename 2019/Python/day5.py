@@ -26,6 +26,10 @@ def process_inputs(inputs, input):
     
     :param inputs: List of integers to execute as an Intcode program.
     :type inputs: list(int)
+    :param input: Specific input for the program execution.
+    :type input: int
+    :return: Final output of the program.
+    :rtype: int
     '''
     # create program
     program = IntcodeProgram(inputs)

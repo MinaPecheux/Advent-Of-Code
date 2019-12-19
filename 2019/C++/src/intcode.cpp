@@ -122,7 +122,7 @@ bool IntcodeProgram::processOpcode_() {
         this->instructionPtr_ = -1;
         return false;
       }
-      va = this->getValue_();
+      va = this->getValue_(true);
       this->setProgramData(va, vm);
       break;
     case OP_WRITE:

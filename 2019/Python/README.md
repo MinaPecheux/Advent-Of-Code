@@ -102,7 +102,7 @@ Also, I take advantage of Python's ability to quickly change from one type to an
 
 > Day 5 relies on the Intcode interpreter that is implemented in the ``intcode.py`` file.
 
-In this puzzle, I did some modifications on the common ``IntcodeProgram`` class to keep on improving its features (namely: I reorganized the ``OPERATIONS`` dictionary to hold more information and I've worked on the ``process_opcode()`` method to automate pointers evolution)
+In this puzzle, I did some modifications on the common ``IntcodeProgram`` class to keep on improving its features (namely: I reorganized the ``OPERATIONS`` dictionary to hold more information and I've worked on the ``process_opcode()`` method to automate pointers evolution).
 
 I've also made a secondary version for the Day 5 puzzle to play around with the notion of Python's context classes.
 

@@ -90,3 +90,12 @@ By using the right data type at the right time, you can increase the computation
 Here, I use the map container (from the ``std`` built-in C++ library) once again to store a count of each digit in my number for the ``numberIsOkP2()`` method.
 
 Also, I take advantage of C++'s ability to quickly change from one type to another by treating my number and its digits either as integers or as characters depending on what I need.
+
+## Day 5: Sunny with a Chance of Asteroids
+
+#### Answers
+**Part I: 15508323 • Part II: 9006327**
+
+> Day 5 relies on the Intcode interpreter that is implemented in the ``intcode.py`` file.
+
+In this puzzle, I did some modifications on the common ``IntcodeProgram`` class to keep on improving its features (namely: I reorganized the ``OPERATIONS`` dictionary to hold more information and I've worked on the ``processOpcode()`` method to automate pointers evolution).
