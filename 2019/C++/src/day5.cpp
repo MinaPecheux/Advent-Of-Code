@@ -20,7 +20,7 @@
   Part I + II
 ------------------------------------------------------------------------------*/
 /**
- * \fn int processInputs(std::vector<long> inputs, bool debug=false)
+ * \fn int processInputs(std::vector<long> inputs, int input, bool debug=false)
  * \brief Executes the Intcode program on the provided inputs and computes the
  * final result.
  *

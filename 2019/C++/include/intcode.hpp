@@ -34,9 +34,9 @@ extern const char* OPERATION_NAMES[];
  */
 class IntcodeProgram {
   
+public:
   static int INSTANCE_ID;
   
-public:
   /**
    * \fn Constructor
    * \brief Builds a new instance of IntcodeProgram.
@@ -122,6 +122,14 @@ public:
    * \return Index of the next instance in the pool to run, if any.
    */
   int runMultiple(std::vector<IntcodeProgram*> instances);
+  /**
+   * \fn void checkRunning(unsigned int phase)
+   * \brief Checks if the instance is already running or if it should be
+   * initialized with its phase setting.
+   *
+   * \param phase Phase setting for this instance.
+   */
+  void checkRunning(unsigned int phase);
   /**
    * \fn void reset()
    * \brief Resets the program instance in case you want to re-run the same

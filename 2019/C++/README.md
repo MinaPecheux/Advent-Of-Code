@@ -99,3 +99,14 @@ Also, I take advantage of C++'s ability to quickly change from one type to anoth
 > Day 5 relies on the Intcode interpreter that is implemented in the ``intcode.py`` file.
 
 In this puzzle, I did some modifications on the common ``IntcodeProgram`` class to keep on improving its features (namely: I reorganized the ``OPERATIONS`` dictionary to hold more information and I've worked on the ``processOpcode()`` method to automate pointers evolution).
+
+## Day 6: (Passed)
+
+## Day 7: Amplification Circuit
+
+#### Answers
+**Part I: 116680 • Part II: 89603079**
+
+> Day 7 relies on the Intcode interpreter that is implemented in the ``intcode.py`` file.
+
+For this problem, we need to run several instances of our Intcode program at the same time while making sure each has its own "environment". This lead me to implement the ``runMultiple()`` method in the shared ``IntcodeProgram`` class. It is not truly parallel execution, though, since some instances will depend on the output from others and thus need to wait for them before they can proceed. Hence the need to separate data for each instance, so that they don't overwrite sensible information that the other might use later on.

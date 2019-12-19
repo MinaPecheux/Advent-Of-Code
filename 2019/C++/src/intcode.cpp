@@ -246,7 +246,41 @@ int IntcodeProgram::run(unsigned int pauseEvery) {
 }
 
 int IntcodeProgram::runMultiple(vector<IntcodeProgram*> instances) {
-  return 0;
+  int nextInstance;
+  long output;
+  int nInstances = instances.size();
+  // if we stopped just before halting, we simply terminate the program and go
+  // to the next instance
+  if (this->output_.size() > 0 && this->instructionPtr_ == -1) {
+    nextInstance = (this->id_ + 1) % nInstances;
+    output = this->getLastOutput();
+    instances[nextInstance]->pushMemory(output);
+    return nextInstance;
+  }
+  // else we continue running the program from where we stopped
+  bool pause;
+  while (this->instructionPtr_ != -1) {
+    pause = this->processOpcode_();
+    // if we reached the halt op for the last instance
+    if (this->instructionPtr_ == -1 && this->id_ == nInstances - 1) {
+      return -1;
+    }
+    // else if we need to temporary pause the execution of this instance
+    if (pause || this->instructionPtr_ == -1) {
+      nextInstance = (this->id_ + 1) % nInstances;
+      output = this->getLastOutput();
+      instances[nextInstance]->pushMemory(output);
+      return nextInstance;
+    }
+  }
+  return -1;
+}
+
+void IntcodeProgram::checkRunning(unsigned int phase) {
+  if (!this->isRunning_) {
+    this->pushMemory(phase);
+    this->isRunning_ = true;
+  }
 }
 
 void IntcodeProgram::reset() {
