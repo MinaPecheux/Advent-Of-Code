@@ -49,3 +49,20 @@ vector<long> parseToLongsWithDelimiter(string data, string delimiter) {
   }
   return parsed;
 }
+
+/**
+ * \fn vector<long long> parseToLongLongsWithDelimiter(string data, string delimiter)
+ * \brief Parses the incoming data into an array of ints.
+ *
+ * \param data Provided problem data.
+ * \param delimiter Delimiter to use to split the data.
+ * \return Parsed data.
+ */
+vector<long long> parseToLongLongsWithDelimiter(string data, string delimiter) {
+  vector<string> parts = strSplit(data, delimiter);
+  vector<long long> parsed;
+  for (auto p : parts) {
+    parsed.push_back(stoll(p));
+  }
+  return parsed;
+}

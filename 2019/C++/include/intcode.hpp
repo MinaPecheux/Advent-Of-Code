@@ -46,7 +46,7 @@ public:
    * \param debug Whether or not the IntcodeProgram should debug its execution
    * at each instruction processing.
    */
-  IntcodeProgram(std::vector<long> program, bool debug=false);
+  IntcodeProgram(std::vector<long long> program, bool debug=false);
   /**
    * \fn Destructor
    * \brief Destroys an instance of IntcodeProgram.
@@ -55,50 +55,57 @@ public:
   
   // getters and setters
   /**
-   * \fn long getProgramData(int index) const
+   * \fn long long getProgramData(int index) const
    * \brief Gets a value in the instance's program at a given position (if the
    * position is not associated to any value, returns 0).
    *
    * \param index Position to get.
    * \return Program data value.
    */
-  long getProgramData(int index) const;
+  long long getProgramData(int index) const;
   /**
-   * \fn long getLastOutput() const
+   * \fn std::vector<long long> getOutput() const
+   * \brief Gets the current output of the program instance.
+   *
+   * \return Currently outputted data.
+   */
+  std::vector<long long> getOutput() const;
+  /**
+   * \fn long long getLastOutput() const
    * \brief Gets a the last value outputted in the program instance.
    *
    * \return Last outputtted data value.
    */
-  long getLastOutput() const;
+  long long getLastOutput() const;
   /**
-   * \fn long popMemory()
+   * \fn long long popMemory()
    * \brief Pops the last value in the program instance's memory and returns it.
    *
    * \return Last data value in memory.
    */
-  long popMemory();
+  long long popMemory();
   /**
-   * \fn void setProgramData(int index, long value)
+   * \fn void setProgramData(int index, long long value)
    * \brief Sets a value in the instance's program at a given position.
    *
    * \param index Position to insert at.
    * \param value Value to insert.
    */
-  void setProgramData(int index, long value);
+  void setProgramData(int index, long long value);
   /**
-   * \fn void pushMemory(long value)
+   * \fn void pushMemory(long long value)
    * \brief Pushes a value at the end of the program instance's memory.
    *
    * \param value Value to insert.
    */
-  void pushMemory(long value);
+  void pushMemory(long long value);
   /**
-   * \fn void pushMemory(long value)
+   * \fn void pushMemory(long long value)
    * \brief Pushes a value at the end of the program instance's memory.
    *
    * \param value Value to insert.
    */
-  void pushMemoryMultiple(std::vector<long> values);
+  void pushMemoryMultiple(std::vector<long long> values);
   
   // methods
   /**
@@ -155,7 +162,7 @@ private:
    */
   bool processOpcode_();
   /**
-   * \fn void getIndex_(long& index, int& mode)
+   * \fn void getIndex_(long long& index, int& mode)
    * \brief Gets the index and the mode corresponding to the cell pointed by the
    * current instruction pointer (in "address", "immediate value" or "relative"
    * mode).
@@ -163,9 +170,9 @@ private:
    * \param index Reference to the index variable to update.
    * \param mode Reference to the mode variable to update.
    */
-  void getIndex_(long& index, int& mode);
+  void getIndex_(long long& index, int& mode);
   /**
-   * \fn long getValue_(bool keepIndex=false)
+   * \fn long long getValue_(bool keepIndex=false)
    * \brief Gets the value corresponding to the next input in the program data.
    * The function also fills a debug string in case the debug is activated for
    * the IntcodeProgram.
@@ -174,21 +181,21 @@ private:
    * or interpret it as an address in the program.
    * \return Program data value.
    */
-  long getValue_(bool keepIndex=false);
+  long long getValue_(bool keepIndex=false);
   /**
-   * \fn void pushOutput_(long value)
+   * \fn void pushOutput_(long long value)
    * \brief Pushes a value to the current output of the program instance.
    *
    * \param value Value to insert.
    */
-  void pushOutput_(long value);
+  void pushOutput_(long long value);
   
   // private attributes
   int id_;
-  std::map<int, long> program_;
-  std::map<int, long> initialProgram_;
-  std::vector<long> memory_;
-  std::vector<long> output_;
+  std::map<int, long long> program_;
+  std::map<int, long long> initialProgram_;
+  std::vector<long long> memory_;
+  std::vector<long long> output_;
   int mode1_; int mode2_; int mode3_;
   int inputId_;
   int instructionPtr_;

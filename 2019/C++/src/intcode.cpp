@@ -25,7 +25,7 @@ const char* OPERATION_NAMES[] = { "", "add", "mult", "read", "write",
   FUNCTIONS
 ------------------------------------------------------------------------------*/
 /* Constructor/Destructor ----------------------------------------------------*/
-IntcodeProgram::IntcodeProgram(vector<long> program, bool debug) {
+IntcodeProgram::IntcodeProgram(vector<long long> program, bool debug) {
   for (int i = 0; i < program.size(); i++) {
     this->program_[i] = program[i];
     this->initialProgram_[i] = program[i];
@@ -40,32 +40,32 @@ IntcodeProgram::IntcodeProgram(vector<long> program, bool debug) {
 IntcodeProgram::~IntcodeProgram() {}
 
 /* Getters and Setters -------------------------------------------------------*/
-long IntcodeProgram::getProgramData(int index) const {
-  map<int,long>::const_iterator it = this->program_.find(index);
+long long IntcodeProgram::getProgramData(int index) const {
+  map<int,long long>::const_iterator it = this->program_.find(index);
   return (it != this->program_.end()) ? it->second : 0;
 }
-long IntcodeProgram::getLastOutput() const {
-  return (this->output_.size() == 0)
-    ? -1 : this->output_[this->output_.size() - 1];
+std::vector<long long> IntcodeProgram::getOutput() const {
+  return this->output_;
 }
-long IntcodeProgram::popMemory() {
+long long IntcodeProgram::getLastOutput() const {
+  return (this->output_.size() == 0) ? -1 : this->output_.back();
+}
+long long IntcodeProgram::popMemory() {
   if (this->memory_.size() == 0) {
     return -1;
   }
-  long v = this->memory_[this->memory_.size() - 1];
+  long long v = this->memory_.back();
   this->memory_.pop_back();
   return v;
 }
-void IntcodeProgram::setProgramData(int index, long value) {
+void IntcodeProgram::setProgramData(int index, long long value) {
   this->program_[index] = value;
 }
-void IntcodeProgram::pushMemory(long value) {
+void IntcodeProgram::pushMemory(long long value) {
   this->memory_.push_back(value);
 }
-void IntcodeProgram::pushMemoryMultiple(std::vector<long> values) {
-  for (auto value : values) {
-    this->memory_.push_back(value);
-  }
+void IntcodeProgram::pushMemoryMultiple(std::vector<long long> values) {
+  this->memory_.insert(this->memory_.end(), values.begin(), values.end());
 }
 
 /* Private methods -----------------------------------------------------------*/
@@ -102,7 +102,7 @@ bool IntcodeProgram::processOpcode_() {
   bool pause = false;
   // execute the right operation depending on the opcode
   this->instructionPtr_++;
-  long va, vb, vc, vm;
+  long long va, vb, vc, vm;
   switch (opcode) {
     case OP_ADD:
       va = this->getValue_();
@@ -168,7 +168,7 @@ bool IntcodeProgram::processOpcode_() {
   return pause;
 }
 
-void IntcodeProgram::getIndex_(long& index, int& mode) {
+void IntcodeProgram::getIndex_(long long& index, int& mode) {
   // extract the mode for this input (and check if there are no more inputs for
   // this instruction; if so: abort)
   switch (this->inputId_) {
@@ -187,10 +187,10 @@ void IntcodeProgram::getIndex_(long& index, int& mode) {
       index = this->getProgramData(this->instructionPtr_);
       break;
     case 1:
-      index = (long)(this->instructionPtr_);
+      index = (long long)(this->instructionPtr_);
       break;
     case 2:
-      index = this->getProgramData(this->instructionPtr_) + (long)(this->relativeBase_);
+      index = this->getProgramData(this->instructionPtr_) + (long long)(this->relativeBase_);
       break;
     default:
       break;
@@ -200,23 +200,23 @@ void IntcodeProgram::getIndex_(long& index, int& mode) {
   this->inputId_++;
 }
 
-long IntcodeProgram::getValue_(bool keepIndex) {
+long long IntcodeProgram::getValue_(bool keepIndex) {
   // get the index and mode
-  long index;
+  long long index;
   int mode;
   this->getIndex_(index, mode);
   if (index == -1) {
     return -1;
   }
   // if necessary, apply the index as an address in the program code
-  long val = (!keepIndex) ? this->getProgramData((int)(index)) : index;
+  long long val = (!keepIndex) ? this->getProgramData((int)(index)) : index;
   // (fill the debug string in case of debug mode)
   this->debugStr_ += strFormat(" arg%d=%ld (idx=%ld, mode=%d) ;", this->inputId_,
     val, index, mode);
   return val;
 }
 
-void IntcodeProgram::pushOutput_(long value) {
+void IntcodeProgram::pushOutput_(long long value) {
   this->output_.push_back(value);
 }
 
@@ -247,7 +247,7 @@ int IntcodeProgram::run(unsigned int pauseEvery) {
 
 int IntcodeProgram::runMultiple(vector<IntcodeProgram*> instances) {
   int nextInstance;
-  long output;
+  long long output;
   int nInstances = instances.size();
   // if we stopped just before halting, we simply terminate the program and go
   // to the next instance

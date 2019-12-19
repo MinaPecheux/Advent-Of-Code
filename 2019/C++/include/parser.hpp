@@ -20,3 +20,4 @@
 ------------------------------------------------------------------------------*/
 std::vector<int> parseToIntsWithDelimiter(std::string data, std::string delimiter);
 std::vector<long> parseToLongsWithDelimiter(std::string data, std::string delimiter);
+std::vector<long long> parseToLongLongsWithDelimiter(std::string data, std::string delimiter);

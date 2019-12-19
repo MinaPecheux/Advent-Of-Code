@@ -121,3 +121,16 @@ Day 8 is a nice easy peasy Sunday problem about image decoding. It is quite simp
 In Part II, the only tricky thing is the order of the layers: you're told that the first one comes first, then the second one, and so on. They can overwrite each other (if the pixel is not transparent), so the easiest way to deal with this is to process them in the reverse order: take a "result image" that you initializing with blanks everywhere; then iterate through your layers from last to first and simply turn on or off pixels if you find the corresponding value.
 
 *Note: since in C++ we care about variable type, I first thought I would optimize the space taken by the image in Part II by storing a 2D array of ``char``s. However, I also want to display my message with Unicode characters, so I can't actually store them into just a ``char``: I need ``std::string``s!*
+
+## Day 9: Sensor Boost
+
+#### Answers
+**Part I: 2752191671 • Part II: 87571**
+
+> Day 9 relies on the Intcode interpreter that is implemented in the ``intcode.py`` file.
+
+To be honest, while I spent *hours* trying to debug some index shifting errors, the problem is not that hard *per se*: once again, I'm asked to improve the Intcode program I worked on during Days 2, 5 and 7. Compared to the previous Intcode interpreter, we need to add a new mode, called the "relative" mode, that allows for address references with a relative base (that can be modified) and the ``offset_relative_base`` instruction to update this aforementioned relative base.
+
+My big issue was to properly understand what remain indices and what turn into data with the new mode... many thanks to [youaremean_YAM](https://www.reddit.com/user/youaremean_YAM/) for his/her JS solution that finally helped me get it right!
+
+Part I and Part II only differ in the input you pass your processing function: ``1`` for the first, ``2`` for the second. Other than that, you should execute the exact same code.

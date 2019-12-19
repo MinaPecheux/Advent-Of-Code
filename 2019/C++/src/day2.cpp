@@ -20,16 +20,18 @@
   Part I
 ------------------------------------------------------------------------------*/
 /**
- * \fn int processInputs(std::vector<long> inputs, bool restoreGravityAssist=false, bool debug=false)
+ * \fn int processInputs(std::vector<long long> inputs, bool restoreGravityAssist=false, bool debug=false)
  * \brief Executes the Intcode program on the provided inputs and computes the
  * final result.
  *
- * \param inputs List of long integers to execute as an Intcode program.
+ * \param inputs List of long long integers to execute as an Intcode program.
  * \param restoreGravityAssist Whether or not to restore the gravity assist
  * by modifying the input program.
+ * \param debug Whether or not the IntcodeProgram should debug its execution at
+ * each instruction processing.
  * \return Final output of the program.
  */
-int processInputs(std::vector<long> inputs, bool restoreGravityAssist=false, bool debug=false) {
+int processInputs(std::vector<long long> inputs, bool restoreGravityAssist=false, bool debug=false) {
   // create and execute program
   IntcodeProgram* program = new IntcodeProgram(inputs, debug);
   // restore gravity assist?
@@ -51,17 +53,19 @@ int processInputs(std::vector<long> inputs, bool restoreGravityAssist=false, boo
   Part II
 ------------------------------------------------------------------------------*/
 /**
- * \fn int findPair(std::vector<long> inputs, int wantedOutput, bool debug=false)
+ * \fn int findPair(std::vector<long long> inputs, int wantedOutput, bool debug=false)
  * \brief A brute-force algorithm to systematically try all possible input pairs
  * until we find the one that gave the desired output (we can determine a
  * finished set of possible candidates since we know that each number is in the
  * [0, 99] range).
  *
- * \param inputs List of long integers to execute as an Intcode program.
+ * \param inputs List of long long integers to execute as an Intcode program.
  * \param wantedOutput Desired output of the program.
+ * \param debug Whether or not the IntcodeProgram should debug its execution at
+ * each instruction processing.
  * \return Specific checksum that matches the desired output.
  */
-int findPair(std::vector<long> inputs, int wantedOutput, bool debug=false) {
+int findPair(std::vector<long long> inputs, int wantedOutput, bool debug=false) {
   // prepare program
   IntcodeProgram* program = new IntcodeProgram(inputs, debug);
   int noun, verb;
@@ -97,15 +101,15 @@ int findPair(std::vector<long> inputs, int wantedOutput, bool debug=false) {
  */
 void makeTests() {
   // Part I
-  std::vector<long> inputs1 = { 1,9,10,3,2,3,11,0,99,30,40,50 };
+  std::vector<long long> inputs1 = { 1,9,10,3,2,3,11,0,99,30,40,50 };
   assert(processInputs(inputs1) == 3500);
-  std::vector<long> inputs2 = { 1,0,0,0,99 };
+  std::vector<long long> inputs2 = { 1,0,0,0,99 };
   assert(processInputs(inputs2) == 2);
-  std::vector<long> inputs3 = { 2,3,0,3,99 };
+  std::vector<long long> inputs3 = { 2,3,0,3,99 };
   assert(processInputs(inputs3) == 2);
-  std::vector<long> inputs4 = { 2,4,4,5,99,0 };
+  std::vector<long long> inputs4 = { 2,4,4,5,99,0 };
   assert(processInputs(inputs4) == 2);
-  std::vector<long> inputs5 = { 1,1,1,4,99,5,6,0,99 };
+  std::vector<long long> inputs5 = { 1,1,1,4,99,5,6,0,99 };
   assert(processInputs(inputs5) == 30);
 }
 
@@ -116,7 +120,7 @@ int main(int argc, char const *argv[]) {
   // get input data
   std::string dataPath = "../data/day2.txt";
   std::string data = readFile(dataPath);
-  std::vector<long> inputs = parseToLongsWithDelimiter(data, ",");
+  std::vector<long long> inputs = parseToLongLongsWithDelimiter(data, ",");
   
   // Part I
   int solution1 = processInputs(inputs, true);
