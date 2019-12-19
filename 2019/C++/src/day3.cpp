@@ -13,11 +13,6 @@
 #include <map>
 #include "utils.hpp"
 
-typedef struct {
-  int x;
-  int y;
-} Point;
-
 // [ Computation functions ]
 // -------------------------
 /**
@@ -115,8 +110,7 @@ int findClosestIntersectionWithDist(std::vector<std::vector<std::string> > paths
   int x, y;
   for (auto i : intersections) {
     tmp = strSplit(i, ",");
-    x = stoi(tmp[0]);
-    y = stoi(tmp[1]);
+    x = stoi(tmp[0]); y = stoi(tmp[1]);
     dist = manhattanDistance(x, y, 0, 0);
     if (minDist == -1 || dist < minDist) {
       minDist = dist;
