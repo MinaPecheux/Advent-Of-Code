@@ -80,4 +80,13 @@ The challenge with this problem was to handle the large lists as quickly as poss
 
 - maps are containers that work with key-value pairs; they are great for quick element get or set (it is in `O(log n)` in both cases which is quite efficient) and they allow me to check if a key is present quickly too
 
-By using the right data type at the right time, you can increase the computation time tremendously.
+By using the right data type at the right time, you can increase the computation time tremendously. These containers are provided in the built-in C++ standard library ``std``.
+
+## Day 4: Secure Container
+
+#### Answers
+**Part I: 1019 • Part II: 660**
+
+Here, I use the map container (from the ``std`` built-in C++ library) once again to store a count of each digit in my number for the ``numberIsOkP2()`` method.
+
+Also, I take advantage of C++'s ability to quickly change from one type to another by treating my number and its digits either as integers or as characters depending on what I need.
