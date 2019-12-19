@@ -6,13 +6,16 @@
  *
  * Set of parsing functions for the Advent of Code 2019 challenge.
  * Contains various methods to transform an incoming string into an array of
- * values (ints, floats...) using different processes (split by delimiter...).
+ * values (ints, longs...) using different processes (split by delimiter...).
  */
 #include "parser.hpp"
 #include "utils.hpp"
 
 using namespace std;
 
+/*------------------------------------------------------------------------------
+  WITH DELIMITER
+------------------------------------------------------------------------------*/
 /**
  * \fn vector<int> parseToIntsWithDelimiter(string data, string delimiter)
  * \brief Parses the incoming data into an array of ints.

@@ -13,10 +13,10 @@ EXEC_PREFIXED = $(patsubst %.cpp,$(BINDIR)%.exe,$(EXEC))
 
 all: $(EXEC_PREFIXED)
 	
-$(BINDIR)%.exe : $(BINDIR)%.o $(BINDIR)parser.o $(BINDIR)utils.o
+$(BINDIR)%.exe : $(BINDIR)%.o $(BINDIR)intcode.o $(BINDIR)parser.o $(BINDIR)utils.o
 	@echo ">>> Building files..."
 	@mkdir -p $(BUILDDIR)/$(notdir $(patsubst %/,%,$(dir $<)))
-	$(CC) $(CCFLAGS) -o $@ $< $(BINDIR)parser.o $(BINDIR)utils.o $(INCLUDES)
+	$(CC) $(CCFLAGS) -o $@ $< $(BINDIR)intcode.o $(BINDIR)parser.o $(BINDIR)utils.o $(INCLUDES)
 	
 $(BINDIR)%.o : $(SRCDIR)%.cpp
 	@echo ">>> Linking..."

@@ -9,12 +9,15 @@
  */
 #include <fstream>
 #include <sstream>
+#include <cstdarg>
+#include <memory>
 #include "utils.hpp"
 
 using namespace std;
 
-// [ Files ]
-// ---------
+/*------------------------------------------------------------------------------
+  FILES
+------------------------------------------------------------------------------*/
 
 /**
  * \fn string readFile(string filepath)
@@ -36,8 +39,38 @@ string readFile(string filepath) {
   return buffer.str();
 }
 
-// [ Strings ]
-// -----------
+/*------------------------------------------------------------------------------
+  STRINGS
+------------------------------------------------------------------------------*/
+
+/**
+ * \fn string strFormat(const string fmt_str, ...)
+ * \brief Formats a string with the given variables and returns the result as
+ * another string.
+ * (From: https://stackoverflow.com/questions/2342162/stdstring-formatting-like-sprintf)
+ *
+ * \param fmtStr Formatting string.
+ * \return Formatted string.
+ */
+string strFormat(const string fmtStr, ...) {
+  /* Reserve two times as much as the length of the fmtStr */
+  int finalN, n = ((int)fmtStr.size()) * 2;
+  unique_ptr<char[]> formatted;
+  va_list ap;
+  while (1) {
+    /* Wrap the plain char array into the unique_ptr */
+    formatted.reset(new char[n]);
+    strcpy(&formatted[0], fmtStr.c_str());
+    va_start(ap, fmtStr);
+    finalN = vsnprintf(&formatted[0], n, fmtStr.c_str(), ap);
+    va_end(ap);
+    if (finalN < 0 || finalN >= n)
+      n += abs(finalN - n + 1);
+    else
+      break;
+  }
+  return string(formatted.get());
+}
 
 /**
  * \fn vector<string> strSplit(string s, string delimiter)

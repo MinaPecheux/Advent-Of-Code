@@ -8,16 +8,20 @@
  * Set of util functions for the Advent of Code 2019 challenge.
  * Contains methods for the processing of files, strings...
  */
-#ifndef __BASE_LIBS_H__
-#define __BASE_LIBS_H__
+#pragma once
+
 #include <iostream>
 #include <vector>
 #include <string>
 #include <cassert>
-#endif
 
-// [ Files ]
+/*------------------------------------------------------------------------------
+  FILES
+------------------------------------------------------------------------------*/
 std::string readFile(std::string filepath);
 
-// [ Strings ]
+/*------------------------------------------------------------------------------
+  STRINGS
+------------------------------------------------------------------------------*/
+std::string strFormat(const std::string fmt_str, ...);
 std::vector<std::string> strSplit(std::string srcStr, std::string delimiter);
