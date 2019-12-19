@@ -68,3 +68,16 @@ You therefore call the function from within itself (here ``computeTotalFuel()`` 
 > Day 2 relies on the Intcode interpreter that is implemented in the ``intcode.py`` file.
 
 To optimize for space, I'm using a usual container of the ``std`` standard C++ library, the ``map``, to store my Intcode program. This way, rather than having a long vector possible filled with zeros, I only retain the keys to the cells that have a value (and all the others are assumed to contain a 0).
+
+## Day 3: Crossed Wires
+
+#### Answers
+**Part I: 209 • Part II: 43258**
+
+The challenge with this problem was to handle the large lists as quickly as possible. To do so, I used vectors and maps and tried to make the best out of both worlds (depending on [the time complexity of various operations for each data type](https://users.cs.northwestern.edu/~riesbeck/programming/c++/stl-summary.html)):
+
+- vectors are ordered, meaning that you can access elements by index (and in constant time, or `O(1)`); this lets me to easily refer to the "first" (at index 0) and the "second" (at index 1) wire, to take the smallest distance quickly...
+
+- maps are containers that work with key-value pairs; they are great for quick element get or set (it is in `O(log n)` in both cases which is quite efficient) and they allow me to check if a key is present quickly too
+
+By using the right data type at the right time, you can increase the computation time tremendously.

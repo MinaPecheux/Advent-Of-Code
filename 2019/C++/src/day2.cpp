@@ -15,6 +15,10 @@
 
 // [ Computation functions ]
 // -------------------------
+
+/*------------------------------------------------------------------------------
+  Part I
+------------------------------------------------------------------------------*/
 /**
  * \fn int processInputs(std::vector<long> inputs, bool restoreGravityAssist=false, bool debug=false)
  * \brief Executes the Intcode program on the provided inputs and computes the
@@ -43,6 +47,9 @@ int processInputs(std::vector<long> inputs, bool restoreGravityAssist=false, boo
   return result;
 }
 
+/*------------------------------------------------------------------------------
+  Part II
+------------------------------------------------------------------------------*/
 /**
  * \fn int findPair(std::vector<long> inputs, int wantedOutput, bool debug=false)
  * \brief A brute-force algorithm to systematically try all possible input pairs

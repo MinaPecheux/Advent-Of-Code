@@ -15,6 +15,9 @@
 // [ Computation functions ]
 // -------------------------
 
+/*------------------------------------------------------------------------------
+  Part I
+------------------------------------------------------------------------------*/
 /**
  * \fn int computeFuel(int mass)
  * \brief Computes the required fuel for a module of given mass.
@@ -26,6 +29,9 @@ int computeFuel(int mass) {
   return mass / 3 - 2;
 }
 
+/*------------------------------------------------------------------------------
+  Part II
+------------------------------------------------------------------------------*/
 /**
  * \fn int computeTotalFuel(int mass)
  * \brief Computes the total required fuel for a module of given mass and the
