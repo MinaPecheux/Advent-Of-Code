@@ -22,7 +22,7 @@ In these files, I try to always organize the code in the same way:
 
 This year, several puzzles make use of an Intcode interpreter that is built gradually all throughout Day 2, 5, 7 and 9 (at this point, you're supposed to have a complete interpreter able to execute any Intcode program that you're given).
 
-It is further on Days 11, 13, 15 and 17.
+It is further used on Days 11, 13, 15, 17 and 19.
 
 In order to avoid repeating code, I've coded up my Intcode interpreter into a dedicated file called ``intcode.py``. To do that, I've used a key feature of Python that falls under the object-oriented programming paradigm: classes. It is a nice way of aggregating together bits of code that have a logical link.
 

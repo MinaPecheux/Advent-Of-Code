@@ -119,7 +119,7 @@ class IntcodeProgram(object):
         
     def program_get_data(self, index):
         '''Gets a value in the instance's program at a given position (if the
-        position is out of range, returns 0).
+        position is not associated to any value, returns 0).
         
         :param index: Position to get.
         :type index: int
@@ -129,8 +129,7 @@ class IntcodeProgram(object):
         return self.program.get(index, 0)
         
     def program_set_data(self, index, data):
-        '''Sets a value in the instance's program at a given position (adds
-        the intermediary indices if need be).
+        '''Sets a value in the instance's program at a given position.
         
         :param index: Position to insert at.
         :type index: int
@@ -200,9 +199,9 @@ class IntcodeProgram(object):
                 return None
 
     def get_index(self):
-        '''Gets the index corresponding to the cell pointed by the current
-        instruction pointer plus the current input (in "address", "immediate
-        value" or "relative" mode).
+        '''Gets the index and the mode corresponding to the cell pointed by the
+        current instruction pointer (in "address", "immediate value" or
+        "relative" mode).
         
         :return: Index and mode of the next input.
         :rtype: tuple(int, int)
@@ -226,9 +225,9 @@ class IntcodeProgram(object):
         return val, mode
 
     def get_value(self, keep_index=False):
-        '''Gets the "address" or "immediate value" for a given set of inputs and
-        data. The function also fills a debug string in case the debug is
-        activated for the IntcodeProgram.
+        '''Gets the value corresponding to the next input in the program data.
+        The function also fills a debug string in case the debug is activated
+        for the IntcodeProgram.
         
         :param keep_index: Whether or not the function should keep the index as
             is, or interpret it as an address in the program.
