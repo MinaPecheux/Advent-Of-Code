@@ -110,3 +110,14 @@ In this puzzle, I did some modifications on the common ``IntcodeProgram`` class 
 > Day 7 relies on the Intcode interpreter that is implemented in the ``intcode.py`` file.
 
 For this problem, we need to run several instances of our Intcode program at the same time while making sure each has its own "environment". This lead me to implement the ``runMultiple()`` method in the shared ``IntcodeProgram`` class. It is not truly parallel execution, though, since some instances will depend on the output from others and thus need to wait for them before they can proceed. Hence the need to separate data for each instance, so that they don't overwrite sensible information that the other might use later on.
+
+## Day 8: Space Image Format
+
+#### Answers
+**Part I: 2064 • Part II: KAUZA**
+
+Day 8 is a nice easy peasy Sunday problem about image decoding. It is quite simple and does not require any complex lib imports. You just need to be careful in how you represent a 2D image as a 1D string and compute your position transformations properly.
+
+In Part II, the only tricky thing is the order of the layers: you're told that the first one comes first, then the second one, and so on. They can overwrite each other (if the pixel is not transparent), so the easiest way to deal with this is to process them in the reverse order: take a "result image" that you initializing with blanks everywhere; then iterate through your layers from last to first and simply turn on or off pixels if you find the corresponding value.
+
+*Note: since in C++ we care about variable type, I first thought I would optimize the space taken by the image in Part II by storing a 2D array of ``char``s. However, I also want to display my message with Unicode characters, so I can't actually store them into just a ``char``: I need ``std::string``s!*

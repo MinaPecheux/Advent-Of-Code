@@ -40,7 +40,7 @@ the 2019 and 2018 challenges. I will keep on filling the repository as I code up
 **C++:**
 
 ```
-2019    [ ■■■■■x■                   ]  6 / 25
+2019    [ ■■■■■x■■                  ]  7 / 25
 2018    n/a
 2017    n/a
 2016    n/a
