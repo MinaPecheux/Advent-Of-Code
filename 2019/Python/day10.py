@@ -32,7 +32,7 @@ class Map(object):
                     
     def compute_asteroid_sights(self, store_coords=False):
         '''Computes all the other asteroids each asteroid in the map can "see".
-        If the coordinates are not stores, then the function will overlap
+        If the coordinates are not stored, then the function will overlap
         asteroids in the same line of sight (same angle); else, each asteroid
         will be stored with its angle, its distance to the reference asteroid
         and its position.
@@ -101,7 +101,7 @@ def angle(ast1, ast2):
     :type ast1: tuple(int, int)
     :param ast2: Coordinates of the second point.
     :type ast2: tuple(int, int)
-    :return: Angle between the two 2D points.
+    :return: Modified angle between the two 2D points.
     :rtype: float
     '''
     x1, y1 = ast1
