@@ -9,32 +9,12 @@
  * Day 7: Amplification Circuit
  * =============================================
  */
-#include <set>
-#include <algorithm>
 #include "utils.hpp"
 #include "parser.hpp"
 #include "intcode.hpp"
 
 // [ Computation functions ]
 // -------------------------
-/**
- * \fn std::set<std::vector<int> > findPermutations(std::string s)
- * \brief Finds all the permutations of the digits in the given string of digits.
- *
- * \param s String of digits to permute.
- * \return All possible permutations.
- */
-std::set<std::vector<int> > findPermutations(std::string s) {
-  std::set<std::vector<int> > permutations;
-  std::sort(s.begin(), s.end());
-  std::string tmp;
-  do {
-    tmp = s.substr(0, 5);
-    permutations.insert({ tmp[0] - '0', tmp[1] - '0', tmp[2] - '0',
-      tmp[3] - '0', tmp[4] - '0' });
-  } while(std::next_permutation(s.begin(), s.end()));
-  return permutations;
-}
 
 /*------------------------------------------------------------------------------
   Part I
@@ -55,7 +35,7 @@ int processInputs(std::vector<long long> inputs, bool debug=false) {
   // possibilities for the first one, X-1 for the second one, X-2 for the third
   // one... (no replacement)
   int nAmplifiers = 5;
-  std::set<std::vector<int> > candidatePhaseSettings = findPermutations("01234");
+  std::set<std::vector<int> > candidatePhaseSettings = permutations<int>("01234", 5);
   // reset global instances IDs
   IntcodeProgram::INSTANCE_ID = 0;
   // create program instances
@@ -111,7 +91,7 @@ int processInputsFeedback(std::vector<long long> inputs, bool debug=false) {
   // possibilities for the first one, X-1 for the second one, X-2 for the third
   // one... (no replacement)
   int nAmplifiers = 5;
-  std::set<std::vector<int> > candidatePhaseSettings = findPermutations("56789");
+  std::set<std::vector<int> > candidatePhaseSettings = permutations<int>("56789", 5);
   // reset global instances IDs
   IntcodeProgram::INSTANCE_ID = 0;
   // create program instances

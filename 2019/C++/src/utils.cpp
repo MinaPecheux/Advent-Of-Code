@@ -11,6 +11,7 @@
 #include <sstream>
 #include <cstdarg>
 #include <memory>
+#include <algorithm>
 #include "utils.hpp"
 
 using namespace std;
@@ -97,4 +98,24 @@ vector<string> strSplit(string s, string delimiter) {
     parts.push_back(token);
   }
   return parts;
+}
+
+/*------------------------------------------------------------------------------
+  COMBINATORICS
+------------------------------------------------------------------------------*/
+/**
+ * \fn std::string rangeToStr(int min, int max)
+ * \brief Creates a string of digits iterating through the given range from min
+ * (inclusive) to max (exclusive).
+ *
+ * \param min Minimum value in the range.
+ * \param max Maximum value up the range.
+ * \return String of all digits in the range.
+ */
+std::string rangeToStr(int min, int max) {
+  std::string s;
+  for (int i = min; i < max; i++) {
+    s += std::to_string(i);
+  }
+  return s;
 }

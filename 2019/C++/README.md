@@ -51,6 +51,8 @@ This means that the true meat of the code resides in the ``IntcodeProgram`` clas
 
 I've used a static class variable called ``INSTANCE_ID`` to assign auto-incrementing IDs to my instances. Rather than maintaining a counter outside of the class, I can just let it take care of it and automatically generate a new integer ID whenever I create a new instance of my class. However, I need to be careful to reset the counter whenever I want to reset my pool of instances from scratch (for example, in Day 7, whenever I want to try a new permutation of phase settings).
 
+Moreover, since C++ is a typed language, we need to be careful of how we store the data in the ``IntcodeProgram`` instances (be it the actual program, the memory or the output): if we use basic ``int``s, we risk having overflows from Day 9 that forced our interpreter to handle very large numbers. To avoid any issue, we can take the ``long long`` type (that is a shorthand for ``long long int``); this will insure that we don't have overflow problems - even if it increases the size of our code quite a bit...
+
 ## Day 1: The Tyranny of the Rocket Equation
 
 #### Answers
@@ -171,3 +173,18 @@ In Part I, we want to know how many panels the robot will paint. So we simply ne
 In Part II, we want to actually output the message. This time, I'm using the ``board`` set that only stores the panels that are currently painted white. At the end, I simply need to iterate through this set of positions to display the message.
 
 *Note: a small hint about the ``x`` and ``y`` coordinate changes depending on the direction - while you might think that going "up" means increasing the ``y`` coordinate, it is better to decrease it so that the message prints correctly at the end of Part II. Otherwise, you will get a message reversed on the horizontal axis and you will have to iterate your ``y`` range in reverse order...*
+
+## Day 12: The N-Body Problem
+
+#### Answers
+**Part I: 12082 • Part II: 295693702908636**
+
+In this problem, Part I is a simple re-implementation of the given algorithm. In my utils, I have implemented a rough combinations computing function to be able to prepare all the possible pairs of indices with each of my moons. Then I use the fact that I can access elements in a vector easily to update the velocity and the position.
+
+Part II, on the other hand, is a bit harder. It is clearly not feasible by brute-force. I admit I searched for a little while but didn't find the trick and finally headed up to the dedicated reddit thread. As explained for example in [this post](https://www.reddit.com/r/adventofcode/comments/e9jxh2/help_2019_day_12_part_2_what_am_i_not_seeing/), you need to spot that the 3 axis are actually independent. This means that the repetition period you need to find can be computed by finding the period of each axis and then finding the least common multiple of these 3 numbers.
+
+To do this, I've used maps and the ``hash`` C++ method from the ``std`` library that is a neat way of quickly generating an efficient [hash](https://en.wikipedia.org/wiki/Hash_function) from a string. This allows me to easily get the period of each axis. Then, I implemented some classic ``GCD()`` and ``LCM()`` functions to perform the final computation.
+
+I had to be careful however to choose a [variable type](https://fr.cppreference.com/w/cpp/language/types) that was big enough to hold the potentially large numbers that would I have in my final result. In particular, I've decided to use an ``unsigned`` type since I know that my number of steps can never be a negative number; this allows me to avoid "loosing" space with the negative values.
+
+*Note: for the input parsing part, I used a [regular expression](https://en.wikipedia.org/wiki/Regular_expression) (or Regex): the idea is to define a "pattern" to search for in a string, and then to see if the given string can be matched to this pattern. If so, we are even able to isolate the bit that match the different parts of our pattern and thus directly extract our values.*

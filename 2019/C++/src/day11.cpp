@@ -9,7 +9,6 @@
  * Day 11: Space Police
  * =============================================
  */
-#include <set>
 #include "utils.hpp"
 #include "parser.hpp"
 #include "intcode.hpp"

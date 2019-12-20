@@ -38,7 +38,7 @@ The Github repository is subdivided per year, then by language. For now, I've wo
 **C++:**
 
 ```
-2019    [ ■■■■■x■■■■■               ] 10 / 25
+2019    [ ■■■■■x■■■■■■              ] 11 / 25
 2018    n/a
 2017    n/a
 2016    n/a
