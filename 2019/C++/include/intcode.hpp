@@ -71,8 +71,15 @@ public:
    */
   std::vector<long long> getOutput() const;
   /**
+   * \fn long long getOutputAt(int index) const
+   * \brief Gets a value outputted by the program, by index.
+   *
+   * \return Outputtted data value at index.
+   */
+  long long getOutputAt(int index) const;
+  /**
    * \fn long long getLastOutput() const
-   * \brief Gets a the last value outputted in the program instance.
+   * \brief Gets the last value outputted in the program instance.
    *
    * \return Last outputtted data value.
    */
@@ -143,6 +150,11 @@ public:
    * program with a fresh start.
    */
   void reset();
+  /**
+   * \fn void resetOutput()
+   * \brief Resets the program output.
+   */
+  void resetOutput();
   
   /**
    * \fn void printProgram() const

@@ -47,6 +47,9 @@ long long IntcodeProgram::getProgramData(int index) const {
 std::vector<long long> IntcodeProgram::getOutput() const {
   return this->output_;
 }
+long long IntcodeProgram::getOutputAt(int index) const {
+  return (this->output_.size() == 0) ? -1 : this->output_[index];
+}
 long long IntcodeProgram::getLastOutput() const {
   return (this->output_.size() == 0) ? -1 : this->output_.back();
 }
@@ -293,6 +296,10 @@ void IntcodeProgram::reset() {
   this->instructionPtr_ = 0;
   this->relativeBase_ = 0;
   this->isRunning_ = false;
+}
+
+void IntcodeProgram::resetOutput() {
+  this->output_.clear();
 }
 
 void IntcodeProgram::printProgram() const {

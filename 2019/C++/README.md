@@ -65,7 +65,7 @@ You therefore call the function from within itself (here ``computeTotalFuel()`` 
 #### Answers
 **Part I: 3716293 • Part II: 6429**
 
-> Day 2 relies on the Intcode interpreter that is implemented in the ``intcode.py`` file.
+> Day 2 relies on the Intcode interpreter that is implemented in the ``intcode.cpp`` file.
 
 To optimize for space, I'm using a usual container of the ``std`` standard C++ library, the ``map``, to store my Intcode program. This way, rather than having a long vector possible filled with zeros, I only retain the keys to the cells that have a value (and all the others are assumed to contain a 0).
 
@@ -96,7 +96,7 @@ Also, I take advantage of C++'s ability to quickly change from one type to anoth
 #### Answers
 **Part I: 15508323 • Part II: 9006327**
 
-> Day 5 relies on the Intcode interpreter that is implemented in the ``intcode.py`` file.
+> Day 5 relies on the Intcode interpreter that is implemented in the ``intcode.cpp`` file.
 
 In this puzzle, I did some modifications on the common ``IntcodeProgram`` class to keep on improving its features (namely: I reorganized the ``OPERATIONS`` dictionary to hold more information and I've worked on the ``processOpcode()`` method to automate pointers evolution).
 
@@ -107,7 +107,7 @@ In this puzzle, I did some modifications on the common ``IntcodeProgram`` class 
 #### Answers
 **Part I: 116680 • Part II: 89603079**
 
-> Day 7 relies on the Intcode interpreter that is implemented in the ``intcode.py`` file.
+> Day 7 relies on the Intcode interpreter that is implemented in the ``intcode.cpp`` file.
 
 For this problem, we need to run several instances of our Intcode program at the same time while making sure each has its own "environment". This lead me to implement the ``runMultiple()`` method in the shared ``IntcodeProgram`` class. It is not truly parallel execution, though, since some instances will depend on the output from others and thus need to wait for them before they can proceed. Hence the need to separate data for each instance, so that they don't overwrite sensible information that the other might use later on.
 
@@ -127,7 +127,7 @@ In Part II, the only tricky thing is the order of the layers: you're told that t
 #### Answers
 **Part I: 2752191671 • Part II: 87571**
 
-> Day 9 relies on the Intcode interpreter that is implemented in the ``intcode.py`` file.
+> Day 9 relies on the Intcode interpreter that is implemented in the ``intcode.cpp`` file.
 
 To be honest, while I spent *hours* trying to debug some index shifting errors, the problem is not that hard *per se*: once again, I'm asked to improve the Intcode program I worked on during Days 2, 5 and 7. Compared to the previous Intcode interpreter, we need to add a new mode, called the "relative" mode, that allows for address references with a relative base (that can be modified) and the ``offset_relative_base`` instruction to update this aforementioned relative base.
 
@@ -147,3 +147,27 @@ Overall, the solution relies on tools I've already mentioned before (in particul
 This allows us to "overwrite" the asteroids that all have the same angle to the reference asteroid, in ``findBestAsteroid()``, and therefore to essentially "mask" the ones that are hidden.
 
 I also used ``struct``s and ``typedef``s here to manipulate my data a bit more easily; for example, I store all the relevant information about the asteroid in sight from my current reference position in an ``AsteroidInfo`` instance so that I can remember the relative angle, the relative distance and the position of the other asteroid compared to me. The ``SightsMap`` typedef is just a convenient way of not having to rewrite this whole map of vector every time I want to refer to my asteroid sights map.
+
+## Day 11: Space Police
+
+#### Answers
+**Part I: 2093 • Part II: BJRKLJUP**
+
+> Day 11 relies on the Intcode interpreter that is implemented in the ``intcode.cpp`` file.
+
+In this puzzle, we want to stop after we have outputted a certain number of digits with our program. Thus I added a ``pauseEvery`` optional parameter to my ``run()`` method in the shared ``IntcodeProgram`` class to be able to pause the execution after a given number of outputs.
+
+The ``processInputs()`` function simply makes use of the common class to give us the result both for Part I and Part II.
+
+The basic idea of this method is to:
+- create an instance of our ``IntcodeProgram`` class to execute the given inputs as an Intcode program
+- have it run with a pause every 2 outputs
+- whenever it pauses, parse the last two outputted digits to get the new color of the panel, the new rotation of the robot and move it on the board
+
+There are some auxiliary variables to store what we need for the result: the current direction and coordinates of the robot, the set of panels that are currently painted white and therefore form a message (``board``) and finally the set of panels that have been painted at least once by the robot, even if they have been repainted black since the beginning (``painted``).
+
+In Part I, we want to know how many panels the robot will paint. So we simply need to get the length of the ``painted`` set.
+
+In Part II, we want to actually output the message. This time, I'm using the ``board`` set that only stores the panels that are currently painted white. At the end, I simply need to iterate through this set of positions to display the message.
+
+*Note: a small hint about the ``x`` and ``y`` coordinate changes depending on the direction - while you might think that going "up" means increasing the ``y`` coordinate, it is better to decrease it so that the message prints correctly at the end of Part II. Otherwise, you will get a message reversed on the horizontal axis and you will have to iterate your ``y`` range in reverse order...*
