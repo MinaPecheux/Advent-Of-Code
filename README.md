@@ -2,8 +2,7 @@
 
 <img src="resources/icon.png" width="150" height="150" />
 
-This repository contains the code I wrote for the online [Advent of Code](https://adventofcode.com) challenge by Eric Wastl. Advent of Code is a programming project where you are given one new puzzle everyday all throughout
-December - it is "an Advent calendar of small programming puzzles". Puzzles can be solved using any programming language and they train you in various skills and algorithms.
+This repository contains the code I wrote for the online [Advent of Code](https://adventofcode.com) challenge by Eric Wastl. Advent of Code is a programming project where you are given one new puzzle everyday all throughout December - it is "an Advent calendar of small programming puzzles". Puzzles can be solved using any programming language and they train you in various skills and algorithms.
 
 Each day, a 2-parts problem is posted. Solving each part gives you 1 gold star (so you have up to 2 for each problem).
 
@@ -12,8 +11,7 @@ For more info on the project, take a look at [the about page](https://adventofco
 Big thanks to [Eddie Li](https://github.com/xdl) for introducing me to this neat project!
 
 ## Repo organization
-The Github repository is subdivided per year, then by language. For now, I've worked mostly in Python, Javascript (Node JS) and C/C++, and mostly on
-the 2019 and 2018 challenges. I will keep on filling the repository as I code up solutions in other languages or for more challenges :)
+The Github repository is subdivided per year, then by language. For now, I've worked mostly in Python, Javascript (Node JS) and C/C++, and mostly on the 2019 and 2018 challenges. I will keep on filling the repository as I code up solutions in other languages or for more challenges :)
 
 <u>**Current progression**</u>
 
@@ -40,7 +38,7 @@ the 2019 and 2018 challenges. I will keep on filling the repository as I code up
 **C++:**
 
 ```
-2019    [ ■■■■■x■■■                 ]  8 / 25
+2019    [ ■■■■■x■■■■                ]  9 / 25
 2018    n/a
 2017    n/a
 2016    n/a

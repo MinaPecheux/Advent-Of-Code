@@ -134,3 +134,16 @@ To be honest, while I spent *hours* trying to debug some index shifting errors, 
 My big issue was to properly understand what remain indices and what turn into data with the new mode... many thanks to [youaremean_YAM](https://www.reddit.com/user/youaremean_YAM/) for his/her JS solution that finally helped me get it right!
 
 Part I and Part II only differ in the input you pass your processing function: ``1`` for the first, ``2`` for the second. Other than that, you should execute the exact same code.
+
+## Day 10: Monitoring Station
+
+#### Answers
+**Part I: 280 • Part II: 706**
+
+*Disclaimer: my first solution for Part I was really ugly... I've drawn inspiration from [kcon1](https://www.reddit.com/user/kcon1/)'s answer on the reddit thread, [over here](https://www.reddit.com/r/adventofcode/comments/e8p9zz/2019_day_10_part_2_python_how_to_approach_part_2/) for Part I. Part II is loosely inspired by his/her suggestion.*
+
+Overall, the solution relies on tools I've already mentioned before (in particular from the ``std`` built-in C++ lib): classes, vectors, maps, sets... One thing to note, however, is that we use the fact that C++ sets are unordered collections of *unique* items: whenever you add an item to the set, if it is already there, then the collection won't actually be updated.
+
+This allows us to "overwrite" the asteroids that all have the same angle to the reference asteroid, in ``findBestAsteroid()``, and therefore to essentially "mask" the ones that are hidden.
+
+I also used ``struct``s and ``typedef``s here to manipulate my data a bit more easily; for example, I store all the relevant information about the asteroid in sight from my current reference position in an ``AsteroidInfo`` instance so that I can remember the relative angle, the relative distance and the position of the other asteroid compared to me. The ``SightsMap`` typedef is just a convenient way of not having to rewrite this whole map of vector every time I want to refer to my asteroid sights map.
