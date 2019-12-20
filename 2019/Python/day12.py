@@ -152,22 +152,22 @@ def find_first_repetition(moons):
             moon[2] += moon[5]
         # hash state:
         # . hash each axis
-        # . check the matching dict for a repetition
-        # . store the hash with the current time for further checks
         state_x = hash(str([ (x, vx) for x, _, _, vx, _, _ in moons ]))
-        if state_x in history_x:
-            period_x = time - history_x[state_x]
-        history_x[state_x] = time
         state_y = hash(str([ (y, vy) for _, y, _, _, vy, _ in moons ]))
-        if state_y in history_y:
-            period_y = time - history_y[state_y]
-        history_y[state_y] = time
         state_z = hash(str([ (z, vz) for _, _, z, _, _, vz in moons ]))
-        if state_z in history_z:
+        # . check the matching dict for a repetition
+        if period_x is None and state_x in history_x:
+            period_x = time - history_x[state_x]
+        if period_y is None and state_y in history_y:
+            period_y = time - history_y[state_y]
+        if period_z is None and state_z in history_z:
             period_z = time - history_z[state_z]
-        history_z[state_z] = time
         if period_x is not None and period_y is not None and period_z is not None:
             break
+        # . store the hash with the current time for further checks
+        history_x[state_x] = time
+        history_y[state_y] = time
+        history_z[state_z] = time
         time += 1
 
     # find the total repetition period by getting the LCM of the three subperiods
