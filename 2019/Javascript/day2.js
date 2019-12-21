@@ -11,6 +11,7 @@
 const _ = require('lodash')
 const fs = require('fs')
 const expect = require('chai').expect
+const { IntcodeProgram } = require('./utils/intcode')
 
 // [ Input parsing functions ]
 // ---------------------------
@@ -25,36 +26,7 @@ const parseInput = (data) => {
 
 // [ Computation functions ]
 // -------------------------
-const OPERATIONS = {
-  1: (a, b) => a + b,
-  2: (a, b) => a * b
-}
-
 /* PART I */
-/**
- * Processes an opcode by using the provided inputs and the current operation
-   index.
- * @param {array(int)} inputs - List of integers to execute as an Intcode
- *                              program.
- * @param {int} instructionPtr - Current instruction pointer.
- * @returns {int} - Updated instruction pointer.
- */
-const processOpcode = (inputs, instructionPtr) => {
-  const code = inputs[instructionPtr]
-  switch (code) {
-    case 99:
-      return null
-    case 1:
-    case 2:
-      const op = OPERATIONS[code]
-      const [ a, b, c ] = _.slice(inputs, instructionPtr+1, instructionPtr+4)
-      inputs[c] = op(inputs[a], inputs[b])
-      return instructionPtr + 4
-    default:
-      return -1
-  }
-}
-
 /**
  * Executes the Intcode program on the provided inputs and computes the final
    result.
@@ -70,15 +42,11 @@ const processInputs = (inputs, restoreGravityAssist=false) => {
     inputs[1] = 12
     inputs[2] = 2
   }
-  // execute program (modifies the inputs in-place)
-  let instructionPtr = 0
-  while (!_.isNil(instructionPtr)) {
-    instructionPtr = processOpcode(inputs, instructionPtr)
-    if (instructionPtr === -1) {
-      return null
-    }
-  }
-  return inputs[0]
+  // create and execute program
+  const program = new IntcodeProgram(inputs)
+  program.run()
+  // isolate final result
+  return program.program[0]
 }
 
 /* PART II */
@@ -92,16 +60,20 @@ const processInputs = (inputs, restoreGravityAssist=false) => {
  * @returns {int} - Specific checksum that matches the desired output.
  */
 const findPair = (inputs, wantedOutput) => {
+  // prepare program
+  const program = new IntcodeProgram(inputs)
   let result, breakLoop
   _.each(_.range(100), (noun) => { // range is [0, 100[ = [0, 99]
     breakLoop = false
     _.each(_.range(100), (verb) => {
-      // copy original data to avoid overwrite
-      const testInputs = _.cloneDeep(inputs)
-      // process inputs
-      testInputs[1] = noun
-      testInputs[2] = verb
-      if (processInputs(testInputs) == wantedOutput) {
+      // reset program to initial state
+      program.reset()
+      // set up noun and verb
+      program.program[1] = noun
+      program.program[2] = verb
+      // run and compare result
+      program.run()
+      if (program.program[0] == wantedOutput) {
         result = 100 * noun + verb
         breakLoop = true
         return false

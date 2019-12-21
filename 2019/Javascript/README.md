@@ -38,6 +38,32 @@ In these files, I try to always organize the code in the same way:
 
 5. finally, the main part (inside of an [Immediately-Invoked Function Expression](https://developer.mozilla.org/en-US/docs/Glossary/IIFE)) that solves the problem by running the computation functions on the actual inputs I was given (that depend on the user)
 
+## Intcode interpreter (``utils/intcode.js``)
+
+This year, several puzzles make use of an Intcode interpreter that is built gradually all throughout Day 2, 5, 7 and 9 (at this point, you're supposed to have a complete interpreter able to execute any Intcode program that you're given).
+
+It is further used on Days 11, 13, 15, 17 and 19.
+
+In order to avoid repeating code, I've coded up my Intcode interpreter into a dedicated util file called ``intcode.js``. To do that, I've used a feature of JS that falls under the object-oriented programming paradigm: classes. It is a nice way of aggregating together bits of code that have a logical link. *(Note: [JS classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) aren't "true" classes, there are actually syntactic sugar over JS's existing prototype-based inheritance.)*
+
+To create a basic class, you should define a ``class`` that has at least an ``constructor()`` method:
+
+```javascript
+class IntcodeProgram {
+    constructor() {
+      
+    }
+}
+```
+
+This ``constructor()`` function will be called whenever you instantiate a new variable of type ``IntcodeProgram``. The neat thing with object-oriented programming, as I said just before, is that you can gather in the same place various variables or methods that are logically linked together; here, our class can contain other methods that implement the behavior we want one of program instance to have: a basic state check, memory updates, instructions execution...
+
+My final ``IntcodeProgram`` class provided me with an easy-to-use interface for my actual computation functions in the puzzle scripts. In those functions, I just create instances of the ``IntcodeProgram`` class and play around with them, but the class abstracts away all the actual execution or memory management stuff so that these computation functions aren't too long.
+
+This means that the true meat of the code resides in the ``IntcodeProgram`` class.
+
+I've used a class variable called ``INSTANCE_ID`` to assign auto-incrementing IDs to my instances. Rather than maintaining a counter outside of the class, I can just let it take care of it and automatically generate a new integer ID whenever I create a new instance of my class. However, I need to be careful to reset the counter whenever I want to reset my pool of instances from scratch (for example, in Day 7, whenever I want to try a new permutation of phase settings).
+
 ## Day 1: The Tyranny of the Rocket Equation
 
 #### Answers
@@ -52,13 +78,17 @@ You therefore call the function from within itself (here ``computeTotalFuel()`` 
 #### Answers
 **Part I: 3716293 • Part II: 6429**
 
-This problem is an opportunity to talk about **mutability** in Javascript: in this solution, I extensively use the fact that ``Array``s are mutable in Javascript. This means that even if they are passed as parameters to functions, the variables still point to the same address in memory and can therefore be modified directly.
+> Day 2 relies on the Intcode interpreter that is implemented in the ``utils/intcode.js`` file.
+
+This problem is an opportunity to talk about *mutability* in Javascript. We are making use of the Intcode interpreter for the first time and we need to pass it the code to execute (which is stored as a list of integers). In my ``IntcodeProgram`` class, this program is turned into an object. This allows me to make a new "version" of the inputs that is independent from the initial list that I feed the instance so that it isn't touched by the code.
+
+Mutable variables are variables that, even if they are passed as parameters to functions, still point to the same address in memory and can therefore be modified directly.
 
 On the other hand, [primitive values](https://developer.mozilla.org/en-US/docs/Glossary/primitive) (``string``, ``number``, ``bigint``, ``boolean``, ``null``, ``undefined``, and ``symbol``) cannot be modified after being created. If you want to change the value, you need to reassign the variable to a brand new value in memory.
 
-For example, in the ``processInputs()`` function, I directly touch the ``inputs`` Array that is passed as a parameter as I execute the Intcode program.
+For example, in the ``processInputs()`` function, I pass the ``inputs`` list to my Intcode program so that it makes its own copy of it.
 
-Hence the need to "copy" the inputs before running them through any processing code!
+If I removed this transformation, I would need to "copy" the inputs before running them through any processing code!
 
 > For more info on immutability in Javascript, you can check out [Mozilla's reference](https://developer.mozilla.org/en-US/docs/Glossary/Mutable) on the word "Mutable" (Aug. 2019).
 
@@ -93,22 +123,9 @@ Also, I take advantage of Javascript's ability to quickly change from one type t
 #### Answers
 **Part I: 15508323 • Part II: 9006327**
 
-This challenge builds on Day 2. The code therefore is an extension of my solution for Day 2.
+> Day 5 relies on the Intcode interpreter that is implemented in the ``utils/intcode.js`` file.
 
-In this version, I have made 2 major modifications:
-
-1. I have reorganized the ``OPERATIONS`` dictionary to hold more information, namely the number of inputs for each operation (plus I've added the new operations defined in the problem)
-2. I have improved the ``processOpcode()`` function to treat the program with the new important features:
-  - instructions can have a variable number of parameters, which is why I have modified the ``OPERATIONS`` dictionary to automatically extract it
-  - instructions have an execution mode (either in "address" or "immediate value" mode)
-  
-  Here, I have basically automated the impact of the number of inputs on the instruction pointer, I've coded up the new operations and I've dealt with the mode.
-  
-In my ``processOpcode()`` function, for the input instruction (with code ``3``), I use a global ``INPUT`` variable that is consumed by the program during the execution whenever it calls this operation. For the output instruction (with code ``4``), I use of a global ``OUTPUTS`` array where I can store the digits that the program outputs gradually.
-
-Then, at the very end of the execution of my program, I can simply query the last element of this array, which allows for simply assertions and tests.
-
-*Note: something quite important is that because we now have the mode to deal with, we should keep the program inputs as string so that we can extract all the relevant information from it. Consequently, we need to be careful whenever we set a value in our program to convert it back to a string... (see the ``processOpcode()`` method).*
+In this puzzle, I did some modifications on the common ``IntcodeProgram`` class to keep on improving its features (namely: I reorganized the ``OPERATIONS`` dictionary to hold more information and I've worked on the ``processOpcode()`` method to automate pointers evolution).
 
 ## Day 6: (Passed)
 
@@ -117,29 +134,9 @@ Then, at the very end of the execution of my program, I can simply query the las
 #### Answers
 **Part I: 116680 • Part II: 89603079**
 
-This problem continues building on the Intcode program that was first written on Day 2 and then improved on on Day 5. This time, we are going to need to run several instances of our Intcode program at the same time while making sure each has its own "environment". It is not truly parallel execution, though, since some instances will depend on the output from others and thus need to wait for them before they can proceed. Hence the need to separate data for each instance, so that they don't overwrite sensible information that the other might use later on.
+> Day 7 relies on the Intcode interpreter that is implemented in the ``utils/intcode.js`` file.
 
-To better separate and manage the different program instances, I've decided to use one feature of Javascript: classes! *(Note: [JS classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) aren't "true" classes, there are actually syntactic sugar over JS's existing prototype-based inheritance.)* Those fall in the object-oriented programming philosophy and are, to me, a nice way of aggregating together bits of code that have a logical link. So, I've coded up a ``ProgramInstance`` class that represents an instance of our Intcode program with its own copy of the program to execute (that will be modified in-place as it runs), its own instruction pointer, its own memory and its own running state.
-
-To create a basic class, you should define a ``class`` that has at least an ``constructor()`` method:
-
-```javascript
-class ProgramInstance {
-    constructor() {
-      
-    }
-}
-```
-
-This ``constructor()`` function will be called whenever you instantiate a new variable of type ``ProgramInstance``. The neat thing with object-oriented programming, as I said just before, is that you can gather in the same place various variables or methods that are logically linked together; here, our class can contain other methods that implement the behavior we want one of program instance to have: a basic state check, memory updates, instructions execution...
-
-My final ``ProgramInstance`` class provided me with an easy-to-use interface for my actual computation functions (``processInputs()`` and ``processInputsFeedback()``). In those functions, I just create instances of the ``ProgramInstance`` class and play around with them, but the class abstracts away all the actual execution or memory management stuff so that these computation functions aren't too long.
-
-This means that the true meat of the code resides in the ``ProgramInstance`` class.
-
-One thing to note is that for the "read" and "write" operations, we don't use global variables anymore but instead variables stored in the ``ProgramInstance``. The ``processOpcode()`` now returns a boolean representing whether or not the ``ProgramInstance`` we were executed should pause and wait for other processes to complete before resuming.
-
-Finally, I've used a global variable called ``INSTANCE_ID`` to assign auto-incrementing IDs to my instances. Rather than passing the ID each time, I can just let the ``ProgramInstance`` class take care of it and automatically generate a new integer ID whenever I create a new instance of my class. However, I need to be careful to reset the counter whenever I want to reset my pool of instances from scratch (in our example, whenever I want to try a new permutation of phase settings).
+For this problem, we need to run several instances of our Intcode program at the same time while making sure each has its own "environment". This lead me to implement the ``runMultiple()`` method in the shared ``IntcodeProgram`` class. It is not truly parallel execution, though, since some instances will depend on the output from others and thus need to wait for them before they can proceed. Hence the need to separate data for each instance, so that they don't overwrite sensible information that the other might use later on.
 
 ## Day 8: Space Image Format
 
@@ -155,15 +152,13 @@ In Part II, the only tricky thing is the order of the layers: you're told that t
 #### Answers
 **Part I: 2752191671 • Part II: 87571**
 
-To be honest, while I spent *hours* trying to debug some index shifting errors, the problem is not that hard *per se*: once again, I'm asked to improve the Intcode program I worked on during Days 2, 5 and 7.
+> Day 9 relies on the Intcode interpreter that is implemented in the ``utils/intcode.js`` file.
+
+To be honest, while I spent *hours* trying to debug some index shifting errors, the problem is not that hard *per se*: once again, I'm asked to improve the Intcode program I worked on during Days 2, 5 and 7. Compared to the previous Intcode interpreter, we need to add a new mode, called the "relative" mode, that allows for address references with a relative base (that can be modified) and the ``offset_relative_base`` instruction to update this aforementioned relative base.
 
 My big issue was to properly understand what remain indices and what turn into data with the new mode... many thanks to [youaremean_YAM](https://www.reddit.com/user/youaremean_YAM/) for his/her JS solution that finally helped me get it right!
 
 Part I and Part II only differ in the input you pass your processing function: ``1`` for the first, ``2`` for the second. Other than that, you should execute the exact same code.
-
-Compared to the previous Intcode interpreter, we need to add a new mode, called the "relative" mode, that allows for address references with a relative base (that can be modified) and the ``offset_relative_base`` to update this aforementioned relative base. I've also added a debug mode to show the instructions execution process step by step and I've cleaned up the code to better use the ``ProgramInstance``'s own variables.
-
-*Note: I've also added a "debug" mode to the ``ProgramInstance`` class to allow for a step-by-step logging of the instructions execution.*
 
 ## Day 10: Monitoring Station
 
@@ -181,12 +176,14 @@ This allows us to "overwrite" the asteroids that all have the same angle to the 
 #### Answers
 **Part I: 2093 • Part II: BJRKLJUP**
 
-Once again, I needed to reuse the Intcode interpreter developed on Days 2, 5, 7 and 9. There are only really tiny changes to the ``ProgramInstance`` class this time, so that I can run my program and ask it to pause after a given number of outputs (see the ``run()`` method with its new parameter, ``pauseEvery``).
+> Day 11 relies on the Intcode interpreter that is implemented in the ``utils/intcode.js`` file.
+
+In this puzzle, we want to stop after we have outputted a certain number of digits with our program. Thus I added a ``pauseEvery`` optional parameter to my ``run()`` method in the shared ``IntcodeProgram`` class to be able to pause the execution after a given number of outputs.
 
 Then, the ``processInputs()`` function simply makes use of this class to give us the result both for Part I and Part II.
 
 The basic idea of this method is to:
-- create an instance of our ``ProgramInstance`` class to execute the given inputs as an Intcode program
+- create an instance of our ``IntcodeProgram`` class to execute the given inputs as an Intcode program
 - have it run with a pause every 2 outputs
 - whenever it pauses, parse the last two outputted digits to get the new color of the panel, the new rotation of the robot and move it on the board
 
@@ -216,14 +213,16 @@ To do this, I've used ``object``s that allow me to easily get the period of each
 #### Answers
 **Part I: 268 • Part II: 13989**
 
-Day 13 reuses once again the Intcode interpreter that was developed previously. No need to change anything in the actual ``ProgramInstance`` class this time, it's just about providing the right inputs to the program to solve the problem!
+> Day 13 relies on the Intcode interpreter that is implemented in the ``utils/intcode.js`` file.
+
+There is no need to change anything in the actual ``IntcodeProgram`` class this time, it's just about providing the right inputs to the program to solve the problem!
 
 Part I is quite straight-forward: you simply need to run the program and stop every 3 outputs, then parse the 3 digits to get the ``x``, ``y`` and ``id`` value at this stage, and finally use those to update the ``board``.
 
 Part II is not that hard either, you simply need to:
 
 - modify the initial program to "play in free mode", i.e. replace the first digit in the Intcode program by a ``2``
-- move the horizontal paddle to catch the ball and not have the game stop immediately - this basically means you need to go right when the ball is on your right and left when it's on your left, which is done by putting the right digit in the ``ProgramInstance``'s memory
+- move the horizontal paddle to catch the ball and not have the game stop immediately - this basically means you need to go right when the ball is on your right and left when it's on your left, which is done by putting the right digit in the ``IntcodeProgram``'s memory
 - keep track of the number of remaining blocks
 - whenever you output a score, if there are no blocks remaining, the game ends and you can return this last score as the player's final score
 

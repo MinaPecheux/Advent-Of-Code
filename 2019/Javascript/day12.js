@@ -3,7 +3,7 @@
  * [ ADVENT OF CODE ] (https://adventofcode.com)
  * 2019 - Mina Pêcheux: Javascript (NodeJS) version
  * ------------------------------------------------
- * Day 10: The N-Body Problem
+ * Day 12: The N-Body Problem
  * ================================================
  */
 'use strict'
