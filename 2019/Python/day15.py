@@ -94,7 +94,7 @@ class MazeSolver(object):
         :rtype: int
         '''
         # move the robot
-        self.program.memory_insert(move)
+        self.program.insert_memory(move)
         # execute "forever": will stop when 1 digit has been outputted
         self.program.run(pause_every=1)
         # parse output and apply the actions
@@ -261,7 +261,7 @@ class MazeSolver(object):
                 # restore cached store and prepare next movement
                 # + make robot action
                 self.program.restore_state(*current_state)
-                self.program.memory_insert(dir)
+                self.program.insert_memory(dir)
                 self.program.run(pause_every=1)
                 result = self.program.output[-1]
                 self.program.reset_output()
@@ -278,7 +278,7 @@ class MazeSolver(object):
         if (self.x, self.y) != (self.start_x, self.start_y):
             self.program.restore_state(*current_state)
             r = MazeSolver.BACKTRACK[last_dir]
-            self.program.memory_insert(r)
+            self.program.insert_memory(r)
             self.program.run(pause_every=1)
             self.x, self.y = MazeSolver.get_neighbor_position(self.x, self.y,
                 MazeSolver.BACKTRACK[last_dir])

@@ -38,7 +38,7 @@ def check_coordinates(program, x, y):
     # reset program instance to original settings
     program.reset()
     # deploy robot
-    program.memory_append([ x, y ])
+    program.push_memory([ x, y ])
     # run the program and get the result
     program.run()
     return program.output[-1] == 1
@@ -155,7 +155,6 @@ def find_closest_square(inputs, square_size):
     # get a large grid to inspect
     size = 2000
     map = get_map(program, size)
-    print('Got map.')
 
     # find a square in it... if possible!
     # (else, retry with a larger size)

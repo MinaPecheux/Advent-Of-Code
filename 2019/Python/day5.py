@@ -34,7 +34,7 @@ def process_inputs(inputs, input):
     # create program
     program = IntcodeProgram(inputs)
     # insert input in memory
-    program.memory_append(input)
+    program.push_memory(input)
     # execute program
     program.run()
     # return last output

@@ -176,11 +176,11 @@ def compute_score(board, inputs, export=False, debug=False):
     while running:
         # move the paddle to catch the ball and continue the game
         if px < bx: # move right
-            program.memory_insert(1)
+            program.insert_memory(1)
         elif px > bx: # move left
-            program.memory_insert(-1)
+            program.insert_memory(-1)
         else: # reset movement to null
-            program.memory_insert(0)
+            program.insert_memory(0)
 
         # execute until 3 digits have been outputted
         state = program.run(pause_every=3)

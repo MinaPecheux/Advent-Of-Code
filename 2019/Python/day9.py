@@ -39,7 +39,7 @@ def process_inputs(inputs, input=None, debug=False):
     program = IntcodeProgram(inputs, debug=debug)
     # insert input in memory if need be
     if input is not None:
-        program.memory_append(input)
+        program.push_memory(input)
     # run program
     program.run()
     # get final result

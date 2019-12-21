@@ -45,7 +45,7 @@ def process_inputs(inputs):
         for amp in amplifiers:
             amp.reset()
         # prepare input for first amplifier
-        amplifiers[0].memory_insert(0)
+        amplifiers[0].push_memory(0)
         for current_amplifier in range(n_amplifiers):
             phase = phase_settings[current_amplifier]
             amplifiers[current_amplifier].check_running(phase)
@@ -81,7 +81,7 @@ def process_inputs_feedback(inputs):
         for amp in amplifiers:
             amp.reset()
         # prepare input for first amplifier
-        amplifiers[0].memory_insert(0)
+        amplifiers[0].push_memory(0)
         current_amplifier = 0
         running = True
         while running:

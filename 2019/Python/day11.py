@@ -63,7 +63,7 @@ def process_inputs(inputs, start_white=False, display=False, debug=False):
         # (i.e. visible in the board), the input is 1; else it is 0
         input = 1 if (x, y) in board else 0
         # insert the input in the program's memory
-        program.memory_insert(input)
+        program.push_memory(input)
         # execute until 2 digits have been outputted
         state = program.run(pause_every=2)
         # check for state:

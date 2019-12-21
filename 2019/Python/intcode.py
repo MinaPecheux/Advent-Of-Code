@@ -84,27 +84,29 @@ class IntcodeProgram(object):
     def memorize_state(self):
         return (self.memory, self.program, self.instruction_ptr)
     
-    def memory_insert(self, data):
-        '''Inserts a value in the instance's memory, in first position.
+    def push_memory(self, data):
+        '''Appends one or more value(s) in the instance's memory, in last
+        position.
         
-        :param data: Value to insert.
-        :type data: list(int) or int
-        '''
-        if isinstance(data, list):
-            self.memory = data + self.memory
-        else:
-            self.memory = [ data ] + self.memory
-    
-    def memory_append(self, data):
-        '''Appends a value in the instance's memory, in last position.
-        
-        :param data: Value to insert.
+        :param data: Value(s) to insert.
         :type data: list(int) or int
         '''
         if isinstance(data, list):
             self.memory.extend(data)
         else:
             self.memory.append(data)
+    
+    def insert_memory(self, data):
+        '''Inserts one or more value(s) in the instance's memory, in first
+        position.
+        
+        :param data: Value(s) to insert.
+        :type data: list(int) or int
+        '''
+        if isinstance(data, list):
+            self.memory = data + self.memory
+        else:
+            self.memory = [ data ] + self.memory
         
     def check_running(self, phase):
         '''Checks if the instance is already running or if it should be
@@ -114,7 +116,7 @@ class IntcodeProgram(object):
         :type phase: int
         '''
         if not self.is_running:
-            self.memory_insert(phase)
+            self.insert_memory(phase)
             self.is_running = True
         
     def program_get_data(self, index):
@@ -179,7 +181,7 @@ class IntcodeProgram(object):
         if len(self.output) > 0 and self.instruction_ptr is None:
             next_instance = (self.id + 1) % len(instances)
             output = self.output[-1]
-            instances[next_instance].memory_insert(output)
+            instances[next_instance].push_memory(output)
             return next_instance
         # else we continue running the program from where we stopped
         while self.instruction_ptr is not None:
@@ -192,7 +194,7 @@ class IntcodeProgram(object):
             if pause or self.instruction_ptr is None:
                 next_instance = (self.id + 1) % len(instances)
                 output = self.output[-1]
-                instances[next_instance].memory_insert(output)
+                instances[next_instance].push_memory(output)
                 return next_instance
             # else if we errored
             if self.instruction_ptr == -1:

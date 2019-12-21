@@ -221,6 +221,35 @@ def save_robots(simple_map, inputs, export=False, debug=False):
     path_str = ','.join(path)
     print(path_str)
 
+    # movements = { 'A': [], 'B': [], 'C': [] }
+    # movement = ''
+    # c = 0
+    # for m in [ 'A', 'B', 'C' ]:
+    #     while movement in path_str[len(movement):]:
+    #         movement += path_str[c]
+    #         c += 1
+    #     movements[m] = movement
+    # print(movements)
+    # # A L,11,R,3,R,3,L,5,
+    # # B L,11,R,3,R,3,R,11,
+    # # A L,11,R,3,R,3,L,5,
+    # # C L,9,L,5,R,3,
+    # # A L,11,R,3,R,3,L,5,
+    # # B L,11,R,3,R,3,R,11,
+    # # C L,9,L,5,R,3,
+    # # B L,11,R,3,R,3,R,11,
+    # # C L,9,L,5,R,3,
+    # # A/B L,11,R,3,R,3
+    # 
+    # movements_chain = []
+    # for move, pattern in movements.items():
+    #     if path_str.startswith(pattern):
+    #         movements_chain.append(move)
+    #         path_str = path_str[len(move)-1:]
+    #         print(path_str)
+    # print(movements_chain)
+    # return
+    
     # separate paths into subpatterns (done by hand)
     A = encode_movement('L,12,R,4,R,4,L,6')
     B = encode_movement('L,12,R,4,R,4,R,12')
@@ -228,11 +257,11 @@ def save_robots(simple_map, inputs, export=False, debug=False):
     movements = encode_movement('A,B,A,C,A,B,C,B,C,A')
         
     # prepare movements
-    program.memory_append(movements)
-    program.memory_append(A)
-    program.memory_append(B)
-    program.memory_append(C)
-    program.memory_append([ ord('y' if export else 'n'), 10 ])
+    program.push_memory(movements)
+    program.push_memory(A)
+    program.push_memory(B)
+    program.push_memory(C)
+    program.push_memory([ ord('y' if export else 'n'), 10 ])
     
     # run the program to move the robot
     program.run()
