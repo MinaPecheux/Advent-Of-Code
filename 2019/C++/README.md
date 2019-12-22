@@ -188,3 +188,21 @@ To do this, I've used maps and the ``hash`` C++ method from the ``std`` library 
 I had to be careful however to choose a [variable type](https://fr.cppreference.com/w/cpp/language/types) that was big enough to hold the potentially large numbers that would I have in my final result. In particular, I've decided to use an ``unsigned`` type since I know that my number of steps can never be a negative number; this allows me to avoid "loosing" space with the negative values.
 
 *Note: for the input parsing part, I used a [regular expression](https://en.wikipedia.org/wiki/Regular_expression) (or Regex): the idea is to define a "pattern" to search for in a string, and then to see if the given string can be matched to this pattern. If so, we are even able to isolate the bit that match the different parts of our pattern and thus directly extract our values.*
+
+## Day 13: Care Package
+
+#### Answers
+**Part I: 268 • Part II: 13989**
+
+> Day 13 relies on the Intcode interpreter that is implemented in the ``intcode.cpp`` file.
+
+There is no need to change anything in the actual ``IntcodeProgram`` class this time, it's just about providing the right inputs to the program to solve the problem!
+
+Part I is quite straight-forward: you simply need to run the program and stop every 3 outputs, then parse the 3 digits to get the ``x``, ``y`` and ``id`` value at this stage, and finally use those to update the ``board``.
+
+Part II is not that hard either, you simply need to:
+
+- modify the initial program to "play in free mode", i.e. replace the first digit in the Intcode program by a ``2``
+- move the horizontal paddle to catch the ball and not have the game stop immediately - this basically means you need to go right when the ball is on your right and left when it's on your left, which is done by putting the right digit in the ``IntcodeProgram``'s memory
+- keep track of the number of remaining blocks
+- whenever you output a score, if there are no blocks remaining, the game ends and you can return this last score as the player's final score

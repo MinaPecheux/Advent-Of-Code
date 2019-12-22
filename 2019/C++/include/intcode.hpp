@@ -64,6 +64,13 @@ public:
    */
   long long getProgramData(int index) const;
   /**
+   * \fn int getInstructionPtr() const
+   * \brief Gets the program's instruction pointer current value.
+   *
+   * \return Current instruction pointer.
+   */
+  int getInstructionPtr() const;
+  /**
    * \fn std::vector<long long> getOutput() const
    * \brief Gets the current output of the program instance.
    *
@@ -101,18 +108,33 @@ public:
   void setProgramData(int index, long long value);
   /**
    * \fn void pushMemory(long long value)
-   * \brief Pushes a value at the end of the program instance's memory.
+   * \brief Pushes one value at the end of the program instance's memory.
    *
    * \param value Value to insert.
    */
   void pushMemory(long long value);
   /**
    * \fn void pushMemory(long long value)
-   * \brief Pushes a value at the end of the program instance's memory.
+   * \brief Pushes multiple values at the end of the program instance's memory.
+   *
+   * \param value Values to insert.
+   */
+  void pushMemory(std::vector<long long> values);
+  /**
+   * \fn void insertMemory(long long value)
+   * \brief Inserts one value at the beginning of the program instance's memory.
    *
    * \param value Value to insert.
    */
-  void pushMemoryMultiple(std::vector<long long> values);
+  void insertMemory(long long value);
+  /**
+   * \fn void insertMemory(long long value)
+   * \brief Inserts multiple values at the beginning of the program instance's
+   * memory.
+   *
+   * \param value Values to insert.
+   */
+  void insertMemory(std::vector<long long> values);
   
   // methods
   /**
@@ -162,6 +184,16 @@ public:
    * in the instance.
    */
   void printProgram() const;
+  /**
+   * \fn void printMemory() const
+   * \brief Prints the current memory of the program instance.
+   */
+  void printMemory() const;
+  /**
+   * \fn void printOutput() const
+   * \brief Prints the current output of the program instance.
+   */
+  void printOutput() const;
   
 private:
   // private methods

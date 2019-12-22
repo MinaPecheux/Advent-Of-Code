@@ -44,21 +44,23 @@ long long IntcodeProgram::getProgramData(int index) const {
   map<int,long long>::const_iterator it = this->program_.find(index);
   return (it != this->program_.end()) ? it->second : 0;
 }
+int IntcodeProgram::getInstructionPtr() const {
+  return this->instructionPtr_;
+}
 std::vector<long long> IntcodeProgram::getOutput() const {
   return this->output_;
 }
 long long IntcodeProgram::getOutputAt(int index) const {
+  if (index < 0) index += this->output_.size();
   return (this->output_.size() == 0) ? -1 : this->output_[index];
 }
 long long IntcodeProgram::getLastOutput() const {
   return (this->output_.size() == 0) ? -1 : this->output_.back();
 }
 long long IntcodeProgram::popMemory() {
-  if (this->memory_.size() == 0) {
-    return -1;
-  }
-  long long v = this->memory_.back();
-  this->memory_.pop_back();
+  long long v = this->memory_.front();
+  // this->memory_.pop_front();
+  this->memory_.erase(this->memory_.begin());
   return v;
 }
 void IntcodeProgram::setProgramData(int index, long long value) {
@@ -67,8 +69,14 @@ void IntcodeProgram::setProgramData(int index, long long value) {
 void IntcodeProgram::pushMemory(long long value) {
   this->memory_.push_back(value);
 }
-void IntcodeProgram::pushMemoryMultiple(std::vector<long long> values) {
+void IntcodeProgram::pushMemory(std::vector<long long> values) {
   this->memory_.insert(this->memory_.end(), values.begin(), values.end());
+}
+void IntcodeProgram::insertMemory(long long value) {
+  this->memory_.insert(this->memory_.begin(), value);
+}
+void IntcodeProgram::insertMemory(std::vector<long long> values) {
+  this->memory_.insert(this->memory_.begin(), values.begin(), values.end());
 }
 
 /* Private methods -----------------------------------------------------------*/
@@ -121,7 +129,7 @@ bool IntcodeProgram::processOpcode_() {
       break;
     case OP_READ:
       vm = this->popMemory();
-      if (vm == -1) {
+      if (this->memory_.size() == 0) {
         this->instructionPtr_ = -1;
         return false;
       }
@@ -306,5 +314,17 @@ void IntcodeProgram::printProgram() const {
   cout << "Current pointer: " << this->instructionPtr_ << '\n';
   for (auto p : this->program_) {
     cout << "program[" << p.first << "] = " << p.second << '\n';
+  }
+}
+
+void IntcodeProgram::printMemory() const {
+  for (int i = 0; i < this->memory_.size(); i++) {
+    cout << "memory[" << i << "] = " << this->memory_[i] << '\n';
+  }
+}
+
+void IntcodeProgram::printOutput() const {
+  for (int i = 0; i < this->output_.size(); i++) {
+    cout << "output[" << i << "] = " << this->output_[i] << '\n';
   }
 }
