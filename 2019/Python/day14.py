@@ -24,7 +24,7 @@ def parse_input(data):
         reags, prods = line.split(' => ')
         reags = reags.split(', ')
         prods = prods.split(', ')
-        reagents, products = {}, {}
+        reagents = {}
         for r in reags:
             tmp = r.split(' ')
             reagents[tmp[1]] = int(tmp[0])
@@ -110,7 +110,7 @@ def compute_fuel_amount(materials, reactions, ore_amount=1000000000000):
         target += (ore_amount - total_ores) // one_fuel_ores + 1
         total_ores = required_ore(materials, reactions, fuel_amount=target)
         if total_ores > ore_amount:
-            break        
+            break
     return target - 1
 
 # [ Base tests ]

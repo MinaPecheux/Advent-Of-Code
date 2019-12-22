@@ -154,12 +154,12 @@ def compute_score(board, inputs, export=False, debug=False):
     :return: Final score of the player.
     :rtype: int
     '''
-    # prepare the board and paddle/ball coordinates
+    # get paddle and ball coordinates
     for (x, y), marker in board.items():
         if marker == 'H':
-            px, py = x, y
+            px = x
         elif marker == 'O':
-            bx, by = x, y
+            bx = x
     init_n_blocks = None
     last_n_blocks = None
     # prepare the program instance to read the given inputs as an Intcode
@@ -208,10 +208,10 @@ def compute_score(board, inputs, export=False, debug=False):
                     marker = 'B'
                 elif id == 3:
                     marker = 'H'
-                    px, py = x, y
+                    px = x
                 else:
                     marker = 'O'
-                    bx, by = x, y
+                    bx = x
                 board[(x, y)] = marker
         # . else: stop the program
         elif state is None:
@@ -231,7 +231,7 @@ def compute_score(board, inputs, export=False, debug=False):
             c = 50 * n_blocks // init_n_blocks
             suffix = ('{:%dd}' % (len(str(init_n_blocks)))).format(n_blocks)
             bar = '■' * c + ' ' * (50 - c)
-            print('\r{} {} / {}'.format(bar, suffix, init_n_blocks), end='')
+            print('{} {} / {}'.format(bar, suffix, init_n_blocks), end='\r')
             last_n_blocks = n_blocks        
         # (export board?)
         if export and n_blocks != init_n_blocks:
