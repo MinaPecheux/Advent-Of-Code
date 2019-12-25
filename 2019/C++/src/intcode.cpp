@@ -128,11 +128,11 @@ bool IntcodeProgram::processOpcode_() {
       this->setProgramData(vc, va * vb);
       break;
     case OP_READ:
-      vm = this->popMemory();
       if (this->memory_.size() == 0) {
         this->instructionPtr_ = -1;
         return false;
       }
+      vm = this->popMemory();
       va = this->getValue_(true);
       this->setProgramData(va, vm);
       break;
@@ -171,7 +171,6 @@ bool IntcodeProgram::processOpcode_() {
       this->relativeBase_ += this->getValue_();
       break;
   }
-  
   if (this->debug_) {
     cout << this->debugStr_ << '\n';
   }
@@ -327,4 +326,18 @@ void IntcodeProgram::printOutput() const {
   for (int i = 0; i < this->output_.size(); i++) {
     cout << "output[" << i << "] = " << this->output_[i] << '\n';
   }
+}
+
+IntcodeProgramState* IntcodeProgram::memorizeState() const {
+  IntcodeProgramState* state = new IntcodeProgramState();
+  state->program = map<int, long long>(this->program_);
+  state->memory = vector<long long>(this->memory_);
+  state->instructionPtr = this->instructionPtr_;
+  return state;
+}
+
+void IntcodeProgram::restoreState(IntcodeProgramState* state) {
+  this->program_ = map<int, long long>(state->program);
+  this->memory_ = vector<long long>(state->memory);
+  this->instructionPtr_ = state->instructionPtr;
 }

@@ -26,6 +26,12 @@
 
 extern const char* OPERATION_NAMES[];
 
+typedef struct {
+  std::map<int, long long> program;
+  std::vector<long long> memory;
+  int instructionPtr;
+} IntcodeProgramState;
+
 /**
  * \class IntcodeProgram
  * \brief Util class to represent a program instance with its own instructions,
@@ -194,6 +200,21 @@ public:
    * \brief Prints the current output of the program instance.
    */
   void printOutput() const;
+  
+  /**
+   * \fn IntcodeProgramState* memorizeState() const
+   * \brief Restores a previous state in the instance.
+   *
+   * \return Current state of the instance.
+   */
+  IntcodeProgramState* memorizeState() const;
+  /**
+   * \fn void restoreState(IntcodeProgramState* state)
+   * \brief Restores a previous state in the instance.
+   *
+   * \param state State to restore.
+   */
+  void restoreState(IntcodeProgramState* state);
   
 private:
   // private methods

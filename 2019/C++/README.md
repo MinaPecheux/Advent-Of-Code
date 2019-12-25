@@ -220,4 +220,21 @@ The trick to solve this problem is to use some sort of topological sort on the d
 
 Then, we can do the sort of loop I had in my initial algorithm but always take the material that is the "farthest" from ``ORE``, and thus use the "more complex" reactions in our list.
 
-Once again, with C++ types, we need to make sure we have large enough types to hold the big amount of ``FUEL`` or ``ORE`` we will hold for big reactions.
+Once again, with C++ types, we need to make sure we have large enough types to hold the big amount of ``FUEL`` or ``ORE`` we will hold for big reactions. We can also take advantage of the fact that maps are automatically initialized to simply increment the value at a given key, without checking first if the already exists (by default, the value is 0).
+
+## Day 15: Oxygen System
+
+#### Answers
+**Part I: 240 • Part II: 322**
+
+> Day 15 relies on the Intcode interpreter that is implemented in the ``intcode.cpp`` file.
+
+Day 15 is about maze exploration and traversal, hence I needed to reimplement some common graph-related algorithms. Namely, I've worked on flow algorithms, pathfinding algorithms and general recursive search (with a BFS-approach, here).
+
+*Note: a detailed article about this challenge is available on my blog [over here](http://minapecheux.com/wp/exploring-and-traversing-a-maze/).*
+
+Since we don't know what the room looks like, we first need to explore it to map out the tiles types at each coordinate ("wall", "empty" or "oxygen system"). To do this, we can proceed recursively by moving the robot through the entire board and storing its feedback for each tile; this allows us to get a match between an (x, y) coordinate and a tile type.
+
+Then, we can use Dijkstra's algorithm to compute the shortest path between the initial position of the robot and the oxygen system.
+
+Part II asks us to determine how long it takes (how many iterations it requires) to fill the entire maze with oxygen, starting from the oxygen system and then propagating oxygen to the neighbor tiles at each iteration. This can be solved both with a DFS- or BFS-approach; I originally coded up a DFS-based algorithm and eventually changed it to a BFS-approach to be able to do a visualization.
