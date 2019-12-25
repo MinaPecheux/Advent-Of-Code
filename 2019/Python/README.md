@@ -262,6 +262,8 @@ The only small improvement I've found upon ``jcisio``'s code is to use the ``def
 
 Day 15 is about maze exploration and traversal, hence I needed to reimplement some common graph-related algorithms. Namely, I've worked on flow algorithms, pathfinding algorithms and general recursive search (with a BFS-approach, here).
 
+*Note: a detailed article about this challenge is available on my blog [over here](http://minapecheux.com/wp/exploring-and-traversing-a-maze/).*
+
 Since we don't know what the room looks like, we first need to explore it to map out the tiles types at each coordinate ("wall", "empty" or "oxygen system"). To do this, we can proceed recursively by moving the robot through the entire board and storing its feedback for each tile; this allows us to get a match between an (x, y) coordinate and a tile type.
 
 Then, we can use Dijkstra's algorithm to compute the shortest path between the initial position of the robot and the oxygen system.

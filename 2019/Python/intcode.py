@@ -75,14 +75,25 @@ class IntcodeProgram(object):
     def reset_output(self):
         '''Resets the output of the program to a blank slate.'''
         self.output = []
+    
+    def memorize_state(self):
+        '''Creates a snapshot of the program's current state (for further
+        restore).'''
+        return (self.memory, self.program, self.instruction_ptr)
         
     def restore_state(self, memory, program, instruction_ptr):
+        '''Restores a previous state in the instance.
+        
+        :param memory: Memory to restore.
+        :type memory: list(int)
+        :param program: Program to restore.
+        :type program: dict(int, int)
+        :param instruction_ptr: Instruction pointer to restore.
+        :type instruction_ptr: int
+        '''
         self.memory = [ m for m in memory ]
         self.program = { k: v for k, v in program.items() }
         self.instruction_ptr = instruction_ptr
-    
-    def memorize_state(self):
-        return (self.memory, self.program, self.instruction_ptr)
     
     def push_memory(self, data):
         '''Appends one or more value(s) in the instance's memory, in last

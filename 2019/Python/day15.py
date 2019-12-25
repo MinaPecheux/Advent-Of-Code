@@ -71,10 +71,8 @@ class MazeSolver(object):
         self.board = {}
         self.board[start_position] = 1
         self.visited = set()
-        self.correct_path = set()
         self.start_x, self.start_y = start_position
         self.target_position = None
-        self.min_dist = 1e8
         
         self._export = export
         self._export_iter = 0
@@ -83,24 +81,6 @@ class MazeSolver(object):
         self._last_export = {}
         self._last_path = []
         self._export_mode = None
-
-    def get_board_value(self, move):
-        '''Gets the value of a tile in the board by moving the robot to this
-        position and waiting for its output.
-        
-        :param move: Move the robot needs to take.
-        :type move: int
-        :return: Tile value.
-        :rtype: int
-        '''
-        # move the robot
-        self.program.insert_memory(move)
-        # execute "forever": will stop when 1 digit has been outputted
-        self.program.run(pause_every=1)
-        # parse output and apply the actions
-        result = self.program.output[-1]
-        self.program.reset_output()
-        return result
         
     @staticmethod
     def get_neighbor_position(x, y, move):
@@ -354,7 +334,7 @@ class MazeSolver(object):
         :param export: Whether or not to export the process frame by frame (can
             override the MazeSolver instance's general export parameter).
         :type export: bool
-        :return: Number of required iterations to fill the entire maze board.
+        :return: Number of iterations required to fill the entire maze board.
         :rtype: int
         '''
         # create the export path if necessary
@@ -367,26 +347,17 @@ class MazeSolver(object):
             return -1
         # fill the board with oxygen starting from the oxygen system position
         self._export_mode = 'fill'
-        fill_time = self.fill(*self.target_position)
+        fill_time = self.fill()
         self._export_mode = None
         return fill_time
 
-    def fill(self, x, y):
+    def fill(self):
         '''Util function that actually fills the maze in a BFS-like process and
         finds out how many iterations the process requires.
         
-        :param x: Current horizontal position in the maze.
-        :type x: int
-        :param y: Current vertical position in the maze.
-        :type y: int
-        :return: Number of required iterations to fill the entire maze board.
+        :return: Number of iterations required to fill the entire maze board.
         :rtype: int
         '''
-        # get coordinates extrema
-        x, y = zip(*list(self.board.keys()))
-        min_x, max_x = min(x), max(x)
-        min_y, max_y = min(y), max(y)
-
         iterations = 0
         # tiles to check (store the target position initially)
         to_check = Queue()
@@ -407,7 +378,8 @@ class MazeSolver(object):
             if self._export:
                 self.export_board()
             # update the total number of flow iterations
-            iterations = max(iterations, generation)
+            if generation > iterations:
+                iterations = generation
         return iterations
 
 def find_oxygen_system(inputs, display=False, export=False, debug=False):
