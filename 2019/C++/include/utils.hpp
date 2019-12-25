@@ -85,3 +85,8 @@ std::set<std::vector<T> > combinations(std::string s, int length) {
   } while(std::next_permutation(s.begin(), s.end()));
   return combs;
 }
+
+/*------------------------------------------------------------------------------
+  CONVERTERS
+------------------------------------------------------------------------------*/
+void decomposeCoordinates(std::string pos, int& x, int& y);

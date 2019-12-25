@@ -59,20 +59,6 @@ std::vector<std::string> parseData(std::string data) {
 }
 
 /**
- * \fn void decomposeCoordinates(std::string pos, int& x, int& y)
- * \brief Decomposes a string in the "x,y" format into two integer coordinates.
- *
- * \param pos Coordinate to decompose.
- * \param x Reference to the integer where to store the horizontal coordinate.
- * \param y Reference to the integer where to store the vertical coordinate.
- */
-void decomposeCoordinates(std::string pos, int& x, int& y) {
-  std::vector<std::string> tmp = strSplit(pos, ",");
-  x = stoi(tmp[0]);
-  y = stoi(tmp[1]);
-}
-
-/**
  * \fn float dist(std::string& p1, std::string& p2)
  * \brief Computes the angle between two 2D points using the atan2 and rotates
  * the result by 90° counterclockwise.

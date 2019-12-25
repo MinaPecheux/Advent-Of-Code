@@ -19,20 +19,6 @@
 typedef std::map<std::string,char> Board;
 int X_MIN, X_MAX, Y_MIN, Y_MAX;
 
-/**
- * \fn void decomposeCoordinates(std::string pos, int& x, int& y)
- * \brief Decomposes a string in the "x,y" format into two integer coordinates.
- *
- * \param pos Coordinate to decompose.
- * \param x Reference to the integer where to store the horizontal coordinate.
- * \param y Reference to the integer where to store the vertical coordinate.
- */
-void decomposeCoordinates(std::string pos, int& x, int& y) {
-  std::vector<std::string> tmp = strSplit(pos, ",");
-  x = stoi(tmp[0]);
-  y = stoi(tmp[1]);
-}
-
 /*------------------------------------------------------------------------------
   Part I
 ------------------------------------------------------------------------------*/
@@ -164,7 +150,7 @@ int computeScore(Board& board, std::vector<long long> inputs, bool debug=false) 
   program->setProgramData(0, 2);
   
   bool running = true;
-  int state, id, c, score = -1, time = 0;
+  int state, id, c, score = -1;
   size_t debugLength;
   std::string pos;
   char marker;

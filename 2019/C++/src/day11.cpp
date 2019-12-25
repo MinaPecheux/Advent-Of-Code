@@ -16,20 +16,6 @@
 // [ Computation functions ]
 // -------------------------
 
-/**
- * \fn void decomposeCoordinates(std::string pos, int& x, int& y)
- * \brief Decomposes a string in the "x,y" format into two integer coordinates.
- *
- * \param pos Coordinate to decompose.
- * \param x Reference to the integer where to store the horizontal coordinate.
- * \param y Reference to the integer where to store the vertical coordinate.
- */
-void decomposeCoordinates(std::string pos, int& x, int& y) {
-  std::vector<std::string> tmp = strSplit(pos, ",");
-  x = stoi(tmp[0]);
-  y = stoi(tmp[1]);
-}
-
 /*------------------------------------------------------------------------------
   Part I + II
 ------------------------------------------------------------------------------*/
