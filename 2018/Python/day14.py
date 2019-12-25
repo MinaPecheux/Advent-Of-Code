@@ -63,7 +63,6 @@ def make_tests():
     assert compute_recipes_p2('92510') == 18
     assert compute_recipes_p2('59414') == 2018
         
-import time
 if __name__ == '__main__':
     # check function results on example cases
     make_tests()
@@ -73,6 +72,5 @@ if __name__ == '__main__':
     print('PART I: solution = {}'.format(solution))
     
     ### PART II
-    st = time.time()
     solution = compute_recipes_p2('110201')
     print('PART II: solution = {}'.format(solution))
