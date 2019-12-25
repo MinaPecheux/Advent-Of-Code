@@ -26,6 +26,7 @@ std::string readFile(std::string filepath);
 ------------------------------------------------------------------------------*/
 std::string strFormat(const std::string fmt_str, ...);
 std::vector<std::string> strSplit(std::string srcStr, std::string delimiter);
+void progressBar(int current, int total, int width=50);
 
 /*------------------------------------------------------------------------------
   COMBINATORICS

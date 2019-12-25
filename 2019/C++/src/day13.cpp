@@ -150,7 +150,7 @@ int computeScore(Board& board, std::vector<long long> inputs, bool debug=false) 
   program->setProgramData(0, 2);
   
   bool running = true;
-  int state, id, c, score = -1;
+  int state, id, score = -1;
   size_t debugLength;
   std::string pos;
   char marker;
@@ -216,14 +216,7 @@ int computeScore(Board& board, std::vector<long long> inputs, bool debug=false) 
     }
     // (if number of remaining blocks changed, output it)
     if (lastNBlocks != nBlocks) {
-      c = 50 * nBlocks / initNBlocks;
-      std::cout << "\r";
-      for (int i = 0; i < c; i++) std::cout << "■";
-      for (int i = c; i < 50; i++) std::cout << " ";
-      for (int i = std::to_string(nBlocks).length(); i <= debugLength; i++) {
-        std::cout << " ";
-      }
-      std::cout << nBlocks;
+      progressBar(nBlocks, initNBlocks);
       lastNBlocks = nBlocks;
     }
   }

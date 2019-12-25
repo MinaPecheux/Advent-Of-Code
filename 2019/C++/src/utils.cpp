@@ -100,6 +100,26 @@ vector<string> strSplit(string s, string delimiter) {
   return parts;
 }
 
+/**
+ * \fn void progressBar(int current, int total, int width=50)
+ * \brief Shows a progress bar.
+ *
+ * \param current Current progress value.
+ * \param total Total progress value.
+ * \param width Total display width.
+ */
+void progressBar(int current, int total, int width) {
+  int debugLength = to_string(total).length();
+  int c = width * current / total;
+  cout << "\r";
+  for (int i = 0; i < c; i++) cout << "■";
+  for (int i = c; i < width; i++) cout << " ";
+  for (int i = to_string(current).length(); i <= debugLength; i++) {
+    cout << " ";
+  }
+  cout << current << "/" << total;
+}
+
 /*------------------------------------------------------------------------------
   COMBINATORICS
 ------------------------------------------------------------------------------*/

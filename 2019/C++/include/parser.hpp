@@ -18,10 +18,34 @@
 #include <utils.hpp>
 
 /*------------------------------------------------------------------------------
-  WITH DELIMITER
+  BASIC
 ------------------------------------------------------------------------------*/
 
 // (template functions must be prototyped and defined in the same file!)
+/**
+ * \fn template<typename T> std::vector<T> parseCharacters(std::string data)
+ * \brief Parses the incoming data into an array of values (with the given type).
+ *
+ * \param data Provided data to read char by char.
+ * \return Parsed data.
+ */
+template<typename T>
+std::vector<T> parseCharacters(std::string data, bool removeLineEnds=true) {
+  std::vector<T> parsed;
+  for (int i = 0; i < data.length(); i++) {
+    if (std::is_same<T,int>::value || std::is_same<T,long>::value
+      || std::is_same<T,long long>::value) {
+      if (removeLineEnds && data[i] == '\n') continue;
+      parsed.push_back(data[i] - '0');
+    }
+  }
+  return parsed;
+}
+
+/*------------------------------------------------------------------------------
+  WITH DELIMITER
+------------------------------------------------------------------------------*/
+
 /**
  * \fn template<typename T> std::vector<T> parseWithDelimiter(std::string data, std::string delimiter)
  * \brief Parses the incoming data into an array of values (with the given type).
