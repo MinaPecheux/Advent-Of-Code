@@ -74,7 +74,7 @@ int main(int argc, char const *argv[]) {
   // get input data
   std::string dataPath = "../data/day5.txt";
   std::string data = readFile(dataPath);
-  std::vector<long long> inputs = parseToLongLongsWithDelimiter(data, ",");
+  std::vector<long long> inputs = parseWithDelimiter<long long>(data, ",");
   
   // Part I
   int solution1 = processInputs(inputs, 1);

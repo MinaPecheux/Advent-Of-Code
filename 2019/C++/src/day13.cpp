@@ -234,7 +234,7 @@ int main(int argc, char const *argv[]) {
   // get input data
   std::string dataPath = "../data/day13.txt";
   std::string data = readFile(dataPath);
-  std::vector<long long> inputs = parseToLongLongsWithDelimiter(data, ",");
+  std::vector<long long> inputs = parseWithDelimiter<long long>(data, ",");
   Board board;
   
   // Part I

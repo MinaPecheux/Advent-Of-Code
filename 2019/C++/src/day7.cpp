@@ -56,7 +56,7 @@ int processInputs(std::vector<long long> inputs, bool debug=false) {
     for (curAmplifier = 0; curAmplifier < nAmplifiers; curAmplifier++) {
       phase = phaseSettings[curAmplifier];
       amplifiers[curAmplifier]->checkRunning(phase);
-      // execut program
+      // execute program
       amplifiers[curAmplifier]->runMultiple(amplifiers);
     }
     // check for max power
@@ -171,7 +171,7 @@ int main(int argc, char const *argv[]) {
   // get input data
   std::string dataPath = "../data/day7.txt";
   std::string data = readFile(dataPath);
-  std::vector<long long> inputs = parseToLongLongsWithDelimiter(data, ",");
+  std::vector<long long> inputs = parseWithDelimiter<long long>(data, ",");
   
   // Part I
   int solution1 = processInputs(inputs);

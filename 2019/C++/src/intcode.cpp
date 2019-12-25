@@ -59,7 +59,6 @@ long long IntcodeProgram::getLastOutput() const {
 }
 long long IntcodeProgram::popMemory() {
   long long v = this->memory_.front();
-  // this->memory_.pop_front();
   this->memory_.erase(this->memory_.begin());
   return v;
 }
@@ -132,8 +131,8 @@ bool IntcodeProgram::processOpcode_() {
         this->instructionPtr_ = -1;
         return false;
       }
-      vm = this->popMemory();
       va = this->getValue_(true);
+      vm = this->popMemory();
       this->setProgramData(va, vm);
       break;
     case OP_WRITE:
@@ -257,14 +256,12 @@ int IntcodeProgram::run(unsigned int pauseEvery) {
 
 int IntcodeProgram::runMultiple(vector<IntcodeProgram*> instances) {
   int nextInstance;
-  long long output;
   int nInstances = instances.size();
   // if we stopped just before halting, we simply terminate the program and go
   // to the next instance
   if (this->output_.size() > 0 && this->instructionPtr_ == -1) {
     nextInstance = (this->id_ + 1) % nInstances;
-    output = this->getLastOutput();
-    instances[nextInstance]->pushMemory(output);
+    instances[nextInstance]->pushMemory(this->getLastOutput());
     return nextInstance;
   }
   // else we continue running the program from where we stopped
@@ -278,8 +275,7 @@ int IntcodeProgram::runMultiple(vector<IntcodeProgram*> instances) {
     // else if we need to temporary pause the execution of this instance
     if (pause || this->instructionPtr_ == -1) {
       nextInstance = (this->id_ + 1) % nInstances;
-      output = this->getLastOutput();
-      instances[nextInstance]->pushMemory(output);
+      instances[nextInstance]->pushMemory(this->getLastOutput());
       return nextInstance;
     }
   }
@@ -288,7 +284,7 @@ int IntcodeProgram::runMultiple(vector<IntcodeProgram*> instances) {
 
 void IntcodeProgram::checkRunning(unsigned int phase) {
   if (!this->isRunning_) {
-    this->pushMemory(phase);
+    this->insertMemory(phase);
     this->isRunning_ = true;
   }
 }

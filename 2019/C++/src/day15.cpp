@@ -390,7 +390,7 @@ int main(int argc, char const *argv[]) {
   // get input data
   std::string dataPath = "../data/day15.txt";
   std::string data = readFile(dataPath);
-  std::vector<long long> inputs = parseToLongLongsWithDelimiter(data, ",");
+  std::vector<long long> inputs = parseWithDelimiter<long long>(data, ",");
 
   // create program
   IntcodeProgram* program = new IntcodeProgram(inputs);

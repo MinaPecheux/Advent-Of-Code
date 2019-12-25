@@ -73,7 +73,7 @@ int main(int argc, char const *argv[]) {
   // get input data
   std::string dataPath = "../data/day1.txt";
   std::string data = readFile(dataPath);
-  std::vector<int> inputs = parseToIntsWithDelimiter(data, "\n");
+  std::vector<int> inputs = parseWithDelimiter<int>(data, "\n");
   
   // Part I
   int solution1 = 0;
