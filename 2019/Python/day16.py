@@ -20,7 +20,6 @@ def parse_input(data):
 
 # [ Computation functions ]
 # -------------------------
-### Part I
 def compute_phase(inputs, skip_digits=None):
     '''Computes the next phase by applying the pattern to the given inputs.
     
@@ -145,7 +144,7 @@ def make_tests():
     
 if __name__ == '__main__':
     # check function results on example cases
-    make_tests()
+    # make_tests()
     
     # get input data
     data_path = '../data/day16.txt'
