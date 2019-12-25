@@ -33,3 +33,12 @@ Day 1 is pretty straight-forward. The only small ruse I've used is in data prepa
 This challenge is not hard. In Python, we can easily write one-line versions of our list to reduce the number of lines of code...
 
 [One-liners](https://wiki.python.org/moin/Powerful%20Python%20One-Liners) are a very powerful feature of Python that allows us to write complex programs in only one line. For example, for lists, it's a way of writing super condensed loops.
+
+## Day 3: Perfectly Spherical Houses in a Vacuum
+
+#### Answers
+**Part I: 2081 • Part II: 2341**
+
+For this puzzle, we can do a bit of data pre-processing as in Day 1, by replacing the ``<``, ``^``, ``>`` and ``v`` characters by the corresponding horizontal and vertical deltas. After this transformation, we can easily apply the move to our current coordinates.
+
+In Part II, we can use a modulo on the current instruction index to know whether it should impact Santa's or the Robo-Santa's position.
