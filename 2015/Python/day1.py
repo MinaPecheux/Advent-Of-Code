@@ -12,6 +12,8 @@ def parse_input(data):
     
     :param data: Provided problem data.
     :type data: str
+    :return: List of floor moves.
+    :rtype: list(int)
     '''
     return [ 1 if c == '(' else -1 for c in data.strip() ]
 
@@ -24,6 +26,8 @@ def compute_floor(inputs):
     
     :param inputs: List of floor moves.
     :type inputs: list(int)
+    :return: Final floor.
+    :rtype: int
     '''
     return sum(inputs)
     
@@ -34,6 +38,9 @@ def find_basement_position(inputs):
     
     :param changes: List of floor moves.
     :type changes: list(int)
+    :return: Position of the character that makes Santa reach floor -1 the
+        first time.
+    :rtype: int
     '''
     floor = 0
     i = 0
