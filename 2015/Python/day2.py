@@ -28,6 +28,8 @@ def box_surface(box):
     
     :param box: Box to compute the surface for.
     :type box: tuple(int, int, int)
+    :return: Box surface.
+    :rtype: int
     '''
     l, w, h = box
     return 2*l*w + 2*w*h + 2*h*l
@@ -37,6 +39,8 @@ def smallest_surface(box):
     
     :param box: Box to compute the surface for.
     :type box: tuple(int, int, int)
+    :return: Box smallest surface.
+    :rtype: int
     '''
     l, w, h = box
     return min([ l*w, w*h, h*l ])
@@ -46,6 +50,8 @@ def box_smallest_perimeter(box):
     
     :param box: Box to compute the perimeter for.
     :type box: tuple(int, int, int)
+    :return: Box smallest perimeter.
+    :rtype: int
     '''
     l, w, h = box
     return min([ 2*l+2*w, 2*w+2*h, 2*h+2*l ])
@@ -55,6 +61,8 @@ def box_volume(box):
     
     :param box: Box to compute the volume for.
     :type box: tuple(int, int, int)
+    :return: Box volume.
+    :rtype: int
     '''
     l, w, h = box
     return l*w*h
@@ -66,6 +74,8 @@ def total_wrapping_paper(boxes):
     
     :param boxes: List of boxes to wrap.
     :type boxes: list(tuple(int, int, int))
+    :return: Total amount of wrapping paper.
+    :rtype: int
     '''
     return sum([ box_surface(b) + smallest_surface(b) for b in boxes ])
     
@@ -76,6 +86,8 @@ def total_ribbon(boxes):
     
     :param boxes: List of boxes to wrap.
     :type boxes: list(tuple(int, int, int))
+    :return: Total amount of ribbon.
+    :rtype: int
     '''
     return sum([ box_smallest_perimeter(b) + box_volume(b) for b in boxes ])
     
