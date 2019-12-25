@@ -42,3 +42,14 @@ This challenge is not hard. In Python, we can easily write one-line versions of 
 For this puzzle, we can do a bit of data pre-processing as in Day 1, by replacing the ``<``, ``^``, ``>`` and ``v`` characters by the corresponding horizontal and vertical deltas. After this transformation, we can easily apply the move to our current coordinates.
 
 In Part II, we can use a modulo on the current instruction index to know whether it should impact Santa's or the Robo-Santa's position.
+
+## Day 4: The Ideal Stocking Stuffer
+
+#### Answers
+**Part I: 117946 • Part II: 3938038**
+
+This time, I've relied on a built-in Python lib called ``hashlib`` to handle the MD5 hashing more easily. This module gives us access to several secure hash algorithms: MD5, SHA224, SHA256... With ``hashlib``, it is very easy to compute the digest or the hexadecimal digest of a given input using those functions.
+
+Here, I've taken a really naïve approach: I simply check all the positive integers starting from 1 until I've found one that, when concatenating to the secret and passed through the MD5 hash object, gives a result hexadecimal digest that starts with the required number of zeroes.
+
+*Note: this is probably not optimized, and Part I and II both take a few seconds to run, but it is not that terrible for now, and I don't see how to improve it...*
