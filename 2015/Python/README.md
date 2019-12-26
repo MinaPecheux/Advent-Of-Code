@@ -41,6 +41,8 @@ This challenge is not hard. In Python, we can easily write one-line versions of 
 
 For this puzzle, we can do a bit of data pre-processing as in Day 1, by replacing the ``<``, ``^``, ``>`` and ``v`` characters by the corresponding horizontal and vertical deltas. After this transformation, we can easily apply the move to our current coordinates.
 
+In both parts, I use sets. This built-in Python container type is useful here because it is a collection of *unique* items, thus whenever I add a coordinate that was already there it won't change anything, and I will end up with a list of all the unique houses that Santa visited. Then, taking the size of this container directly gives me the number of houses that were visited at least once.
+
 In Part II, we can use a modulo on the current instruction index to know whether it should impact Santa's or the Robo-Santa's position.
 
 ## Day 4: The Ideal Stocking Stuffer
@@ -62,3 +64,20 @@ Here, I've taken a really naïve approach: I simply check all the positive integ
 In my solution, I'm passing the check function to use to my computation function so I can easily switch between the criteria from Part I and the ones from Part II.
 
 For the new criteria in Part II, I've also used a [regular expression](https://en.wikipedia.org/wiki/Regular_expression) (or Regex): the idea is to define a "pattern" to search for in a string, and then to see if the given string can be matched to this pattern. If so, we are even able to isolate the bit that match the different parts of our pattern and thus directly extract our values. Here, this helps us check if we have at least one letter surrounded by the same letter on both sides.
+
+## Day 6: Probably a Fire Hazard
+
+#### Answers
+**Part I: 569999 • Part II: 17836115**
+
+Day 6 is mostly about parsing the data and storing in a (relatively) efficient way, since the algorithm itself is really basic.
+
+For the data preprocessing part, I've used regular expressions once again to extract the action and the area to apply it to from each instruction line. In the end, I get a list of *tuples* that contain 5 integers: the action type (0 for "turn off", 1 for "turn on", 2 for "toggle"), the left ``x`` of the impact zone, the top ``y`` of the zone, the right ``x`` of the zone and the bottom ``y`` of the zone. All four coordinates are inclusive.
+
+In my ``process_no_brightness()`` and ``process_with_brightness()`` methods, I'm using either sets or dicts to model my grid of 1 million lights efficiently. In particular:
+
+- in Part I (``process_no_brightness()``), rather than storing all the lights with their initial value of 0, I'm just creating a set of the ones that are turned on at the end; sets are really great at adding, removing and checking the presence of elements quickly
+
+- in Part II (``process_with_brightness()``), I use a ``defaultdict`` which is a container type from the built-in ``collections`` module; the advantage of a  ``defaultdict`` is that it is initialized with a default value depending on the given type (for integers, it is 0) and I can therefore simply increment or decrement the value to apply my action
+
+Because computation is not instantaneous, I've also added a little debug mode with the great [tqdm](https://pypi.org/project/tqdm/) Python library. This package makes it easy to wrap an iterator (such as a ``range`` or a simple list) with the ``tqdm()`` method so that your shell displays the iterations with a progress bar and the total execution time.

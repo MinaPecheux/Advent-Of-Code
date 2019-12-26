@@ -117,5 +117,5 @@ if __name__ == '__main__':
     print('PART I: solution = {}'.format(solution))
     
     ### PART II
-    solution = get_n_nice_strings(strings, is_nice_p2) # 27: wrong
+    solution = get_n_nice_strings(strings, is_nice_p2)
     print('PART II: solution = {}'.format(solution))
