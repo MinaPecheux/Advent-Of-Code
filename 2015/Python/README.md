@@ -53,3 +53,12 @@ This time, I've relied on a built-in Python lib called ``hashlib`` to handle the
 Here, I've taken a really naïve approach: I simply check all the positive integers starting from 1 until I've found one that, when concatenating to the secret and passed through the MD5 hash object, gives a result hexadecimal digest that starts with the required number of zeroes.
 
 *Note: this is probably not optimized, and Part I and II both take a few seconds to run, but it is not that terrible for now, and I don't see how to improve it...*
+
+## Day 5: Doesn't He Have Intern-Elves For This?
+
+#### Answers
+**Part I: 255 • Part II: 55**
+
+In my solution, I'm passing the check function to use to my computation function so I can easily switch between the criteria from Part I and the ones from Part II.
+
+For the new criteria in Part II, I've also used a [regular expression](https://en.wikipedia.org/wiki/Regular_expression) (or Regex): the idea is to define a "pattern" to search for in a string, and then to see if the given string can be matched to this pattern. If so, we are even able to isolate the bit that match the different parts of our pattern and thus directly extract our values. Here, this helps us check if we have at least one letter surrounded by the same letter on both sides.
