@@ -139,3 +139,14 @@ I won't do a full detailed presentation of the lib itself but rather I'll take t
 *Note: this is particularly important in data science where you often deal with large amount of data. A common tech stack for data scientists includes the Numpy and Scipy libs - this is because these libraries have been super-optimized and partly rely on compiled and hardware-tuned code to speed up computation remarkably.*
 
 *Note 2: here, we use the same info in both parts of the problem since Part I asks for the shortest distance and Part II for the longest one; by pre-computing and storing all the distances, we can get the result for Part II almost instantly, as opposed to a naïve re-compute of all distances a second time that requires a few seconds.*
+
+### Day 10: Elves Look, Elves Say
+
+#### Answers
+**Part I: 252594 • Part II: 3579328**
+
+Day 10 is pretty straight-forward in Python because the language provides us with the nice ``groupby()`` method in its built-in ``itertools`` module. Thanks to this function, we can easily compute the occurrence of each character in our current input (while keeping the order of these occurrences) and then reconstruct the new input for the next round.
+
+My solution gives the right result however it could probably be optimized. For now, it is almost instantaneous for Part I but Part II takes several seconds (although I'm not restarting from scratch for Part II but re-using what I computed in Part I to skip some computation...).
+
+In theory, we could parallelize the calculations because the input can be cut down in chunks that can be processed independently.
