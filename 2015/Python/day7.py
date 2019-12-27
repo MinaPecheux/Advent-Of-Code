@@ -77,12 +77,11 @@ def parse_input(data):
     
     :param data: Provided problem data.
     :type data: str
-    :return: List of strings to check.
+    :return: Complete circuit to work with.
     :rtype: dict(str, CircuitPiece)
     '''
     pieces = {}
     for line in data.strip().split('\n'):
-        if line == '': continue
         inputs, output = line.split(' -> ')
         found_op = False
         for op in CircuitPiece.OPERATIONS:
@@ -106,7 +105,7 @@ def parse_input(data):
 # [ Computation functions ]
 # -------------------------
 
-### PART I
+### PART I + II
 def compute_circuit(circuit, test_wire):
     '''Computes the value of a piece in the given circuit (found by its label).
     
@@ -116,8 +115,6 @@ def compute_circuit(circuit, test_wire):
     :rtype: int
     '''
     return circuit[test_wire].compute(circuit)
-
-### PART II
     
 # [ Base tests ]
 # --------------

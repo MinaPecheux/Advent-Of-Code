@@ -103,3 +103,16 @@ This ``__init__()`` function will be called whenever you instantiate a new varia
 Other than that, a tiny detail in my solution is that I store the pieces in my circuit in a dictionary where the key is the label of each piece; this way, I can find a piece very quickly by its label.
 
 *Note: I've also overridden another Python ["magic" method](https://www.python-course.eu/python3_magic_methods.php) for my ``CircuitPiece`` class, the ``__str__()`` function. Thanks to this, I can change the string representation of my instances and make my debugs a bit clearer if necessary.*
+
+## Day 8: Matchsticks
+
+#### Answers
+**Part I: 1371 • Part II: 2117**
+
+In this puzzle, we need to manipulate strings in various ways. In particular, I can't read the file as I did in my previous solutions because I need to keep the inputs in their "raw" format. This time, if I use the classic Python's ``open()`` method, the strings will be transformed automatically and I won't be able to keep my original ASCII characters intact - so I won't be able to compute the initial "encoded" string length. Instead, I rely on the ``codecs`` built-in Python lib that gives me the raw content of the file.
+
+For Part I, we can use Python's built-in ``eval()`` function to transform the initial string into a "decoded" version where we have replaced the escaped backslashes, the escaped quotes and the ASCII hex characters by the corresponding real characters.
+
+*Note: this method is quite powerful but it can be __risky__ because it runs the given text as a Python program directly and can thus be used to ["inject" malignant code](https://nedbatchelder.com/blog/201206/eval_really_is_dangerous.html)!*
+
+For Part II, we can directly use Python's ``re`` module (that's used for regex) - it has a ``re.escape()`` method that automatically gives us the escaped version of a string. We just need to add the double quotes at both ends to get the "encoded" version of our string that is required for Part II.
