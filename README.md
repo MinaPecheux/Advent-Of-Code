@@ -22,7 +22,7 @@ The Github repository is subdivided per year, then by language. For now, I've wo
 2018    [ ■■■■■■■■■■■■■■            ] 14 / 25
 2017    n/a
 2016    n/a
-2015    [ ■■■■■■■■                  ]  8 / 25
+2015    [ ■■■■■■■■■                 ]  9 / 25
 ```
 
 **Javascript (Node JS):**

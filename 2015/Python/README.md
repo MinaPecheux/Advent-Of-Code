@@ -116,3 +116,26 @@ For Part I, we can use Python's built-in ``eval()`` function to transform the in
 *Note: this method is quite powerful but it can be __risky__ because it runs the given text as a Python program directly and can thus be used to ["inject" malignant code](https://nedbatchelder.com/blog/201206/eval_really_is_dangerous.html)!*
 
 For Part II, we can directly use Python's ``re`` module (that's used for regex) - it has a ``re.escape()`` method that automatically gives us the escaped version of a string. We just need to add the double quotes at both ends to get the "encoded" version of our string that is required for Part II.
+
+### Day 9: All in a Single Night
+
+#### Answers
+**Part I: 207 • Part II: 804**
+
+From an algorithmic point of view, this problem is focused on graphs. The cities we are given are linked to each other in such a way that we can draw a graph of their connections.
+
+[Graph theory](https://en.wikipedia.org/wiki/Graph_theory) is a fascinating field. Re-implementing graphs from scratch is interesting but I could never have reached optimal performance, so I decided to instead use the Python package [NetworkX](https://networkx.github.io/documentation/stable/index.html). This lib contains efficient structures to represent and manipulate graphs: you can create nodes, edges (either directed or undirected), search for adjacent/successors/predecessors nodes, apply path computation algorithms...
+
+Here, we want to create an undirected graph where:
+
+- cities are node
+- routes between cities are (undirected) edges
+- edges are weighted with the distance between the two cities
+
+Then, the lib's ``all_simple_paths()`` method helps us to find all possible paths between two points in the graph so that we can easily compute the shortest (Part I) and longest (Part II) distances in the graph.
+
+I won't do a full detailed presentation of the lib itself but rather I'll take this opportunity to point out once again that, to me, a huge strength of Python is the ecosystem that has gradually been built for it by the community. Today, the Python language is not just a well-designed script language but also an abundant collection of packages that have been developed by the Python team or the community and help us solve lots of problems. In Python, the phrase "don't reinvent wheel" is usually very true: before trying to rebuild a complex system from the ground up, you should first check if there isn't already a lib that takes care of that. A good Python program is more often than not a well-organized suite of cleverly chosen efficient bricks.
+
+*Note: this is particularly important in data science where you often deal with large amount of data. A common tech stack for data scientists includes the Numpy and Scipy libs - this is because these libraries have been super-optimized and partly rely on compiled and hardware-tuned code to speed up computation remarkably.*
+
+*Note 2: here, we use the same info in both parts of the problem since Part I asks for the shortest distance and Part II for the longest one; by pre-computing and storing all the distances, we can get the result for Part II almost instantly, as opposed to a naïve re-compute of all distances a second time that requires a few seconds.*
