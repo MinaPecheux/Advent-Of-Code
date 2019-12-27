@@ -81,3 +81,25 @@ In my ``process_no_brightness()`` and ``process_with_brightness()`` methods, I'm
 - in Part II (``process_with_brightness()``), I use a ``defaultdict`` which is a container type from the built-in ``collections`` module; the advantage of a  ``defaultdict`` is that it is initialized with a default value depending on the given type (for integers, it is 0) and I can therefore simply increment or decrement the value to apply my action
 
 Because computation is not instantaneous, I've also added a little debug mode with the great [tqdm](https://pypi.org/project/tqdm/) Python library. This package makes it easy to wrap an iterator (such as a ``range`` or a simple list) with the ``tqdm()`` method so that your shell displays the iterations with a progress bar and the total execution time.
+
+## Day 7: Some Assembly Required
+
+#### Answers
+**Part I: 16076 • Part II: 2797**
+
+To model the pieces in the circuit more easily, I've used a key feature of Python that falls under the object-oriented programming paradigm: classes. It is a nice way of aggregating together bits of code that have a logical link.
+
+To create a basic class, you should inherit from the ``object`` built-in and then define a ``class`` that has at least an ``__init__()`` method:
+
+```python
+class CircuitPiece(object):
+    
+    def __init__(self):
+        pass
+```
+
+This ``__init__()`` function will be called whenever you instantiate a new variable of type ``CircuitPiece``. The neat thing with object-oriented programming, as I said just before, is that you can gather in the same place various variables or methods that are logically linked together; here, our class can contain other methods that implement the behavior we want one of program instance to have: a basic state check, memory updates, instructions execution...
+
+Other than that, a tiny detail in my solution is that I store the pieces in my circuit in a dictionary where the key is the label of each piece; this way, I can find a piece very quickly by its label.
+
+*Note: I've also overridden another Python ["magic" method](https://www.python-course.eu/python3_magic_methods.php) for my ``CircuitPiece`` class, the ``__str__()`` function. Thanks to this, I can change the string representation of my instances and make my debugs a bit clearer if necessary.*
