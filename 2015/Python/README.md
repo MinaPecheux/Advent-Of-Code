@@ -194,3 +194,16 @@ All in all, the idea is as follows:
 - for Part I and II: the method ``get_numbers_sum()`` uses a regex to find all the numbers in a JSON-formatted string, convert them to actual ints and get the sum
 
 - for Part II: the function ``ignore_reds()`` recursively computes the new JSON data where all objects containing the string "red" as a value somewhere have been removed, and the method ``get_sum_no_reds()`` does a little string-to-object and object-to-string exchange (with the ``json`` package) to get the total sum of the numbers in the data after the ``ignore_reds()`` process
+
+### Day 13: Knights of the Dinner Table
+
+#### Answers
+**Part I: 733 • Part II: 725**
+
+This problem is about finding the optimal placement for a bunch of people in order to maximize the total amount of "happiness" of everyone, given their likes and dislikes of the other persons.
+
+Thus we want to examine permutations of our group (which can be quickly be calculated using Python's built-in module ``itertools``). For each, we simply need to check the neighbors of each person in this configuration, compute the happiness of this person and add it to the total. This way, we can easily sort the configurations and find the optimal one.
+
+Both parts use the exact same algorithm, only the input data changes.
+
+*Note: the algorithm could perhaps be optimized but the execution time is still pretty good at the time, with an instantaneous Part I and only ~4 secs for Part II.*
