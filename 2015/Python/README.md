@@ -179,3 +179,18 @@ abxab
 ```
 
 *Note: since tests are a bit long, I've put a little debug to warn the user when the tests are done. They can be commented out to gain some exec time and only compute the actual problem's solutions.*
+
+### Day 12: JSAbacusFramework.io
+
+#### Answers
+**Part I: 191164 • Part II: 87842**
+
+In this puzzle, we are provided with an object as a JSON-formatted string and we want to sum all the numbers that appear in the data.
+
+The solution is both handy and short in Python since this language has a built-in ``json`` module that can easily transform a JSON string into the corresponding object and vice-versa. Then, we also have a very simple regex that we can apply to the stringified content to get all the numbers in the data and therefore compute the sum quickly.
+
+All in all, the idea is as follows:
+
+- for Part I and II: the method ``get_numbers_sum()`` uses a regex to find all the numbers in a JSON-formatted string, convert them to actual ints and get the sum
+
+- for Part II: the function ``ignore_reds()`` recursively computes the new JSON data where all objects containing the string "red" as a value somewhere have been removed, and the method ``get_sum_no_reds()`` does a little string-to-object and object-to-string exchange (with the ``json`` package) to get the total sum of the numbers in the data after the ``ignore_reds()`` process

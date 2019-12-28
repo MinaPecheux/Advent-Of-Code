@@ -47,7 +47,7 @@ def create_generator(syms, rolls, start):
                 # There was a roll-over, next roll.
         curval += 1
 
-### PART I
+### PART I + II
 ALPHABET = [ chr(i) for i in range(ord('a'), ord('z')+1) ]
 PAIRS = [ c * 2 for c in ALPHABET ]
 INCREASING_TRIPLES = [
