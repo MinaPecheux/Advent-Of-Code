@@ -150,3 +150,32 @@ Day 10 is pretty straight-forward in Python because the language provides us wit
 My solution gives the right result however it could probably be optimized. For now, it is almost instantaneous for Part I but Part II takes several seconds (although I'm not restarting from scratch for Part II but re-using what I computed in Part I to skip some computation...).
 
 In theory, we could parallelize the calculations because the input can be cut down in chunks that can be processed independently.
+
+### Day 11: Corporate Policy
+
+#### Answers
+**Part I: hepxxyzz • Part II: heqaabcc**
+
+For Day 11, we basically need two functions:
+
+- one test function that checks whether a password is valid or not (by checking if the password meets the various given criteria): ``pwd_is_ok()``
+
+- a function to generate the passwords and test them; it is a brute-force iteration of a generator that tries all the possibilities after the current one until we find a password that is valid: ``get_new_password()``
+
+To avoid inefficient use of memory, we can use Python's generator rather true lists: the idea is to *not* generate all the possible passwords beforehand but rather generate them on the fly.
+
+The generator works like an [odometer](https://en.wikipedia.org/wiki/Odometer): you have a row of "gears", you increase the rightmost one by one every time and whenever the "gear" rolls over, the one on its left increases by 1. There is a propagation of this pattern to the left so that we get a progression like:
+
+```
+abxyz
+abxya
+abxyb
+...
+abxyz
+abxzz
+abxaa
+abxab
+...
+```
+
+*Note: since tests are a bit long, I've put a little debug to warn the user when the tests are done. They can be commented out to gain some exec time and only compute the actual problem's solutions.*
