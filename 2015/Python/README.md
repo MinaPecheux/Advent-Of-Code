@@ -207,3 +207,40 @@ Thus we want to examine permutations of our group (which can be quickly be calcu
 Both parts use the exact same algorithm, only the input data changes.
 
 *Note: the algorithm could perhaps be optimized but the execution time is still pretty good at the time, with an instantaneous Part I and only ~4 secs for Part II.*
+
+### Day 14: Reindeer Olympics
+
+#### Answers
+**Part I: 2640 • Part II: 1102**
+
+Day 14 is about a reindeers race! We have a group of reindeers that each have a name, a speed, a fly time and a rest time. The idea is as follows:
+
+- a reindeer starts the race by flying for ``fly_time`` seconds - each second, it travels ``speed`` kilometers
+
+- when ``fly_time`` seconds have passed, the reindeer is exhausted and must rest for ``rest_time`` seconds
+
+- after resting for ``rest_time`` seconds, the reindeer can fly again for ``fly_time`` seconds
+
+- and so on, until the race ends
+
+The race lasts a given number of seconds.
+
+To represent the reindeers easily and have them travel each second while checking for the fly/rest state, I have coded up a little ``Reindeer`` class. It has all the required data and methods to have each reindeer play its turn in the race properly at each second.
+
+After parsing the input to instantiate our ``Reindeers`` items, we can update them with the 3 following functions:
+
+1. ``reset()``: restores the initial state of the reindeer (effectively takes it back to the starting line)
+
+2. ``travel_one()``: makes the reindeer travel forward during a second
+
+3. ``travel()``: makes the reindeer travel forward for a given number of seconds
+
+The meat of the code is in the ``travel_one()`` method. First, we check if the reindeer should change its state or not, i.e. if it was flying and has travelled during ``fly_time`` seconds or if it was resting and has rested during ``rest_time`` seconds. If either is true then the reindeer switches to the reverse state and sets the state timer to the new state length (``fly_time`` or ``rest_time``). Once this check is done, we see if the reindeer is flying: if it is, the animal travels ``speed`` kilometers forward by adding this value to its ``distance`` property (that will hold the total travelled distance at the end of the race). Finally, we update the state timer.
+
+In Part II where we have bonus points too, we have a ``score`` property that can be incremented for the reindeer(s) in the lead at the end of the turn.
+
+At the end of the race, depending on the way Santa counts the points, we evaluate who the winning reindeer is:
+
+- if we only look at the total travelled distance and get the reindeer that has travelled the furthest (Part I), then we simply need to take the Reindeer instance that has the highest value for its ``distance`` property
+
+- if we also have "bonus points" for the reindeer(s) are in the lead each second, then we use the ``score`` property instead
