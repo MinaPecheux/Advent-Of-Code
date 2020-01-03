@@ -244,3 +244,16 @@ At the end of the race, depending on the way Santa counts the points, we evaluat
 - if we only look at the total travelled distance and get the reindeer that has travelled the furthest (Part I), then we simply need to take the Reindeer instance that has the highest value for its ``distance`` property
 
 - if we also have "bonus points" for the reindeer(s) are in the lead each second, then we use the ``score`` property instead
+
+### Day 15: Science for Hungry People
+
+#### Answers
+**Part I: 18965440 • Part II: 15862900**
+
+For Day 15, we can use the ``numpy`` lib to drastically reduce the execution time. This very common data science module is super-optimized and partly relies on compiled and hardware-tuned code that speed up computation remarkably.
+
+I haven't found a way to have a generic solution: here, I make use of the fact that there are 4 ingredients in my input to prepare my loops and use ``numpy`` arrays whenever possible.
+
+Part I and Part II are very similar: the second part only adds a new constraint to the valid recipes - they must have exactly 500 calories. To apply this criterion, we just need to add a little ``if`` statement with a ``numpy`` conditional selection.
+
+*Note: once again, I've put some progress bar with the ``tqdm`` package so that the user keeps track of the computation process.*
