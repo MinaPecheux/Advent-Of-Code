@@ -174,7 +174,7 @@ if __name__ == '__main__':
     solution = best_reindeer_no_bonus(reindeers, 2503)
     print('PART I: solution = {}'.format(solution))
     
-    ### PART I
+    ### PART II
     solution = best_reindeer_with_bonus(reindeers, 2503)
     print('PART II: solution = {}'.format(solution))
     

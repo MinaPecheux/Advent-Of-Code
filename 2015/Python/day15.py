@@ -120,7 +120,7 @@ if __name__ == '__main__':
     solution = best_recipe_value(ingredients)
     print('PART I: solution = {}'.format(solution))
     
-    ### PART I
+    ### PART II
     solution = best_recipe_value(ingredients, check_calories=500)
     print('PART II: solution = {}'.format(solution))
     

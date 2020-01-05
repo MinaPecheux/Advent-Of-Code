@@ -257,3 +257,16 @@ I haven't found a way to have a generic solution: here, I make use of the fact t
 Part I and Part II are very similar: the second part only adds a new constraint to the valid recipes - they must have exactly 500 calories. To apply this criterion, we just need to add a little ``if`` statement with a ``numpy`` conditional selection.
 
 *Note: once again, I've put some progress bar with the ``tqdm`` package so that the user keeps track of the computation process.*
+
+### Day 16: Aunt Sue
+
+#### Answers
+**Part I: 103 • Part II: 405**
+
+Day 16 is quite an easy-peasy problem that makes for a nice pause in the month! Once again, by using the right data type, we can significantly increase the efficiency of our program.
+
+Here, I use dictionaries to quickly look up the matching parameters, and I isolate the ids of the aunts that match the given criteria.
+
+In Part I, we only check equalities. In Part II, we also have some inequalities, depending on the checked key. Overall, we can create a list of potential matches that contains either 1 or 2 items.
+
+I admit that, for Part II, I don't know if there is an actual way of choosing between the two candidates. My guess was that it couldn't be the same as the answer for Part I, but I don't know if it is a sound strategy... ;)
