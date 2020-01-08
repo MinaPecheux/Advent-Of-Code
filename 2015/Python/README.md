@@ -270,3 +270,14 @@ Here, I use dictionaries to quickly look up the matching parameters, and I isola
 In Part I, we only check equalities. In Part II, we also have some inequalities, depending on the checked key. Overall, we can create a list of potential matches that contains either 1 or 2 items.
 
 I admit that, for Part II, I don't know if there is an actual way of choosing between the two candidates. My guess was that it couldn't be the same as the answer for Part I, but I don't know if it is a sound strategy... ;)
+
+### Day 17: No Such Thing as Too Much
+
+#### Answers
+**Part I: 1304 • Part II: 18**
+
+Solving this puzzle isn't too hard thanks to Python built-in ``itertools`` lib. By using its ``combinations()`` method, we can easily get all the possible containers' permutations.
+
+We can compute those once, put them in a set, and then just extract the relevant info for Part I and Part II.
+
+In Part I, we just need to get the number of unique combinations, so it's the length of our set. In Part II, we need to get the minimal number of containers to use first and then get all the combinations that fit this number.
