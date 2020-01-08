@@ -281,3 +281,22 @@ Solving this puzzle isn't too hard thanks to Python built-in ``itertools`` lib. 
 We can compute those once, put them in a set, and then just extract the relevant info for Part I and Part II.
 
 In Part I, we just need to get the number of unique combinations, so it's the length of our set. In Part II, we need to get the minimal number of containers to use first and then get all the combinations that fit this number.
+
+### Day 18: Like a GIF For Your Yard
+
+#### Answers
+**Part I: 1061 • Part II: 1006**
+
+Day 18 is an implementation of the Game of Life, of Conway. This cellular automaton was designed by John Horton Conway in 1970. The Game of Life consists of cells that are "alive" or "dead"; then, at each step, the new state of every cell is defined by the states of its neighbors, depending on the chosen rules.
+
+This algorithm has been shown to create quite complex structures, some of which repeat, others that generate even bigger ones... overall the Game of Life is an amazing example of mathematical emergence - the process that allows advanced patterns to grow out of simple rules.
+
+If you want to read more about Conway's Game of Life, you can check <a href="https://minapecheux.com/wp/a-peek-at-cellular-automata-1/" target="_blank">my article</a> on this topic.
+
+Note: my script also allows for export of the board processing so that we can see the Game evolve - it exports the board at each iteration using the ``PIL`` lib. To produce a movie from the still frames, we can use the common audio/video conversion tool [ffmpeg](https://ffmpeg.org/):
+
+```
+ffmpeg -framerate 10 -i day18/%d.jpg day18.mp4
+```
+
+This will produce videos like [this one](resources/day18.mp4).
