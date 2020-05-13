@@ -1,5 +1,7 @@
 # Python
 *.pyc
+Pipfile
+Pipfile.lock
 
 # C
 bin/
