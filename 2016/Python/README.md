@@ -30,3 +30,17 @@ If we call `xf` and `yf` those final coordinates, then the Taxicab distance from
 Computing the actual path is quite straight-forward: we simply need to check what direction we are currently going in, update it according to the first letter in the instruction block and then move forward the provided number of steps.
 
 For Part II, we also need to store the intermediate cells we walked through so that we can check what cell we already crossed, and optionnally stop as soon as we've gone in circle.
+
+## Day 2: Bathroom Security
+
+#### Answers
+**Part I: 53255 • Part II: 7423A**
+
+In Day 2, we simulate a security panel with digits and letters and perform a series of moves on it.
+
+In Part I, we have a standard panel with digits ranging from 1 to 9 (from top to bottom, from left to right). Let `x` and `y` be the current position on the panel. We start from the digit "5", so in the middle of the panel, meaning that the initial position is `x = 1` and `y = 1`. We can then update `x` and `y` with each move (e.g. `U` will reduce `y` by 1, unless `y` is already 0). At the end of each line of moves, we store the new code digit; it can be computed easily from `x` and `y` as: `1 + x + y * 3` (since we start from 1 and there are 3 digits per line on the panel).
+
+In Part II, we have a special panel with digits from 1 to 9 and 4 letters (A, B, C, D). We use the same technique as before, except that:
+
+- empty cells in the panel (stored as `None` in my script) prevent us from performing the move
+- the new code digit is simply the value of the panel at the given `(x, y)` position

@@ -12,7 +12,7 @@ def parse_input(data):
     
     :param data: Provided problem data.
     :type data: str
-    :return: List of floor moves.
+    :return: List of moves.
     :rtype: list(int)
     '''
     return [ x.strip() for x in data.split(',') ]
