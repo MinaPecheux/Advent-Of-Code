@@ -44,7 +44,7 @@ def compute_normal_panel(inputs):
         code += str(1 + x + y * 3)
     return code
 
-### PART I
+### PART II
 def compute_special_panel(inputs):
     '''Computes the bathroom code from the list of moves.
     
