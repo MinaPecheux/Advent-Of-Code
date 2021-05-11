@@ -1,0 +1,12 @@
+{
+  "name": "@mpecheux/advent-of-code-2019",
+  "author": {
+    "name": "Mina Pêcheux",
+    "email": "mina.pecheux@gmail.com",
+    "url": "https://minapecheux.com"
+  },
+  "dependencies": {
+    "chai": "^4.2.0",
+    "lodash": "^4.17.21"
+  }
+}
