@@ -78,7 +78,7 @@ If I removed this transformation, I would need to "copy" the inputs before runni
 
 The challenge with this problem was to handle the large lists as quickly as possible. To do so, I used lists, dictionaries and sets and tried to make the best out of those worlds (depending on [the time complexity of various operations for each data type](https://wiki.python.org/moin/TimeComplexity)):
 
-- lists are ordered, meaning that you can access elements by index, and they allow for ``min`` or ``max`` operations; this lets me to easily refer to the "first" (at index 0) and the "second" (at index 1) wire, to take the smallest distance...
+- lists are ordered, meaning that you can access elements by index, and they allow for ``min`` or ``max`` operations; this lets me easily refer to the "first" (at index 0) and the "second" (at index 1) wire, to take the smallest distance...
 
 - dictionaries are hashable containers that work with key-value pairs; they are great for quick element access (it is in `O(1)`, i.e. in constant time)
 

@@ -29,7 +29,7 @@ def manhattan_distance(x1, y1, x2, y2):
     :param x2: Horizontal coordinate of the second point.
     :type x2: int
     :param y1: Vertical coordinate of the second point.
-    :type y1: int
+    :type y2: int
     :return: Taxicab distance between the two 2D points.
     :rtype: int
     '''
@@ -78,14 +78,13 @@ def find_closest_intersection_with_dist(paths):
     
     :param paths: Paths to process.
     :type paths: list(list(str))
-    :return: Distance of the closest intersection to the central port.
+    :return: Distance to the closest intersection to the central port.
     :rtype: int
     '''
     # compute all activated points on the grid
     path_points = [ find_path_points(path) for path in paths ]
     # extract the intersections of all the paths
     intersections = set(path_points[0]).intersection(set(path_points[1]))
-    print(intersections)
     # find the one closest to the central port (compute its Manhattan distance)
     dists = [ manhattan_distance(pos[0], pos[1], 0, 0) for pos in intersections ]
     return min(dists)
@@ -97,7 +96,7 @@ def find_closest_intersection_with_steps(paths):
     
     :param paths: Paths to process.
     :type paths: list(list(str))
-    :return: Distance of the closest intersection to the central port.
+    :return: Distance to the closest intersection to the central port.
     :rtype: int
     '''
     # compute all activated points on the grid
