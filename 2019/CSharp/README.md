@@ -87,3 +87,18 @@ For example, in the ``ProcessInputs()`` function, I pass the ``inputs`` list to 
 If I removed this transformation, I would need to "copy" the inputs before running them through any processing code!
 
 > For more info on immutable data structures in C#, you can check out [Microsoft's docs](https://docs.microsoft.com/en-us/dotnet/api/system.collections.immutable?view=net-5.0).
+
+## Day 3: Crossed Wires
+
+#### Answers
+**Part I: 209 • Part II: 43258**
+
+The challenge with this problem was to handle the large lists as quickly as possible. To do so, I used lists, dictionaries and enumerables and tried to make the best out of those worlds (depending on [the time complexity of various operations for each data type](http://c-sharp-snippets.blogspot.com/2010/03/runtime-complexity-of-net-generic.html)):
+
+- lists are ordered, meaning that you can access elements by index, and they allow for ``min`` or ``max`` operations; this lets me easily refer to the "first" (at index 0) and the "second" (at index 1) wire, to take the smallest distance...
+
+- dictionaries are hashable containers that work with key-value pairs; they are great for quick element access (it is in `O(1)`, i.e. in constant time, unless there is a collision)
+
+- enumerables are interesting as "soon-to-be" data containers; basically, they are iterators that you can run through without storing everything in memory beforehand, which can help reduce your program overall load on the computer
+
+By using the right data type at the right time, you can increase the computation time tremendously.
