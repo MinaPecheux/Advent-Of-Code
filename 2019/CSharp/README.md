@@ -102,3 +102,15 @@ The challenge with this problem was to handle the large lists as quickly as poss
 - enumerables are interesting as "soon-to-be" data containers; basically, they are iterators that you can run through without storing everything in memory beforehand, which can help reduce your program overall load on the computer
 
 By using the right data type at the right time, you can increase the computation time tremendously.
+
+## Day 4: Secure Container
+
+#### Answers
+**Part I: 1019 • Part II: 660**
+
+There is not much to say with this solution, except that I use:
+
+- a little Linq trick, with ``GroupBy()``, to easily count the occurrences of each character in my stringified number
+- a delegate with the prototype of my check functions (for Parts I and II) to pass either to my `GetCountOfValidNumbers()` method as an input parameter
+
+Also, I take advantage of C#'s ability to quickly change from one type to another by treating my number and its digits either as integers or as characters depending on what I need.
