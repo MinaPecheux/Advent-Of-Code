@@ -11,7 +11,7 @@ For more info on the project, take a look at [the about page](https://adventofco
 Big thanks to [Eddie Li](https://github.com/xdl) for introducing me to this neat project!
 
 ## Repo organization
-The Github repository is subdivided per year, then by language. For now, I've worked mostly in Python, Javascript (Node JS) and C/C++, and mostly on the 2019 and 2018 challenges. I will keep on filling the repository as I code up solutions in other languages or for more challenges :)
+The Github repository is subdivided per year, then by language. For now, I've worked mostly in Python, Javascript (Node JS), C++, CSharp (C#) and C, and mostly on the 2019 and 2018 challenges. I will keep on filling the repository as I code up solutions in other languages or for more challenges :)
 
 <u>**Current progression**</u>
 
@@ -39,6 +39,16 @@ The Github repository is subdivided per year, then by language. For now, I've wo
 
 ```
 2019    [ ■■■■■x■■■■■■■■■■          ] 15 / 25
+2018    n/a
+2017    n/a
+2016    n/a
+2015    n/a
+```
+
+**C#:**
+
+```
+2019    [ ■                         ]  1 / 25
 2018    n/a
 2017    n/a
 2016    n/a

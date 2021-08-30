@@ -1,0 +1,15 @@
+/Users/mina/Documents/DEV/Advent-Of-Code/2019/CSharp/bin/Debug/net5.0/CSharp.deps.json
+/Users/mina/Documents/DEV/Advent-Of-Code/2019/CSharp/bin/Debug/net5.0/CSharp.runtimeconfig.json
+/Users/mina/Documents/DEV/Advent-Of-Code/2019/CSharp/bin/Debug/net5.0/CSharp.runtimeconfig.dev.json
+/Users/mina/Documents/DEV/Advent-Of-Code/2019/CSharp/bin/Debug/net5.0/CSharp.dll
+/Users/mina/Documents/DEV/Advent-Of-Code/2019/CSharp/bin/Debug/net5.0/ref/CSharp.dll
+/Users/mina/Documents/DEV/Advent-Of-Code/2019/CSharp/bin/Debug/net5.0/CSharp.pdb
+/Users/mina/Documents/DEV/Advent-Of-Code/2019/CSharp/obj/Debug/net5.0/CSharp.csproj.AssemblyReference.cache
+/Users/mina/Documents/DEV/Advent-Of-Code/2019/CSharp/obj/Debug/net5.0/CSharp.GeneratedMSBuildEditorConfig.editorconfig
+/Users/mina/Documents/DEV/Advent-Of-Code/2019/CSharp/obj/Debug/net5.0/CSharp.AssemblyInfoInputs.cache
+/Users/mina/Documents/DEV/Advent-Of-Code/2019/CSharp/obj/Debug/net5.0/CSharp.AssemblyInfo.cs
+/Users/mina/Documents/DEV/Advent-Of-Code/2019/CSharp/obj/Debug/net5.0/CSharp.csproj.CoreCompileInputs.cache
+/Users/mina/Documents/DEV/Advent-Of-Code/2019/CSharp/obj/Debug/net5.0/CSharp.dll
+/Users/mina/Documents/DEV/Advent-Of-Code/2019/CSharp/obj/Debug/net5.0/ref/CSharp.dll
+/Users/mina/Documents/DEV/Advent-Of-Code/2019/CSharp/obj/Debug/net5.0/CSharp.pdb
+/Users/mina/Documents/DEV/Advent-Of-Code/2019/CSharp/obj/Debug/net5.0/CSharp.genruntimeconfig.cache
