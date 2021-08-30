@@ -71,7 +71,7 @@ namespace CSharp2019
             Debug.Assert(ComputeTotalFuel(100756) == 50346);
         }
 
-        static void Main(string[] args)
+        public static void Run()
         {
             // check function results on example cases
             MakeTests();

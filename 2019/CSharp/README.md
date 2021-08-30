@@ -3,9 +3,17 @@
 This subfolder contains my code solutions for challenges from the 2019 series, written in C# (5.0.7).
 
 ## Preliminary note: files organization
-In these files, I try to always organize the code in the same way:
+The main entrypoint for this C# project is the ``index.cs``. It is a simple console interpreter that takes in the number of the program you want to run (for example, 1 for ``day1.cs``) and runs the corresponding code.
 
-1. first, some imports if need be (usually C# built-in libs)
+Here is how to run the code for Day 1 using the .NET command line utilities:
+
+```
+dotnet run -- 1
+```
+
+Also, in the puzzle files, I try to always organize the code in the same way:
+
+1. first, some imports if need be (usually C# built-in libs, sometimes my own extensions)
 
 2. then, parsing functions to read and extract data from the provided input (that seems to always be a string of characters, or anyway lines in a text file)
 
