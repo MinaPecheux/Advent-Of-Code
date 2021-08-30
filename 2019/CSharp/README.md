@@ -43,8 +43,7 @@ In order to avoid repeating code, I've coded up my Intcode interpreter into a de
 To create a basic class you can instantiate, you should simply use the ``class`` keyword and then define at least a constructor:
 
 ```csharp
-class IntcodeProgram
-{
+class IntcodeProgram {
   public IntcodeProgram() {}
 }
 ```
@@ -69,3 +68,22 @@ Here, we simply want to convert the strings to ints (checking if the line is not
 Other than that, this first puzzle is pretty straight-forward. The only notable thing is that Part II strongly indicates you should [recursion](https://en.wikipedia.org/wiki/Recursion_(computer_science)) to solve the problem. Given that you have a question of the form "compute a value for something, then compute the value for this new thing, and so on..." you want to create recursive function, i.e. a process where your top solution depends on the solution you computed for smaller instances of the problem.
 
 You therefore call the function from within itself (here ``ComputeTotalFuel()`` is called inside of ``ComputeTotalFuel()``).
+
+## Day 2: 1202 Program Alarm
+
+#### Answers
+**Part I: 3716293 • Part II: 6429**
+
+> Day 2 relies on the Intcode interpreter that is implemented in the ``intcode.cs`` file.
+
+This problem is an opportunity to talk about **mutability** in CSharp. We are making use of the Intcode interpreter for the first time and we need to pass it the code to execute (which is stored as a list of integers). In my ``IntcodeProgram`` class, this program is turned into a dictionary. This allows me to make a new "version" of the inputs that is independent from the initial array that I feed the instance so that it isn't touched by the code.
+
+Mutable variables are variables that, even if they are passed as parameters to functions, still point to the same address in memory and can therefore be modified directly.
+
+On the other hand, immutable classes like the basic types (``bool``, ``int``, ``float``, ``string``) and some particular containers (from the ``System.Collections.Immutable`` package) cannot be modified after being created. If you want to change the value, you need to reassign the variable to a brand new value in memory.
+
+For example, in the ``ProcessInputs()`` function, I pass the ``inputs`` list to my Intcode program so that it makes its own copy of it.
+
+If I removed this transformation, I would need to "copy" the inputs before running them through any processing code!
+
+> For more info on immutable data structures in C#, you can check out [Microsoft's docs](https://docs.microsoft.com/en-us/dotnet/api/system.collections.immutable?view=net-5.0).
