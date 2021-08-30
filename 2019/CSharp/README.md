@@ -28,6 +28,10 @@ Also, in the puzzle files, I try to always organize the code in the same way:
 
 For data parsing and conversion, I will often rely on the [C# Linq utility](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/) that allows you to quickly write very readable and optimized data pipelines :)
 
+## Util extensions (``utils.cs``)
+
+This file contains some static classes that define extension methods and other util methods or variables for the main scripts.
+
 ## Day 1: The Tyranny of the Rocket Equation
 
 #### Answers
