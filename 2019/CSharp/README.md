@@ -32,6 +32,31 @@ For data parsing and conversion, I will often rely on the [C# Linq utility](http
 
 This file contains some static classes that define extension methods and other util methods or variables for the main scripts.
 
+## Intcode interpreter (``intcode.cs``)
+
+This year, several puzzles make use of an Intcode interpreter that is built gradually all throughout Day 2, 5, 7 and 9 (at this point, you're supposed to have a complete interpreter able to execute any Intcode program that you're given).
+
+It is further used on Days 11, 13, 15, 17 and 19.
+
+In order to avoid repeating code, I've coded up my Intcode interpreter into a dedicated file called ``intcode.cs``. To do that, I've used a key feature of C# that falls under the object-oriented programming paradigm: classes. It is a nice way of aggregating together bits of code that have a logical link.
+
+To create a basic class you can instantiate, you should simply use the ``class`` keyword and then define at least a constructor:
+
+```csharp
+class IntcodeProgram
+{
+  public IntcodeProgram() {}
+}
+```
+
+This constructor will be called whenever you instantiate a new variable of type ``IntcodeProgram``. The neat thing with object-oriented programming, as I said just before, is that you can gather in the same place various variables or methods that are logically linked together; here, our class can contain other methods that implement the behavior we want one of program instance to have: a basic state check, memory updates, instructions execution...
+
+My final ``IntcodeProgram`` class provided me with an easy-to-use interface for my actual computation functions in the puzzle scripts. In those functions, I just create instances of the ``IntcodeProgram`` class and play around with them, but the class abstracts away all the actual execution or memory management stuff so that these computation functions aren't too long.
+
+This means that the true meat of the code resides in the ``IntcodeProgram`` class.
+
+I've used a static class variable called ``INSTANCE_ID`` to assign auto-incrementing IDs to my instances. Rather than maintaining a counter outside of the class, I can just let it take care of it and automatically generate a new integer ID whenever I create a new instance of my class. However, I need to be careful to reset the counter whenever I want to reset my pool of instances from scratch (for example, in Day 7, whenever I want to try a new permutation of phase settings).
+
 ## Day 1: The Tyranny of the Rocket Equation
 
 #### Answers
